@@ -7,11 +7,6 @@
  */
 class ParisController extends AppController {
     public $helpers = array('Html', 'Form');
-    public $uses = array(
-        'Pari',
-        'ParieursPari'
-    );
-
     //Pages accessibles lorsque le parieur n'est pas connecté
     public function beforeFilter() {
         parent::beforeFilter();
@@ -53,31 +48,5 @@ class ParisController extends AppController {
         }
 
         $this -> set('paris', $pari);
-    }
-
-    // Permet de miser sur un paris
-    public  function miser($id = null) {
-        $this->set('id_util', $this->Auth->user());
-        if (!$id) {
-            return $this->redirect(array('action' => 'index'));
-        }
-
-        $pari = $this->Pari->findById($id);
-
-        if (!$pari) {
-            return $this->redirect(array('action' => 'index'));
-        }
-        if ($this->request->is(array('post', 'put'))) {
-            $this->ParieursPari->create();
-            $this->ParieursPari->parieur_id = 9;
-            $this->ParieursPari->pari_id = 1;
-            if ($this->ParieursPari->save($this->request->data)) {
-                $this->Session->setFlash(__('La mise a bien été créée.'));
-                return $this->redirect(array('action' => 'index'));
-            }
-            $this->Session->setFlash(__('Une erreur est survenue lors de la création de la mise. Veuillez réessayer.'));
-        }
-
-        $this -> set('pari', $pari);
     }
 }

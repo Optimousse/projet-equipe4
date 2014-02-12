@@ -43,7 +43,7 @@ class AppController extends Controller {
                     'fields' => array('username' => 'pseudo', 'password' => 'mot_passe') // On utilise pseudo et mot_passe plutôt que username et password
                 )
             ),
-            'loginRedirect' => array(//TODO ne fonctionne pas
+            'loginRedirect' => array(
                 'controller' => 'paris',
                 'action' => 'index'
             ),

@@ -9,5 +9,5 @@
 
 <p>
     <?php echo $this->Html->link('Miser sur ce pari',
-        array('action' => 'miser')); ?>
+        array('controller' => 'parieurspari', 'action' => 'miser', $paris['Pari']['id'])); ?>
 </p>
