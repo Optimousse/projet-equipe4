@@ -1,6 +1,6 @@
 
 <!-- Affiche tous les paris -->
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>Nom</th>
         <th>Description</th>
