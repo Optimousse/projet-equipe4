@@ -33,10 +33,24 @@ App::uses('Controller', 'Controller');
 
 
 class AppController extends Controller {
+    public $helpers = array(
+        'Session',
+        'Html' => array('className' => 'BoostCake.BoostCakeHtml'),
+        'Form' => array('className' => 'BoostCake.BoostCakeForm'),
+        'Paginator' => array('className' => 'BoostCake.BoostCakePaginator'),
+    );
     public $components = array(
         'Session',
         //Paramètres qui définissent la connexion. NE PAS MODIFIER LA SECTION "AUTHENTICATE"
         'Auth' => array(
+            'flash' => array(
+                'element' => 'alert',
+                'key' => 'auth',
+                'params' => array(
+                    'plugin' => 'BoostCake',
+                    'class' => 'alert-error'
+                )
+            ),
             'authenticate' => array(
                 'Form' => array(
                     'userModel' => 'Parieur', // On utilise le modèle Parieur plutôt que "User", donc il faut l'indiquer explicitement

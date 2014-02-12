@@ -18,6 +18,11 @@
         echo $this->Form->input('date_fin', array(
             'label' => 'Date de fin:',
             'type' => 'date'));
+
+
+        echo $this->Form->input('date_fin', array(
+            'label' => 'Date de fin:',
+            'type' => 'date'));
         ?>
     </fieldset>
     <?php echo $this->Form->end(__('Soumettre')); ?>
