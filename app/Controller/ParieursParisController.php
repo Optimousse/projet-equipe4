@@ -12,11 +12,8 @@ class ParieursParisController extends AppController {
         'Pari'
     );
 
-    //Pages accessibles lorsque le parieur n'est pas connecté
     public function beforeFilter() {
         parent::beforeFilter();
-        // Allow users to register and logout.
-        $this->Auth->allow('index');
     }
 
     //Vue index: affiche toutes les mises du parieur
