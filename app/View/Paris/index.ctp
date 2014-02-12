@@ -1,16 +1,6 @@
-<h1>Paris, pas la ville</h1>
-<?php
 
-echo $this->Html->link('Connexion',
-    array('controller' => 'parieurs', 'action' => 'connexion')); ?>
-<br/>
-<?php echo $this->Html->link('Inscription',
-    array('controller' => 'parieurs', 'action' => 'inscription')); ?>
-<br/>
-<?php echo $this->Html->link('Déconnexion',
-    array('controller' => 'parieurs', 'action' => 'logout')); ?>
 <!-- Affiche tous les paris -->
-<table>
+<table class="table">
     <tr>
         <th>Nom</th>
         <th>Description</th>

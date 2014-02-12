@@ -19,11 +19,11 @@
             'label' => 'Date de fin:',
             'type' => 'date'));
 
-
-        echo $this->Form->input('date_fin', array(
-            'label' => 'Date de fin:',
-            'type' => 'date'));
+        echo $this->Form->submit('Soumettre', array(
+            'div' => false,
+            'class' => 'btn'
+        ));
         ?>
     </fieldset>
-    <?php echo $this->Form->end(__('Soumettre')); ?>
+    <?php echo $this->Form->end(); ?>
 </div>
