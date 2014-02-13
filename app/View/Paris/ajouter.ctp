@@ -17,13 +17,29 @@
             'label' => 'Image:'));
         echo $this->Form->input('date_fin', array(
             'label' => 'Date de fin:',
-            'type' => 'date'));
+            'type' => 'date'
+            ));
+        ?>
 
+        <h4>Choix possibles</h4>
+        <p>Note: Deux choix sont obligatoires. Le troisième est facultatif.</p>
+        <ol>
+            <li>
+                <?php echo $this->Form->input('Choix.0.nom', array('label'=>false, 'after'=>' *')); ?>
+            </li>
+            <li>
+                <?php echo $this->Form->input('Choix.1.nom', array('label'=>false, 'after'=>' *')); ?>
+            </li>
+            <li>
+                <?php echo $this->Form->input('Choix.2.nom', array('label'=>false)); ?>
+            </li>
+        </ol>
+
+        <?php
         echo $this->Form->submit('Soumettre', array(
             'div' => false,
             'class' => 'btn'
-        ));
-        ?>
+        ));?>
     </fieldset>
     <?php echo $this->Form->end(); ?>
 </div>

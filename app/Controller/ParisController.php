@@ -25,7 +25,10 @@ class ParisController extends AppController {
         if ($this->request->is('post')) {
             $this->Pari->create();
             $this->Pari->set('parieur_id', $this->Auth->user('id'));
-            if ($this->Pari->save($this->request->data)) {
+//allo
+            //TODO poursuivre la sauvegarde des choix. Ne doit pas sauvegarder ceux qui sont vides.
+            //essayer de construire une variable $data en y ajoutant les choix sils ne sont pas vides :)
+            if ($this->Pari->saveAll($this->request->data)) {
                 $this->Session->setFlash(__('Le pari a été créé avec succès.'));
                 return $this->redirect(array('action' => 'index'));
             }
