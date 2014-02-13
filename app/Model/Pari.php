@@ -6,7 +6,15 @@
  * Time: 18:31
  */
 class Pari extends AppModel {
-    var $displayField = 'nom';
+
+    /* Lien entre la table Pari et la table Choix */
+    public $hasMany = array(
+        'Choix' => array(
+            'className' => 'Choix',
+            'limit' => '3'
+        )
+    );
+
     //Validation des paris
     public $validate = array(
         'nom' => array(
