@@ -2,22 +2,24 @@
 <!-- Affiche tous les paris -->
 <table class="table table-striped">
     <tr>
-        <th>Image</th>
         <th>Nom</th>
         <th>Description</th>
-        <th>Se termine le</th>
+        <th>Statut</th>
         <th></th>
     </tr>
 
     <?php foreach ($paris as $pari): ?>
         <tr>
-            <td><img src="<?php echo $pari['Pari']['image']; ?>" class="img-rounded" style="max-width: 150px;" /></td>
             <td><?php echo $pari['Pari']['nom']; ?></td>
-            <td style="max-width: 200px;"><?php echo $pari['Pari']['description']; ?></td>
-            <td><?php echo $pari['Pari']['date_fin']; ?></td>
+            <td><?php echo $pari['Pari']['description']; ?></td>
             <td>
-                <?php echo $this->Html->link('Miser',
-                    array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id'])); ?>
+                <?php
+                if(date("Y-m-d") < $pari['Pari']['date_fin'])
+                    echo 'Pari en cours';
+                else
+                    echo $this->Html->link('Pari terminé. Déterminez le choix gagnant.',
+                        array('controller' => 'paris', 'action' => 'ajouter'));
+                ?>
             </td>
         </tr>
     <?php endforeach;
@@ -25,7 +27,7 @@
     {
     ?>
         <tr>
-            <td colspan="6">Aucun pari</td>
+            <td colspan="6">Vous n'avez créé aucun pari</td>
         </tr>
     <?php
     }

@@ -43,29 +43,43 @@
                 'action' => 'index'
             ), array('class' => 'brand')); ?>
             <ul class="nav">
-                <li><?php echo $this->Html->link('Connexion', array('controller' => 'parieurs',
-                        'action' => 'connexion'
-                    )); ?></li>
-                <li><?php echo $this->Html->link('Déconnexion', array('controller' =>'parieurs',
-                        'action' => 'logout'
-                    )); ?></li>
-                <li><?php echo $this->Html->link('Inscription', array('controller' =>'parieurs',
-                        'action' => 'inscription'
-                    )); ?></li>
-                <li><?php echo $this->Html->link('Mon comte', array('controller' =>'parieurs',
-                        'parieur' => 'compte'
-                    )); ?></li>
-                <li><?php echo $this->Html->link('Mes paris', array('controller' =>'paris',
-                        'action' => 'mes_paris'
-                    )); ?></li>
+                <?php
+                if (!AuthComponent::user())
+                {
+                ?>
+                    <li><?php echo $this->Html->link('Connexion', array('controller' => 'parieurs',
+                            'action' => 'connexion'
+                        )); ?></li>
+                    <li><?php echo $this->Html->link('Inscription', array('controller' =>'parieurs',
+                            'action' => 'inscription'
+                        )); ?></li>
+                <?php
+                }
+                else{
+                ?>
+                    <li><?php echo $this->Html->link('Déconnexion', array('controller' =>'parieurs',
+                            'action' => 'logout'
+                        )); ?></li>
+                    <li><?php echo $this->Html->link('Mon comte', array('controller' =>'parieurs',
+                            'parieur' => 'compte'
+                        )); ?></li>
+                    <li><?php echo $this->Html->link('Mes paris', array('controller' =>'paris',
+                            'action' => 'mes_paris'
+                        )); ?></li>
+                <?php
+                }
+                ?>
             </ul>
         </div>
     </div>
 </div>
 
-<div class="container">
+<div class="container jumbotron">
 
-    <?php echo $this->fetch('content'); ?>
+    <?php
+    echo $this->Session->flash();
+    echo $this->Session->flash('auth');
+    echo $this->fetch('content'); ?>
 
 </div><!-- /container -->
 

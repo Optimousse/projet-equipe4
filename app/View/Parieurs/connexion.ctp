@@ -1,5 +1,4 @@
 <div class="users form">
-    <?php echo $this->Session->flash('auth'); ?>
     <?php echo $this->Form->create('Parieur'); ?>
     <fieldset>
         <legend>

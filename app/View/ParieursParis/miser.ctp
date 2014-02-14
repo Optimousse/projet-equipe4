@@ -1,24 +1,46 @@
 <!-- Fichier : /app/View/Posts/view.ctp -->
 
 
-<?php echo $this->Form->create('ParieursPari'); ?>
-<fieldset>
-    <legend><?php echo __('Créer une mise pour <i>' .$pari['Pari']['nom'] .'</i>'); ?></legend>
+<div style="max-width: 50%;">
+    <h3><?php echo $paris['Pari']['nom']; ?></h3>
+    <img src=<?php echo $paris['Pari']['image']; ?> alt="img"/>
+
+    <p><?php echo $paris['Pari']['description']; ?></p>
 
 
-    Cote : <?php echo $pari['Pari']['cote']; ?>
+    <p>Ce pari se termine le <?php echo $paris['Pari']['date_fin']; ?></p>
 
-    <?php echo $this->Form->input('mise', array(
-        'label' => 'Mise:'));
+    <?php foreach ($choix as $choi):?>
 
-    echo $this->Form->input('pari_id', array('type' => 'hidden', 'value' => $pari['Pari']['id']));
-    echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));
+        <h5>
+            <?php echo $choi['Choix']['nom']; ?>
+        </h5>
+        <p>
+            Cote: <?php echo $choi['Choix']['cote']; ?>
+        </p>
 
-    echo $this->Form->submit('Miser', array(
-        'div' => false,
-        'class' => 'btn'
-    ));
+    <?php endforeach ;
 
-    ?>
-</fieldset>
-<?php echo $this->Form->end(); ?>
+    echo $this->Form->create('ParieursPari'); ?>
+    <fieldset>
+        <legend>Faites votre mise !</legend>
+        <?php
+        echo $this->Form->input('choix_id',
+            array('options' => $options, 'type' => 'radio', 'required'=>'required','legend'=>false));
+
+        echo $this->Form->input('mise',
+            array('label'=>'Mise:', 'type'=>'number'));
+
+        echo $this->Form->input('pari_id', array('type' => 'hidden', 'value' => $paris['Pari']['id']));
+        echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));
+
+        echo $this->Form->submit('Miser', array(
+            'div' => false,
+            'class' => 'btn'
+        ));
+
+        ?>
+    </fieldset>
+    <?php echo $this->Form->end(); ?>
+
+</div>
