@@ -1,5 +1,5 @@
 <div class="users form">
-    <?php echo $this->Form->create('Pari'); ?>
+    <?php echo $this->Form->create('Pari', array('class'=>'well')); ?>
     <fieldset>
         <legend><?php echo __('Ajouter un pari'); ?></legend>
         <?php
@@ -23,33 +23,36 @@
         <ol>
             <li>
                 <?php
-                    echo $this->Form->input('Choix.0.nom', array('label'=>'Nom:', 'after'=>' *', 'required' =>'required'));
+                    echo $this->Form->input('Choix.0.nom', array('label'=>false, 'placeholder'=>'Nom (Obligatoire)',
+                        'required' =>'required', 'class'=>'form-inline','div'=>false));
 
                     echo $this->Form->input('Choix.0.cote', array(
-                        'label' => 'Cote:',
+                        'label'=>false,'placeholder'=>'Cote (Obligatoire)',
                         'type' => 'number',
-                        'required' => 'required', 'after'=>' *'
+                        'type' => 'number', 'class'=>'form-inline','div'=>false
                     ));
                 ?>
             </li>
             <li>
                 <?php
-                    echo $this->Form->input('Choix.1.nom', array('label'=>'Nom:', 'after'=>' *', 'required' =>'required'));
+                    echo $this->Form->input('Choix.1.nom', array('label'=>false, 'placeholder'=>'Nom (Obligatoire)',
+                        'required' =>'required', 'class'=>'form-inline','div'=>false));
 
                     echo $this->Form->input('Choix.1.cote', array(
-                        'label' => 'Cote:',
+                        'label'=>false,'placeholder'=>'Cote (Obligatoire)',
                         'type' => 'number',
-                        'required' => 'required', 'after'=>' *'
+                        'type' => 'number', 'class'=>'form-inline','div'=>false
                     ));
                 ?>
             </li>
             <li>
                 <?php
-                    echo $this->Form->input('Choix.2.nom', array('label'=>'Nom:'));
+                    echo $this->Form->input('Choix.2.nom', array('label'=>false, 'placeholder'=>'Nom',
+                        'class'=>'form-inline','div'=>false));
 
                     echo $this->Form->input('Choix.2.cote', array(
-                        'label' => 'Cote:',
-                        'type' => 'number'
+                        'label'=>false,'placeholder'=>'Cote',
+                        'type' => 'number', 'class'=>'form-inline','div'=>false
                     ));
                 ?>
             </li>
@@ -58,7 +61,7 @@
         <?php
         echo $this->Form->submit('Soumettre', array(
             'div' => false,
-            'class' => 'btn'
+            'class' => 'btn btn-primary'
         ));?>
     </fieldset>
     <?php echo $this->Form->end(); ?>

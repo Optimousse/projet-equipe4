@@ -7,10 +7,9 @@
  */
 class ParisController extends AppController {
     public $helpers = array('Html', 'Form');
-    //Pages accessibles lorsque le parieur n'est pas connecté
     public function beforeFilter() {
         parent::beforeFilter();
-        // Allow users to register and logout.
+        //Pages accessibles lorsque le parieur n'est pas connecté
         $this->Auth->allow('index');
     }
 
@@ -63,5 +62,63 @@ class ParisController extends AppController {
     public function mes_paris(){
 
         $this->set('paris', $this->Pari->find('all', array('conditions' => array('Pari.parieur_id' => $this->Auth->user('id')))));
+    }
+
+    //Permet au créateur d'un pari de déterminer le choix gagnant d'un pari (Seulement lorsque ce pari est terminé)
+    public function determiner_gagnant($id = null){
+
+        if(!$id)
+            return $this->redirect(array('action' => 'index', 'controller'=>'paris'));
+        $pari = $this->Pari->findById($id);
+
+        if(!$pari)
+            return $this->redirect(array('action' => 'index', 'controller'=>'paris'));
+        //Si tu n'es pas le créateur de ce pari
+        if($pari['Pari']['parieur_id'] != $this->Auth->user('id'))
+            return $this->redirect(array('action' => 'index', 'controller'=>'paris'));
+        //Si le pari n'est pas encore terminé
+        if($pari['Pari']['date_fin'] > date("Y-m-d"))
+            return $this->redirect(array('action' => 'index', 'controller'=>'paris'));
+        //Si un gagnant a déjà été choisi
+        if(isset($pari['Pari']['choix_gagnant']))
+            return $this->redirect(array('action' => 'index', 'controller'=>'paris'));
+
+        $this->loadModel('Choix');
+        $this->loadModel('ParieursPari');
+        $this->loadModel('Parieur');
+
+        //Pour créer le groupe de radiobuttons qui montrent les choix disponibles pour le pari
+        $options = $this->Choix->find('list', array('conditions' => array('Choix.pari_id' => $id), 'fields'=> array('id', 'nom')));
+
+        $this -> set('options', $options);
+        $this -> set('paris', $pari);
+
+        if ($this->request->is(array('post', 'put'))) {
+
+            $this->Pari->id = $id;
+            $mises_existantes = $this->ParieursPari->find('all', array('conditions'=> array('pari_id' => $id)));
+
+            if ($this->Pari->save($this->request->data)) {
+
+                $coteChoix = $this->Choix->findById($this->request->data['Pari']['choix_gagnant'])['Choix']['cote'];
+                //Met à jour le nombre de jetons pour chaque personne qui a parié.
+                foreach($mises_existantes as $item) {
+                    $this->Parieur->id = $item['ParieursPari']['parieur_id'];
+                    $parieur = $this->Parieur->findById($this->Parieur->id);
+                    $nbJetons = $parieur['Parieur']['nombre_jetons'] + $item['ParieursPari']['mise'] * $coteChoix;
+                    $this->Parieur->saveField('nombre_jetons', $nbJetons);
+                }
+                $this->Session->setFlash(__('Le pari a été correctement fermé. Les vainqueurs ont reçu leurs jetons.'), 'alert', array(
+                    'plugin' => 'BoostCake',
+                    'class' => 'alert-success'
+                ));
+                return $this->redirect(array('action' => 'mes_paris', 'controller' => 'paris'));
+            }
+
+            $this->Session->setFlash(__('Une erreur est survenue lors de la fermeture du pari. Veuillez réessayer.'), 'alert', array(
+                'plugin' => 'BoostCake',
+                'class' => 'alert-danger'
+            ));
+        }
     }
 }

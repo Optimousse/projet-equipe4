@@ -1,3 +1,4 @@
+<h1>Mes paris</h1>
 
 <!-- Affiche tous les paris -->
 <table class="table table-striped">
@@ -15,10 +16,13 @@
             <td>
                 <?php
                 if(date("Y-m-d") < $pari['Pari']['date_fin'])
-                    echo 'Pari en cours';
-                else
-                    echo $this->Html->link('Pari terminé. Déterminez le choix gagnant.',
-                        array('controller' => 'paris', 'action' => 'ajouter'));
+                    echo 'Pari en cours.';
+                else{
+                    echo 'Pari terminé.';
+                    if(!isset($pari['Pari']['choix_gagnant']))
+                        echo $this->Html->link('Déterminez le choix gagnant.',
+                            array('controller' => 'paris', 'action' => 'determiner_gagnant', $pari['Pari']['id']));
+                }
                 ?>
             </td>
         </tr>

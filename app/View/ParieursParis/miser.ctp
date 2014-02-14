@@ -21,7 +21,7 @@
 
     <?php endforeach ;
 
-    echo $this->Form->create('ParieursPari'); ?>
+    echo $this->Form->create('ParieursPari', array('class'=>'well')); ?>
     <fieldset>
         <legend>Faites votre mise !</legend>
         <?php
@@ -36,7 +36,7 @@
 
         echo $this->Form->submit('Miser', array(
             'div' => false,
-            'class' => 'btn'
+            'class' => 'btn btn-primary'
         ));
 
         ?>

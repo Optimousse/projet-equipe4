@@ -1,4 +1,4 @@
-
+<h1>Tous les paris</h1>
 <!-- Affiche tous les paris -->
 <table class="table table-striped">
     <tr>
@@ -29,7 +29,6 @@
         </tr>
     <?php
     }
-
     unset($pari); ?>
 </table>
 

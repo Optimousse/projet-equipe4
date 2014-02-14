@@ -18,7 +18,7 @@ class ParieursParisController extends AppController {
 
     //Vue index: affiche toutes les mises du parieur
     public function index()
-    {
+    {//TODO faire cette page
         $this->set('paris', $this->Pari->find('all'));
     }
 
@@ -50,8 +50,10 @@ class ParieursParisController extends AppController {
         }
 
         $this->loadModel('Choix');
-        $choix = $this->Choix->find('all', array('conditions' => array('Choix.pari_id' => $id)));
 
+        //Permet d'afficher les choix disponibles pour ce pari
+        $choix = $this->Choix->find('all', array('conditions' => array('Choix.pari_id' => $id)));
+        //Pour créer le groupe de radiobuttons qui montrent les choix disponibles pour le pari
         $options = $this->Choix->find('list', array('conditions' => array('Choix.pari_id' => $id), 'fields'=> array('id', 'nom')));
 
         $this -> set('options', $options);
