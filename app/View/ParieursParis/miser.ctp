@@ -4,43 +4,58 @@
 <div style="max-width: 50%;">
     <h3><?php echo $paris['Pari']['nom']; ?></h3>
     <img src=<?php echo $paris['Pari']['image']; ?> alt="img"/>
+<br/><br/>
+    <blockquote><?php echo $paris['Pari']['description']; ?></blockquote>
+    
+    <?php
+    if(date("Y-m-d") < $paris['Pari']['date_fin']){
+    ?>
+        <p>Ce pari se termine le <?php echo $paris['Pari']['date_fin']; ?>.</p>
 
-    <p><?php echo $paris['Pari']['description']; ?></p>
+        <?php foreach ($choix as $choi):?>
 
+            <h5>
+                <?php echo $choi['Choix']['nom']; ?>
+            </h5>
+            <p>
+                Cote: <?php echo $choi['Choix']['cote']; ?>
+            </p>
 
-    <p>Ce pari se termine le <?php echo $paris['Pari']['date_fin']; ?></p>
+        <?php endforeach ;
 
-    <?php foreach ($choix as $choi):?>
+        if($paris['Pari']['parieur_id'] == $id_util){
+            echo '<div class="alert alert-info">Vous ne pouvez miser sur ce pari puisque vous êtes son créateur.</div>';
+        }
+        else if($dejaMise){
+            echo '<div class="alert alert-info">Vous avez déjà misé sur ce pari.</div>';
+        }
+        else{
+            echo $this->Form->create('ParieursPari', array('class'=>'well')); ?>
+            <fieldset>
+                <legend>Faites votre mise !</legend>
+                <?php
+                echo $this->Form->input('choix_id',
+                    array('options' => $options, 'type' => 'radio', 'required'=>'required','legend'=>false));
 
-        <h5>
-            <?php echo $choi['Choix']['nom']; ?>
-        </h5>
-        <p>
-            Cote: <?php echo $choi['Choix']['cote']; ?>
-        </p>
+                echo $this->Form->input('mise',
+                    array('label'=>'Mise:', 'type'=>'number'));
 
-    <?php endforeach ;
+                echo $this->Form->input('pari_id', array('type' => 'hidden', 'value' => $paris['Pari']['id']));
+                echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));
 
-    echo $this->Form->create('ParieursPari', array('class'=>'well')); ?>
-    <fieldset>
-        <legend>Faites votre mise !</legend>
-        <?php
-        echo $this->Form->input('choix_id',
-            array('options' => $options, 'type' => 'radio', 'required'=>'required','legend'=>false));
+                echo $this->Form->submit('Miser', array(
+                    'div' => false,
+                    'class' => 'btn btn-primary'
+                ));
 
-        echo $this->Form->input('mise',
-            array('label'=>'Mise:', 'type'=>'number'));
+                ?>
+            </fieldset>
+        <?php echo $this->Form->end();
+        }
+    }
+    else
+        echo '<div class="alert alert-info">Ce pari est déjà terminé. Félicitations aux gagnants !</div>';
+    ?>
 
-        echo $this->Form->input('pari_id', array('type' => 'hidden', 'value' => $paris['Pari']['id']));
-        echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));
-
-        echo $this->Form->submit('Miser', array(
-            'div' => false,
-            'class' => 'btn btn-primary'
-        ));
-
-        ?>
-    </fieldset>
-    <?php echo $this->Form->end(); ?>
 
 </div>

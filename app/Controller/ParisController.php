@@ -58,12 +58,6 @@ class ParisController extends AppController {
         }
     }
 
-    //Affiche les paris créés par l'utilisateur
-    public function mes_paris(){
-
-        $this->set('paris', $this->Pari->find('all', array('conditions' => array('Pari.parieur_id' => $this->Auth->user('id')))));
-    }
-
     //Permet au créateur d'un pari de déterminer le choix gagnant d'un pari (Seulement lorsque ce pari est terminé)
     public function determiner_gagnant($id = null){
 
@@ -112,7 +106,7 @@ class ParisController extends AppController {
                     'plugin' => 'BoostCake',
                     'class' => 'alert-success'
                 ));
-                return $this->redirect(array('action' => 'mes_paris', 'controller' => 'paris'));
+                return $this->redirect(array('action' => 'mon_compte', 'controller' => 'parieurs'));
             }
 
             $this->Session->setFlash(__('Une erreur est survenue lors de la fermeture du pari. Veuillez réessayer.'), 'alert', array(

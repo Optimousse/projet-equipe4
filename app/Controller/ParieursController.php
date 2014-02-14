@@ -58,4 +58,12 @@ class ParieursController extends AppController {
             );
         }
     }
+
+    //Affiche la page "Mon compte"
+    public function mon_compte(){
+        //Pour la section "Mes paris"
+        $this->loadModel('Pari');
+        $this->set('paris', $this->Pari->find('all', array('conditions' => array('Pari.parieur_id' => $this->Auth->user('id')))));
+
+    }
 }

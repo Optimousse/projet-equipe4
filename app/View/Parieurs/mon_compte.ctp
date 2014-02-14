@@ -29,7 +29,7 @@
     <?php endforeach;
     if(empty($paris))
     {
-    ?>
+        ?>
         <tr>
             <td colspan="6">Vous n'avez créé aucun pari</td>
         </tr>
@@ -38,6 +38,3 @@
 
     unset($pari); ?>
 </table>
-
-<?php echo $this->Html->link('Ajouter un pari',
-    array('controller' => 'paris', 'action' => 'ajouter')); ?>

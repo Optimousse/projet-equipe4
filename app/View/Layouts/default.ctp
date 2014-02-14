@@ -61,10 +61,13 @@
                             'action' => 'logout'
                         )); ?></li>
                     <li><?php echo $this->Html->link('Mon comte', array('controller' =>'parieurs',
-                            'parieur' => 'compte'
+                            'action' => 'mon_compte'
                         )); ?></li>
-                    <li><?php echo $this->Html->link('Mes paris', array('controller' =>'paris',
-                            'action' => 'mes_paris'
+                    <li><?php echo $this->Html->link('Créer un pari', array('controller' =>'paris',
+                            'action' => 'ajouter'
+                        )); ?></li>
+                    <li><?php echo $this->Html->link('Mes mises', array('controller' =>'paris',
+                            'action' => 'mes_mises'
                         )); ?></li>
                 <?php
                 }
