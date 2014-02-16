@@ -62,8 +62,8 @@ class ParieursController extends AppController {
     //Affiche la page "Mon compte"
     public function mon_compte(){
         //Pour la section "Mes paris"
+        //TODO compléter cette page: on doit pouvoir modifier son mot de passe et son adresse courriel. On doit aussi pouvoir acheter de nouveaux jetons et échanger ceux qu'on a contre de l'argent (bidon).
         $this->loadModel('Pari');
         $this->set('paris', $this->Pari->find('all', array('conditions' => array('Pari.parieur_id' => $this->Auth->user('id')))));
-
     }
 }

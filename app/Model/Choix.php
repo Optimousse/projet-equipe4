@@ -15,11 +15,10 @@ class Choix extends AppModel {
     //Validation des choix
     public $validate = array(
         'cote' => array(
-        'rule'    => array('comparison', '>', 1),
-        'message' => 'La cote doit être un chiffre supérieur à 1',
-        'allowEmpty' => true,
-        'rule'    => '/^[0-9]*$/',
-        'message' => 'La cote doit être un chiffre supérieur à 1'
+            'rule'    => array('comparison', '>', 1),
+            'message' => 'La cote doit être un chiffre supérieur à 1',
+            'allowEmpty' => true,
+            'rule'    => '/^[0-9]*$/'
         )
     );
 }
