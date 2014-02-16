@@ -11,6 +11,7 @@
 
     <!-- Le styles -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <?php $this->Html->css("notreCss", null, array("inline"=>false)); ?>
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -60,7 +61,7 @@
                     <li><?php echo $this->Html->link('Déconnexion', array('controller' =>'parieurs',
                             'action' => 'logout'
                         )); ?></li>
-                    <li><?php echo $this->Html->link('Mon comte', array('controller' =>'parieurs',
+                    <li><?php echo $this->Html->link('Mon compte', array('controller' =>'parieurs',
                             'action' => 'mon_compte'
                         )); ?></li>
                     <li><?php echo $this->Html->link('Créer un pari', array('controller' =>'paris',

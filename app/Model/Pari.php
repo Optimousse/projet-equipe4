@@ -34,6 +34,15 @@ class Pari extends AppModel {
                 'rule' => array('notEmpty'),
                 'message' => 'L\'image est obligatoire'
             )
+        ),
+        'date_fin' => array(
+            'rule'    => array('validationDate'),
+            'message' => 'La date de fin ne doit pas être antérieure à la date actuelle.'
         )
     );
+
+    public function validationDate($date) {
+
+        return $date['date_fin'] > date("Y-m-d");
+    }
 }

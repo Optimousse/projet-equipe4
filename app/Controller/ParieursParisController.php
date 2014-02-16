@@ -51,6 +51,7 @@ class ParieursParisController extends AppController {
 
         if ($this->request->is(array('post', 'put'))) {
 
+            $this->loadModel('Parieur');
             //On ne peut soumettre le formulaire si le pari est déjà terminé
             if(isset($pari['Pari']['choix_gagnant']))
                 return ;
@@ -58,8 +59,27 @@ class ParieursParisController extends AppController {
             if($pari['Pari']['parieur_id'] == $this->Auth->user('id') || $dejaMise)
                 return;
 
+            // on cherche le nombre de jetons de la personne grace a son id
+            $parieur = $this->Parieur->find('first', array('conditions' => array('Parieur.id' => $this->Auth->user('id')), 'fields'=> array('nombre_jetons')));
+            $jetonPossede = $parieur['Parieur']['nombre_jetons'];
+
+            $mise = $this->request->data["ParieursPari"]["mise"];
+
+            // on teste si le parieur possède assez de jetons pour parier le ;ontant désiré
+            if ($mise > $jetonPossede ) {
+
+                $lien = Router::url(array('controller'=>'parieurs', 'action'=>'acheter_jetons'), false);
+                // explication de l'erreur
+                $this->Session->setFlash(__('Vous n\'avez pas assez de jetons pour parier ce montant.
+                                             <a href="' .$lien .'">Vous pouvez en racheter ici.</a>'),  'alert',
+                    array( 'plugin' => 'BoostCake', 'class' => 'alert-info' ));
+
+                return;
+            }
+
             $this->ParieursPari->create();
             if ($this->ParieursPari->save($this->request->data)) {
+
                 $this->Session->setFlash(__('La mise a bien été créée.'), 'alert', array(
                     'plugin' => 'BoostCake',
                     'class' => 'alert-success'

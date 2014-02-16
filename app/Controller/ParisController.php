@@ -90,13 +90,20 @@ class ParisController extends AppController {
         if ($this->request->is(array('post', 'put'))) {
 
             $this->Pari->id = $id;
-            $mises_existantes = $this->ParieursPari->find('all', array('conditions'=> array('pari_id' => $id)));
 
             if ($this->Pari->save($this->request->data)) {
 
-                $coteChoix = $this->Choix->findById($this->request->data['Pari']['choix_gagnant'])['Choix']['cote'];
+                //L'ID du choix gagnant qui vient d'être sélectionné
+                $id_ChoixGagnant = $this->request->data['Pari']['choix_gagnant'];
+                //Le choix correspondant à celui qui vient d'être sélectionné
+                $cote = $this->Choix->findById($id_ChoixGagnant);
+                //La cote du choix en question
+                $coteChoix = $cote['Choix']['cote'];
+
+                $misesGagnantes = $this->ParieursPari->find('all', array('conditions'=> array('pari_id' => $id, 'choix_id' => $id_ChoixGagnant)));
+
                 //Met à jour le nombre de jetons pour chaque personne qui a parié.
-                foreach($mises_existantes as $item) {
+                foreach($misesGagnantes as $item) {
                     $this->Parieur->id = $item['ParieursPari']['parieur_id'];
                     $parieur = $this->Parieur->findById($this->Parieur->id);
                     $nbJetons = $parieur['Parieur']['nombre_jetons'] + $item['ParieursPari']['mise'] * $coteChoix;
@@ -106,7 +113,15 @@ class ParisController extends AppController {
                     'plugin' => 'BoostCake',
                     'class' => 'alert-success'
                 ));
+
                 return $this->redirect(array('action' => 'mon_compte', 'controller' => 'parieurs'));
+            }
+            else{
+
+                $this->Session->setFlash(__('Une erreur est survenue lors de la sauvegarde du choix gagnant.'), 'alert', array(
+                    'plugin' => 'BoostCake',
+                    'class' => 'alert-danger'
+                ));
             }
 
             $this->Session->setFlash(__('Une erreur est survenue lors de la fermeture du pari. Veuillez réessayer.'), 'alert', array(
