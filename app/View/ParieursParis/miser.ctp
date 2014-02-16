@@ -6,7 +6,6 @@
     <img src=<?php echo $paris['Pari']['image']; ?> alt="img"/>
 <br/><br/>
     <blockquote><?php echo $paris['Pari']['description']; ?></blockquote>
-    
     <?php
     if(date("Y-m-d") < $paris['Pari']['date_fin']){
     ?>

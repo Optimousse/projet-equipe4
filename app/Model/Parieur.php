@@ -29,6 +29,7 @@ class Parieur extends AppModel {
             )
         )
     );
+
     public function beforeSave($options = array()) {
         if (isset($this->data[$this->alias]['mot_passe'])) {
             $passwordHasher = new SimplePasswordHasher();
