@@ -49,6 +49,27 @@ class ParieursParisController extends AppController {
         $this -> set('choix', $choix);
         $this -> set('dejaMise', $dejaMise);
 
+        /*
+         * si le paris est terminé on affiche les résultats (le nom du choix gagnant)
+         *   et le nom du choix du joueur (si il a joué)
+         */
+
+        if(isset($pari['Pari']['choix_gagnant'])) {
+
+            // on "fait passer" dans nom_choixGagnant le nom du choix Gagnant
+            $this->set('nom_choixGagnant', $this->choixGagnant($id)) ;
+
+            $leparis = $this->ParieursPari->find('first', array(
+                'conditions' => array('pari_id' => $id,'parieur_id' => $this->Auth->user('id'))));
+
+
+            if(!empty($leparis)) {
+
+                // on "fait passer" dans nom_choixParieur le nom de son choix de mise
+                $this->set('nom_choixParieur', $this->choixParieur($leparis)) ;
+            }
+        }
+
         if ($this->request->is(array('post', 'put'))) {
 
             $this->loadModel('Parieur');
@@ -65,7 +86,7 @@ class ParieursParisController extends AppController {
 
             $mise = $this->request->data["ParieursPari"]["mise"];
 
-            // on teste si le parieur possède assez de jetons pour parier le ;ontant désiré
+            // on teste si le parieur possède assez de jetons pour parier le montant désiré
             if ($mise > $jetonPossede ) {
 
                 $lien = Router::url(array('controller'=>'parieurs', 'action'=>'acheter_jetons'), false);
@@ -91,5 +112,49 @@ class ParieursParisController extends AppController {
                 'class' => 'alert-danger'
             ));
         }
+    }
+
+    /*
+     * Récupere l'intitulé du choix gagnant
+     * pour l'afficher lorsque le paris est terminé
+     */
+    public function choixGagnant($idParis){
+
+        // on récupere tout ce qui concerne le paris
+        $leparis = $this->Pari->find('first', array(
+            'conditions' => array('Pari.id' => $idParis)));
+
+        // on garde la ligne qui nous interesse => l'id du choix gagnant
+        $id_choixGagnant = $leparis['Pari']['choix_gagnant'];
+
+        // on récupere la ligne correspondante du choix gagnant du paris
+        $intituleChoixGagnant = $this->Choix->find('first', array(
+            'conditions' => array('Choix.id' => $id_choixGagnant)));
+
+        // on extrait juste le nom
+        $nom = $intituleChoixGagnant['Choix']['nom'];
+
+        return $nom;
+    }
+
+    /*
+     * Récupere l'intitulé du choix du parieur
+     * pour l'afficher lorsque le paris est terminé
+     */
+    public function choixParieur($leparis){
+
+        var_dump($leparis);
+        // on garde la ligne qui nous interesse => l'id du choix gagnant
+        $id_choix = $leparis['ParieursPari']['choix_id'];
+
+
+        // on récupere la ligne correspondante du choix du joueur
+        $intituleChoix = $this->Choix->find('first', array(
+            'conditions' => array('Choix.id' => $id_choix)));
+
+        // on extrait juste le nom
+        $nom = $intituleChoix['Choix']['nom'];
+
+        return $nom;
     }
 }
