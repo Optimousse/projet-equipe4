@@ -105,9 +105,9 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
-Configure::write('Stripe.TestSecret', 'sk_test_Y5w1Y4k2d9TFlsoJ3cL14lo9');
-Configure::write('Stripe.LiveSecret', 'sk_live_YUHXzimHFqYPCCii9YxNQ1ww');
-CakePlugin::load('Stripe');
+Configure::write('Stripe2.TestSecret', 'sk_test_Y5w1Y4k2d9TFlsoJ3cL14lo9');
+Configure::write('Stripe2.LiveSecret', 'sk_live_YUHXzimHFqYPCCii9YxNQ1ww');
+CakePlugin::load('Stripe2');
 CakePlugin::load('BoostCake');
 
 
