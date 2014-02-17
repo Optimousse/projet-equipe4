@@ -61,9 +61,22 @@
                     <li><?php echo $this->Html->link('Déconnexion', array('controller' =>'parieurs',
                             'action' => 'logout'
                         )); ?></li>
-                    <li><?php echo $this->Html->link('Mon compte', array('controller' =>'parieurs',
+                    <li class="dropdown-submenu"><?php echo $this->Html->link('Mon compte', array('controller' =>'parieurs',
                             'action' => 'mon_compte'
-                        )); ?></li>
+                        )); ?>
+                        <ul class="dropdown-menu">
+                            <li><?php echo $this->Html->link('Modifier mon compte', array('controller' =>'parieurs',
+                                    'action' => 'mon_compte'
+                                )); ?></li>
+                            <li><?php echo $this->Html->link('Mes paris', array('controller' =>'paris',
+                                    'action' => 'mes_paris'
+                                )); ?></li>
+                            <li><?php echo $this->Html->link('Acheter des jetons', array('controller' =>'parieurs',
+                                    'action' => 'acheter_jetons'
+                                )); ?></li>
+                        </ul>
+
+                    </li>
                     <li><?php echo $this->Html->link('Créer un pari', array('controller' =>'paris',
                             'action' => 'ajouter'
                         )); ?></li>

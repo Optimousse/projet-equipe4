@@ -6,6 +6,10 @@
  * Time: 15:40
  */
 class ParieursController extends AppController {
+
+    public $components = array(
+        'Stripe.Stripe'
+    );
     public function beforeFilter() {
         parent::beforeFilter();
 
@@ -63,7 +67,45 @@ class ParieursController extends AppController {
     public function mon_compte(){
         //Pour la section "Mes paris"
         //TODO compléter cette page: on doit pouvoir modifier son mot de passe et son adresse courriel. On doit aussi pouvoir acheter de nouveaux jetons et échanger ceux qu'on a contre de l'argent (bidon).
-        $this->loadModel('Pari');
-        $this->set('paris', $this->Pari->find('all', array('conditions' => array('Pari.parieur_id' => $this->Auth->user('id')))));
+     }
+
+    //Fonction pour acheter des jetons avec le plugin Stripe
+    public function acheter_jetons(){
+
+        if($this->request->is('post')){
+
+            $token  = $this->request->data['stripeToken'];
+            $nombre_jetons_achetes = $this->request->data['Parieur']['nombre_jetons'];
+
+            $data = array(
+                'amount' => $nombre_jetons_achetes,
+                'stripeToken' => $token,
+            );
+
+            $result = $this->Stripe->charge($data);
+
+            //Si c'est un array, la création de la charge a fonctionné.
+            if(is_array($result)){
+
+                $this->Parieur->id = $this->Auth->user('id');
+                $parieur = $this->Parieur->findById($this->Parieur->id);
+                $nbJetons = $parieur['Parieur']['nombre_jetons'] + $nombre_jetons_achetes;
+                $this->Parieur->set(array('nombre_jetons' => $nbJetons));
+
+                if($this->Parieur->save()){
+
+                    $this->Session->setFlash(__($nombre_jetons_achetes .' jetons ont été ajoutés à votre compte.'), 'alert', array(
+                        'plugin' => 'BoostCake',
+                        'class' => 'alert-success'
+                    ));
+                    return $this->redirect(array('controller'=>'parieurs', 'action' => 'mon_compte'));
+                }
+            }
+
+            $this->Session->setFlash(__('Les jetons n\'ont pas pu être ajoutés à votre compte.'), 'alert', array(
+                'plugin' => 'BoostCake',
+                'class' => 'alert-danger'
+            ));
+        }
     }
 }
