@@ -56,24 +56,24 @@
 
     // si le choix gagnant a été décidé on l'affiche
     if (isset($nom_choixGagnant)) {
-        echo '<div class="alert alert-info">Ce pari est déjà terminé. Félicitations aux gagnants !';
+        echo '<div class="alert alert-info">Ce pari est déjà terminé.';
         echo '<br/><br/>';
-        echo 'le choix gagnant est : '.$nom_choixGagnant;
+        echo 'Le choix gagnant est : '.$nom_choixGagnant;
         echo '<br/>';
         // si le parieur avait misé on affiche son choix
         if (isset($nom_choixParieur)) {
            echo 'Vous avez misé : '.$nom_choixParieur.'<br/><br/>';
 
             if($nom_choixParieur == $nom_choixGagnant) {
-                echo 'bravo vous aviez la bonne réponse';
+                echo 'Félicitations, vous aviez la bonne réponse !';
             } else {
-                echo 'dommage vous vous etes trompé';
+                echo 'Dommage, vous vous êtes trompé.';
             }
         }
         echo'</div>';
     // le choix n'a pas encore été fait
     } else {
-        echo 'le paris est terminé. Le résultat n\'a pas encore été déterminé';
+        echo '<div class="alert alert-info">Le paris est terminé. Le résultat n\'a pas encore été déterminé.</div>';
     }
     ?>
 
