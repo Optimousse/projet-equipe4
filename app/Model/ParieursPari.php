@@ -12,10 +12,12 @@ class ParieursPari extends AppModel {
     public $validate = array(
         'mise' => array(
             'rule'    => 'naturalNumber',
-            'message' => 'La mise doit être un chiffre supérieur à 1',
+            'message' => 'La mise doit être un montant supérieur à 1',
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'La mise est obligatoire'
+                'message' => 'La mise est obligatoire',
+            'rule'    => '/^[0-9]*$/',
+            'message' => 'La mise doit être un montant supérieur à 1'
             )
         )
     );

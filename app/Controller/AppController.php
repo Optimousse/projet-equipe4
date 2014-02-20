@@ -59,7 +59,7 @@ class AppController extends Controller {
             ),
             'loginRedirect' => array(
                 'controller' => 'paris',
-                'action' => 'index'
+                'action' => 'mes_mises'
             ),
             'logoutRedirect' => array(
                 'controller' => 'paris',
@@ -78,5 +78,6 @@ class AppController extends Controller {
         parent::beforeFilter();
         //Pages accessibles sans être connecté (Les actions accessibles pour tous les contrôleurs)
         $this->Auth->allow('index');
+        $this->Auth->loginRedirect = array('controller'=>'paris', 'action'=>'mes_mises');
     }
 }

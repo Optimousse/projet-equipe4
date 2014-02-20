@@ -29,19 +29,20 @@ class Pari extends AppModel {
                 'message' => 'La description est obligatoire'
             )
         ),
-        'cote' => array(
-            'rule'    => 'naturalNumber',
-            'message' => 'La cote doit être un chiffre supérieur à 1',
-            'required' => array(
-                'rule' => array('notEmpty'),
-                'message' => 'La cote est obligatoire'
-            )
-        ),
         'image' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
                 'message' => 'L\'image est obligatoire'
             )
+        ),
+        'date_fin' => array(
+            'rule'    => array('validationDate'),
+            'message' => 'La date de fin ne doit pas être antérieure à la date actuelle.'
         )
     );
+
+    public function validationDate($date) {
+
+        return $date['date_fin'] > date("Y-m-d");
+    }
 }

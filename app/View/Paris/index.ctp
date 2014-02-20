@@ -1,28 +1,33 @@
-
+<h1>Tous les paris</h1>
 <!-- Affiche tous les paris -->
 <table class="table table-striped">
     <tr>
+        <th>Image</th>
         <th>Nom</th>
         <th>Description</th>
-        <th>Cote</th>
-        <th>Image</th>
-        <th>Date de fin</th>
+        <th>Se termine le</th>
         <th></th>
     </tr>
 
     <?php foreach ($paris as $pari): ?>
         <tr>
+            <td><img src="<?php echo $pari['Pari']['image']; ?>" class="img-rounded" style="max-width: 150px;" /></td>
             <td><?php echo $pari['Pari']['nom']; ?></td>
-            <td><?php echo $pari['Pari']['description']; ?></td>
-            <td><?php echo $pari['Pari']['cote']; ?></td>
-            <td><?php echo $pari['Pari']['image']; ?></td>
-            <td><?php echo $pari['Pari']['date_fin']; ?></td>
+            <td style="max-width: 200px;"><?php echo $pari['Pari']['description']; ?></td>
             <td>
-                <?php echo $this->Html->link('Miser',
-                    array('controller' => 'parieurspari', 'action' => 'miser', $pari['Pari']['id'])); ?>
-                |
-                <?php echo $this->Html->link('Consulter',
-                    array('action' => 'consulter', $pari['Pari']['id'])); ?>
+                <?php
+                if(date("Y-m-d") < $pari['Pari']['date_fin'])
+                    echo $pari['Pari']['date_fin'];
+                else
+                    echo 'Pari terminé';
+                ?>
+            </td>
+            <td>
+                <?php
+                $nomLien = 'Consulter';
+                if(date("Y-m-d") < $pari['Pari']['date_fin'])
+                    $nomLien = 'Miser';
+                echo $this->Html->link($nomLien, array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id'])); ?>
             </td>
         </tr>
     <?php endforeach;
@@ -34,9 +39,5 @@
         </tr>
     <?php
     }
-
     unset($pari); ?>
 </table>
-
-<?php echo $this->Html->link('Ajouter un pari',
-    array('controller' => 'paris', 'action' => 'ajouter')); ?>

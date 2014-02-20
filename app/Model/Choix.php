@@ -11,4 +11,21 @@ class Choix extends AppModel {
 
     /* Le lien entre la table Choix et la table Pari */
     public $belongsTo = 'Pari';
-} 
+
+    //Validation des choix
+    public $validate = array(
+        'cote' => array(
+
+            'rule1' => array(
+                'rule'    => array('comparison', '>', 1),
+                'message' => 'La cote doit être un chiffre supérieur à 1',
+                'allowEmpty' => true
+            ),
+            'rule3' => array(
+                'rule'    => '/^[0-9]*$/',
+                'message' => 'La cote doit être un chiffre supérieur à 1',
+                'allowEmpty' => true
+            )
+        )
+    );
+}
