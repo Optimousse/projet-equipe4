@@ -30,13 +30,22 @@ class ParisController extends AppController {
 
             //Si l'utilisateur n'a rentré que deux choix, on supprime le troisième pour ne pas l'enregistrer.
             $choix3 = $this->request->data['Choix']['2'];
-            if(empty($choix3) || empty($choix3['nom'])){
+            if(empty($choix3['cote']) && empty($choix3['nom'])){
                 unset($this->request->data['Choix']['2']);
             }
             else if(empty($choix3['cote']))
             {
                 $this->Session->setFlash(
                     __('La cote est obligatoire si vous ajoutez un troisième choix.'), 'alert', array(
+                    'plugin' => 'BoostCake',
+                    'class' => 'alert-danger'
+                ));
+                return;
+            }
+            else if(empty($choix3['nom']))
+            {
+                $this->Session->setFlash(
+                    __('Le nom est obligatoire si vous ajoutez un troisième choix.'), 'alert', array(
                     'plugin' => 'BoostCake',
                     'class' => 'alert-danger'
                 ));
@@ -104,7 +113,6 @@ class ParisController extends AppController {
 
                 //Met à jour le nombre de jetons pour chaque personne qui a parié.
                 foreach($misesGagnantes as $item) {
-                    //  TODO vérifier que ça fonctionne si plusieurs parieurs. Peut-être faire un create à chaque fois.
                     $this->Parieur->id = $item['ParieursPari']['parieur_id'];
                     $parieur = $this->Parieur->findById($this->Parieur->id);
                     $nbJetons = $parieur['Parieur']['nombre_jetons'] + $item['ParieursPari']['mise'] * $coteChoix;
@@ -117,13 +125,6 @@ class ParisController extends AppController {
 
                 return $this->redirect(array('action' => 'mon_compte', 'controller' => 'parieurs'));
             }
-            else{
-
-                $this->Session->setFlash(__('Une erreur est survenue lors de la sauvegarde du choix gagnant.'), 'alert', array(
-                    'plugin' => 'BoostCake',
-                    'class' => 'alert-danger'
-                ));
-            }
 
             $this->Session->setFlash(__('Une erreur est survenue lors de la fermeture du pari. Veuillez réessayer.'), 'alert', array(
                 'plugin' => 'BoostCake',
@@ -134,6 +135,5 @@ class ParisController extends AppController {
 
     public function mes_paris(){
         $this->set('paris', $this->Pari->find('all', array('conditions' => array('Pari.parieur_id' => $this->Auth->user('id')))));
-
     }
 }
