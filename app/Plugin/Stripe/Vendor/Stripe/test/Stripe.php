@@ -1,8 +1,8 @@
 <?php
 
-echo "Running the Stripe2 PHP bindings test suite.\n".
-     "If you're trying to use the Stripe2 PHP bindings you'll probably want ".
-     "to require('lib/Stripe2.php'); instead of this file\n";
+echo "Running the Stripe PHP bindings test suite.\n".
+     "If you're trying to use the Stripe PHP bindings you'll probably want ".
+     "to require('lib/Stripe.php'); instead of this file\n";
 
 function authorizeFromEnv()
 {
@@ -17,7 +17,7 @@ if (!$ok) {
   $ok = @include_once(dirname(__FILE__).'/../vendor/vierbergenlars/simpletest/autorun.php');
 }
 if (!$ok) {
-  echo "MISSING DEPENDENCY: The Stripe2 API test cases depend on SimpleTest. ".
+  echo "MISSING DEPENDENCY: The Stripe API test cases depend on SimpleTest. ".
        "Download it at <http://www.simpletest.org/>, and either install it ".
        "in your PHP include_path or put it in the test/ directory.\n";
   exit(1);

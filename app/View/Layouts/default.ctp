@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>
         <?php echo $title_for_layout; ?>
     </title>
@@ -10,7 +10,6 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <?php $this->Html->css("notreCss", null, array("inline"=>false)); ?>
     <style>
         body {

@@ -2,7 +2,7 @@
 /**
  * StripeComponent
  *
- * A component that handles payment processing using Stripe2.
+ * A component that handles payment processing using Stripe.
  *
  * PHP version 5
  *
@@ -22,7 +22,7 @@ App::uses('Component', 'Controller');
 class StripeComponent extends Component {
 
 /**
- * Default Stripe2 mode to use: Test or Live
+ * Default Stripe mode to use: Test or Live
  *
  * @var string
  * @access public
@@ -46,7 +46,7 @@ class StripeComponent extends Component {
 	public $fields = array('stripe_id' => 'id');
 
 /**
- * The required Stripe2 secret API key
+ * The required Stripe secret API key
  *
  * @var string
  * @access public
@@ -54,7 +54,7 @@ class StripeComponent extends Component {
 	public $key = null;
 
 /**
- * Controller startup. Loads the Stripe2 API library and sets options from
+ * Controller startup. Loads the Stripe API library and sets options from
  * APP/Config/bootstrap.php.
  *
  * @param Controller $controller Instantiating controller
@@ -66,33 +66,33 @@ class StripeComponent extends Component {
 		$this->Controller = $controller;
 
 		// load the stripe vendor class IF it hasn't been autoloaded (composer)
-		App::import('Vendor', 'Stripe2.Stripe2', array(
-			'file' => 'Stripe2' . DS . 'lib' . DS . 'Stripe2.php')
+		App::import('Vendor', 'Stripe.Stripe', array(
+			'file' => 'Stripe' . DS . 'lib' . DS . 'Stripe.php')
 		);
 		if (!class_exists('Stripe')) {
-			throw new CakeException('Stripe2 API Libaray is missing or could not be loaded.');
+			throw new CakeException('Stripe API Libaray is missing or could not be loaded.');
 		}
 
 		// if mode is set in bootstrap.php, use it. otherwise, Test.
-		$mode = Configure::read('Stripe2.mode');
+		$mode = Configure::read('Stripe.mode');
 		if ($mode) {
 			$this->mode = $mode;
 		}
 
-		// set the Stripe2 API key
-		$this->key = Configure::read('Stripe2.' . $this->mode . 'Secret');
+		// set the Stripe API key
+		$this->key = Configure::read('Stripe.' . $this->mode . 'Secret');
 		if (!$this->key) {
-			throw new CakeException('Stripe2 API key is not set.');
+			throw new CakeException('Stripe API key is not set.');
 		}
 
 		// if currency is set in bootstrap.php, use it. otherwise, usd.
-		$currency = Configure::read('Stripe2.currency');
+		$currency = Configure::read('Stripe.currency');
 		if ($currency) {
 			$this->currency = $currency;
 		}
 
 		// field map for charge response, or use default (set above)
-		$fields = Configure::read('Stripe2.fields');
+		$fields = Configure::read('Stripe.fields');
 		if ($fields) {
 			$this->fields = $fields;
 		}
@@ -174,11 +174,11 @@ class StripeComponent extends Component {
 			$error = 'Payment processor API key error.';
 
 		} catch (Stripe_ApiConnectionError $e) {
-			CakeLog::error('Charge::Stripe_ApiConnectionError: Stripe2 could not be reached.', 'stripe');
+			CakeLog::error('Charge::Stripe_ApiConnectionError: Stripe could not be reached.', 'stripe');
 			$error = 'Network communication with payment processor failed, try again later';
 
 		} catch (Stripe_Error $e) {
-			CakeLog::error('Charge::Stripe_Error: Stripe2 could be down.', 'stripe');
+			CakeLog::error('Charge::Stripe_Error: Stripe could be down.', 'stripe');
 			$error = 'Payment processor error, try again later.';
 
 		} catch (Exception $e) {
@@ -191,7 +191,7 @@ class StripeComponent extends Component {
 			return (string)$error;
 		}
 
-		CakeLog::info('Stripe2: charge id ' . $charge->id, 'stripe');
+		CakeLog::info('Stripe: charge id ' . $charge->id, 'stripe');
 
 		return $this->_formatResult($charge);
 	}
@@ -200,7 +200,7 @@ class StripeComponent extends Component {
  * The customerCreate method prepares data for Stripe_Customer::create and attempts to
  * create a customer.
  *
- * @param array	$data The data passed directly to Stripe2's API.
+ * @param array	$data The data passed directly to Stripe's API.
  * @return array $customer if success, string $error if failure.
  */
 	public function customerCreate($data) {
@@ -240,11 +240,11 @@ class StripeComponent extends Component {
 			$error = 'Payment processor API key error.';
 
 		} catch (Stripe_ApiConnectionError $e) {
-			CakeLog::error('Customer::Stripe_ApiConnectionError: Stripe2 could not be reached.', 'stripe');
+			CakeLog::error('Customer::Stripe_ApiConnectionError: Stripe could not be reached.', 'stripe');
 			$error = 'Network communication with payment processor failed, try again later';
 
 		} catch (Stripe_Error $e) {
-			CakeLog::error('Customer::Stripe_Error: Stripe2 could be down.', 'stripe');
+			CakeLog::error('Customer::Stripe_Error: Stripe could be down.', 'stripe');
 			$error = 'Payment processor error, try again later.';
 
 		} catch (Exception $e) {
@@ -282,7 +282,7 @@ class StripeComponent extends Component {
 	}
 
 /**
- * Returns an array of fields we want from Stripe2's response objects
+ * Returns an array of fields we want from Stripe's response objects
  *
  *
  * @param object $response A successful response object from this component.

@@ -1,6 +1,6 @@
 {
   "name": "stripe/stripe-php",
-  "description": "Stripe2 PHP Library",
+  "description": "Stripe PHP Library",
   "keywords": [
     "stripe",
     "payment processing",
@@ -10,7 +10,7 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Stripe2 and contributors",
+      "name": "Stripe and contributors",
       "homepage": "https://github.com/stripe/stripe-php/contributors"
     }
   ],
@@ -24,6 +24,6 @@
     "vierbergenlars/simpletest": "*"
   },
   "autoload": {
-    "classmap": ["lib/Stripe2/"]
+    "classmap": ["lib/Stripe/"]
   }
 }

@@ -4,16 +4,16 @@
 
 // This snippet (and some of the curl code) due to the Facebook SDK.
 if (!function_exists('curl_init')) {
-  throw new Exception('Stripe2 needs the CURL PHP extension.');
+  throw new Exception('Stripe needs the CURL PHP extension.');
 }
 if (!function_exists('json_decode')) {
-  throw new Exception('Stripe2 needs the JSON PHP extension.');
+  throw new Exception('Stripe needs the JSON PHP extension.');
 }
 if (!function_exists('mb_detect_encoding')) {
-  throw new Exception('Stripe2 needs the Multibyte String PHP extension.');
+  throw new Exception('Stripe needs the Multibyte String PHP extension.');
 }
 
-// Stripe2 singleton
+// Stripe singleton
 require(dirname(__FILE__) . '/Stripe/Stripe.php');
 
 // Utilities
@@ -36,7 +36,7 @@ require(dirname(__FILE__) . '/Stripe/SingletonApiResource.php');
 require(dirname(__FILE__) . '/Stripe/AttachedObject.php');
 require(dirname(__FILE__) . '/Stripe/List.php');
 
-// Stripe2 API Resources
+// Stripe API Resources
 require(dirname(__FILE__) . '/Stripe/Account.php');
 require(dirname(__FILE__) . '/Stripe/Card.php');
 require(dirname(__FILE__) . '/Stripe/Balance.php');

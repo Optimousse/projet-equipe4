@@ -104,7 +104,7 @@ class Stripe_ApiRequestor
     if (!$myApiKey)
       $myApiKey = Stripe::$apiKey;
     if (!$myApiKey)
-      throw new Stripe_AuthenticationError('No API key provided.  (HINT: set your API key using "Stripe2::setApiKey(<API-KEY>)".  You can generate API keys from the Stripe2 web interface.  See https://stripe.com/api for details, or email support@stripe.com if you have any questions.');
+      throw new Stripe_AuthenticationError('No API key provided.  (HINT: set your API key using "Stripe::setApiKey(<API-KEY>)".  You can generate API keys from the Stripe web interface.  See https://stripe.com/api for details, or email support@stripe.com if you have any questions.');
 
     $absUrl = $this->apiUrl($url);
     $params = self::_encodeObjects($params);
@@ -115,11 +115,11 @@ class Stripe_ApiRequestor
 		'lang_version' => $langVersion,
 		'publisher' => 'stripe',
 		'uname' => $uname);
-    $headers = array('X-Stripe2-Client-User-Agent: ' . json_encode($ua),
-		     'User-Agent: Stripe2/v1 PhpBindings/' . Stripe::VERSION,
+    $headers = array('X-Stripe-Client-User-Agent: ' . json_encode($ua),
+		     'User-Agent: Stripe/v1 PhpBindings/' . Stripe::VERSION,
                      'Authorization: Bearer ' . $myApiKey);
     if (Stripe::$apiVersion)
-      $headers[] = 'Stripe2-Version: ' . Stripe::$apiVersion;
+      $headers[] = 'Stripe-Version: ' . Stripe::$apiVersion;
     list($rbody, $rcode) = $this->_curlRequest($meth, $absUrl, $headers, $params);
     return array($rbody, $rcode, $myApiKey);
   }
@@ -180,7 +180,7 @@ class Stripe_ApiRequestor
 	$errno == CURLE_SSL_PEER_CERTIFICATE ||
 	$errno == 77 // CURLE_SSL_CACERT_BADFILE (constant not defined in PHP though)
 	) {
-      array_push($headers, 'X-Stripe2-Client-Info: {"ca":"using Stripe2-supplied CA bundle"}');
+      array_push($headers, 'X-Stripe-Client-Info: {"ca":"using Stripe-supplied CA bundle"}');
       curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($curl, CURLOPT_CAINFO,
                   dirname(__FILE__) . '/../data/ca-certificates.crt');
@@ -206,14 +206,14 @@ class Stripe_ApiRequestor
     case CURLE_COULDNT_CONNECT:
     case CURLE_COULDNT_RESOLVE_HOST:
     case CURLE_OPERATION_TIMEOUTED:
-      $msg = "Could not connect to Stripe2 ($apiBase).  Please check your internet connection and try again.  If this problem persists, you should check Stripe2's service status at https://twitter.com/stripestatus, or let us know at support@stripe.com.";
+      $msg = "Could not connect to Stripe ($apiBase).  Please check your internet connection and try again.  If this problem persists, you should check Stripe's service status at https://twitter.com/stripestatus, or let us know at support@stripe.com.";
       break;
     case CURLE_SSL_CACERT:
     case CURLE_SSL_PEER_CERTIFICATE:
-      $msg = "Could not verify Stripe2's SSL certificate.  Please make sure that your network is not intercepting certificates.  (Try going to $apiBase in your browser.)  If this problem persists, let us know at support@stripe.com.";
+      $msg = "Could not verify Stripe's SSL certificate.  Please make sure that your network is not intercepting certificates.  (Try going to $apiBase in your browser.)  If this problem persists, let us know at support@stripe.com.";
       break;
     default:
-      $msg = "Unexpected error communicating with Stripe2.  If this problem persists, let us know at support@stripe.com.";
+      $msg = "Unexpected error communicating with Stripe.  If this problem persists, let us know at support@stripe.com.";
     }
 
     $msg .= "\n\n(Network error [errno $errno]: $message)";
