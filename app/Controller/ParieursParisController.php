@@ -143,7 +143,6 @@ class ParieursParisController extends AppController {
      */
     public function choixParieur($leparis){
 
-        var_dump($leparis);
         // on garde la ligne qui nous interesse => l'id du choix gagnant
         $id_choix = $leparis['ParieursPari']['choix_id'];
 
