@@ -8,7 +8,7 @@
 class ParieursController extends AppController {
 
     public $components = array(
-        'Stripe.Stripe'
+        'Stripe2.Stripe2'
     );
     public function beforeFilter() {
         parent::beforeFilter();
@@ -69,7 +69,7 @@ class ParieursController extends AppController {
         //TODO compléter cette page: on doit pouvoir modifier son mot de passe et son adresse courriel. On doit aussi pouvoir acheter de nouveaux jetons et échanger ceux qu'on a contre de l'argent (bidon).
      }
 
-    //Fonction pour acheter des jetons avec le plugin Stripe
+    //Fonction pour acheter des jetons avec le plugin Stripe2
     public function acheter_jetons(){
 
         if($this->request->is('post')){
