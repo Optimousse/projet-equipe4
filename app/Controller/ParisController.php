@@ -104,6 +104,7 @@ class ParisController extends AppController {
 
                 //Met à jour le nombre de jetons pour chaque personne qui a parié.
                 foreach($misesGagnantes as $item) {
+                    //  TODO vérifier que ça fonctionne si plusieurs parieurs. Peut-être faire un create à chaque fois.
                     $this->Parieur->id = $item['ParieursPari']['parieur_id'];
                     $parieur = $this->Parieur->findById($this->Parieur->id);
                     $nbJetons = $parieur['Parieur']['nombre_jetons'] + $item['ParieursPari']['mise'] * $coteChoix;
@@ -129,5 +130,10 @@ class ParisController extends AppController {
                 'class' => 'alert-danger'
             ));
         }
+    }
+
+    public function mes_paris(){
+        $this->set('paris', $this->Pari->find('all', array('conditions' => array('Pari.parieur_id' => $this->Auth->user('id')))));
+
     }
 }
