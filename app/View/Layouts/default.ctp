@@ -57,8 +57,8 @@
                 }
                 else{
                 ?>
-                    <li><?php echo $this->Html->link('Déconnexion', array('controller' =>'parieurs',
-                            'action' => 'logout'
+                    <li><?php echo $this->Html->link('Créer un pari', array('controller' =>'paris',
+                            'action' => 'ajouter'
                         )); ?></li>
                     <li class="dropdown-submenu"><?php echo $this->Html->link('Mon compte', array('controller' =>'parieurs',
                             'action' => 'mon_compte'
@@ -70,17 +70,16 @@
                             <li><?php echo $this->Html->link('Mes paris', array('controller' =>'paris',
                                     'action' => 'mes_paris'
                                 )); ?></li>
+                            <li><?php echo $this->Html->link('Mes mises', array('controller' =>'paris',
+                                    'action' => 'mes_mises'
+                                )); ?></li>
                             <li><?php echo $this->Html->link('Acheter des jetons', array('controller' =>'parieurs',
                                     'action' => 'acheter_jetons'
                                 )); ?></li>
                         </ul>
-
                     </li>
-                    <li><?php echo $this->Html->link('Créer un pari', array('controller' =>'paris',
-                            'action' => 'ajouter'
-                        )); ?></li>
-                    <li><?php echo $this->Html->link('Mes mises', array('controller' =>'paris',
-                            'action' => 'mes_mises'
+                    <li><?php echo $this->Html->link('Déconnexion', array('controller' =>'parieurs',
+                            'action' => 'logout'
                         )); ?></li>
                 <?php
                 }
