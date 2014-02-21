@@ -11,6 +11,7 @@
 
     <!-- Le styles -->
     <?php $this->Html->css("notreCss", null, array("inline"=>false)); ?>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
