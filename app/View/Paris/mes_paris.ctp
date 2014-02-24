@@ -2,6 +2,15 @@
 
 <!-- Affiche tous les paris -->
 
+<div>
+    <label>Trier par:</label>
+    <div class="clearfix"></div>
+    <ul class="pagination">
+        <li><?php echo $this->Paginator->sort('nom'); ?></li>
+        <li><?php echo $this->Paginator->sort('date_fin', 'Date de fin'); ?></li>
+    </ul>
+</div>
+
 <table class="table table-striped">
     <tr>
         <th>Nom</th>
@@ -39,3 +48,9 @@
 
     unset($pari); ?>
 </table>
+
+
+<?php
+echo $this->Paginator->pagination(array(
+    'ul' => 'pagination'
+)); ?>

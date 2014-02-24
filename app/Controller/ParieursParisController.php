@@ -18,12 +18,6 @@ class ParieursParisController extends AppController {
         $this->Auth->allow('miser');
     }
 
-    //Vue index: affiche toutes les mises du parieur
-    public function index()
-    {//TODO faire cette page
-        $this->set('paris', $this->Pari->find('all'));
-    }
-
     // Permet de miser sur un paris
     public function miser($id = null) {
         $this->set('id_util', $this->Auth->user('id'));
