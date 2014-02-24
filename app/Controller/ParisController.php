@@ -15,6 +15,7 @@ class ParisController extends AppController {
             'Pari.nom' => 'asc'
         )
     );
+
     public function beforeFilter() {
         parent::beforeFilter();
         //Pages accessibles lorsque le parieur n'est pas connecté
@@ -149,10 +150,9 @@ class ParisController extends AppController {
         $this->Paginator->settings = array(
             'conditions' => array('Pari.parieur_id' => $this->Auth->user('id')),
             'limit' => 5
-        );;
+        );
 
         $data = $this->Paginator->paginate('Pari');
         $this->set('paris', $data);
-        //$this->set('paris', $this->Pari->find('all', array('conditions' => array('Pari.parieur_id' => $this->Auth->user('id')))));
     }
 }
