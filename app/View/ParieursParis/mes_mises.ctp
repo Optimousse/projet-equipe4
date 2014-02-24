@@ -1,6 +1,6 @@
 <h1>Mes mises</h1>
 
-<!-- Affiche tous les paris ou l'on a misé -->
+<!-- Affiche tous les mises  -->
 
 <table class="table table-striped">
     <tr>
@@ -10,32 +10,23 @@
         <th>Ma mise</th>
     </tr>
 
-    <?php foreach ($paris as $pari): ?>
+    <?php foreach ($mises as $mise): ?>
         <tr>
-            <td><?php echo $pari['Pari']['nom']; ?></td>
-            <td><?php echo $pari['Pari']['description']; ?></td>
-            <td>
-                <?php
-                if(date("Y-m-d") < $pari['Pari']['date_fin'])
-                    echo 'Pari en cours.';
-                else{
-                    echo 'Pari terminé.';
-                    if(!isset($pari['Pari']['choix_gagnant']))
-                        echo $this->Html->link(' Déterminez le choix gagnant.',
-                            array('controller' => 'paris', 'action' => 'determiner_gagnant', $pari['Pari']['id']));
-                }
-                ?>
-            </td>
+            <td><img src="<?php echo $mise['Pari']['image']; ?>" class="img-rounded" style="max-width: 150px;" /></td>
+            <td><?php echo $this->Html->link($mise['Pari']['nom'], array('controller' => 'parieurs_paris', 'action' => 'miser', $mise['Pari']['id']));?></td>
+
+            <td><?php echo $mise['Choix']['nom']; ?></td>
+            <td><?php echo $mise['ParieursPari']['mise']; ?></td>
         </tr>
     <?php endforeach;
-    if(empty($paris))
+    if(empty($mises))
     {
         ?>
         <tr>
-            <td colspan="6">Vous n'avez créé aucun pari</td>
+            <td colspan="6">Vous n'avez fait aucune mise</td>
         </tr>
     <?php
     }
 
-    unset($pari); ?>
+    unset($mise); ?>
 </table>

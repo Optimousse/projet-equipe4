@@ -43,7 +43,7 @@ class ParieursParisController extends AppController {
 
         //Pour vérifier si la personne a déjà misé sur ce pari.
         $dejaMise = false;
-        if($this->ParieursPari->find('first', array('conditions'=> array('pari_id' => $id, 'parieur_id' => $this->Auth->user('id')))))
+        if($this->ParieursPari->find('first', array('conditions'=> array('ParieursPari.pari_id' => $id, 'ParieursPari.parieur_id' => $this->Auth->user('id')))))
             $dejaMise = true;
 
         $this -> set('options', $options);
@@ -62,7 +62,7 @@ class ParieursParisController extends AppController {
             $this->set('nom_choixGagnant', $this->choixGagnant($id)) ;
 
             $leparis = $this->ParieursPari->find('first', array(
-                'conditions' => array('pari_id' => $id,'parieur_id' => $this->Auth->user('id'))));
+                'conditions' => array('ParieursPari.pari_id' => $id,'ParieursPari.parieur_id' => $this->Auth->user('id'))));
 
 
             if(!empty($leparis)) {
@@ -110,7 +110,7 @@ class ParieursParisController extends AppController {
                     'plugin' => 'BoostCake',
                     'class' => 'alert-success'
                 ));
-                return $this->redirect(array('action' => 'mes_mises', 'controller' => 'paris'));
+                return $this->redirect(array('action' => 'mes_mises', 'controller' => 'parieurs_paris'));
             }
             $this->Session->setFlash(__('Une erreur est survenue lors de la création de la mise. Veuillez réessayer.'), 'alert', array(
                 'plugin' => 'BoostCake',
@@ -160,5 +160,10 @@ class ParieursParisController extends AppController {
         $nom = $intituleChoix['Choix']['nom'];
 
         return $nom;
+    }
+
+    public function mes_mises(){
+        $this->set('mises', $this->ParieursPari->find('all', array('conditions' => array('ParieursPari.parieur_id' => $this->Auth->user('id')))));
+        return;
     }
 }
