@@ -101,6 +101,7 @@ class ParieursParisController extends AppController {
             $this->ParieursPari->create();
             if ($this->ParieursPari->save($this->request->data)) {
 
+                // test
                 $this->Session->setFlash(__('La mise a bien été créée.'), 'alert', array(
                     'plugin' => 'BoostCake',
                     'class' => 'alert-success'
