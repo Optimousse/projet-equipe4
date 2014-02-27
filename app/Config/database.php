@@ -65,11 +65,11 @@ class DATABASE_CONFIG {
         'datasource' => 'Database/Mysql',
         'persistent' => false,
         'host' => 'localhost',
-        'login' => 'h14equipe4',
-        'password' => 'h14equipe4',
+        'login' => 'root',
+        'password' => 'admin123',
         'database' => 'paris',
         'prefix' => '',
-        //'encoding' => 'utf8',
+        'encoding' => 'utf8',
     );
 
     public $test = array(

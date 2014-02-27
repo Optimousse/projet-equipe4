@@ -1,40 +1,19 @@
-<h1>Mes paris</h1>
+<h1>Mon compte</h1>
 
-<!-- Affiche tous les paris -->
-<table class="table table-striped">
-    <tr>
-        <th>Nom</th>
-        <th>Description</th>
-        <th>Statut</th>
-        <th></th>
-    </tr>
+<?php echo $this->Form->create('Parieur', array('class'=>'well')); ?>
 
-    <?php foreach ($paris as $pari): ?>
-        <tr>
-            <td><?php echo $pari['Pari']['nom']; ?></td>
-            <td><?php echo $pari['Pari']['description']; ?></td>
-            <td>
-                <?php
-                if(date("Y-m-d") < $pari['Pari']['date_fin'])
-                    echo 'Pari en cours.';
-                else{
-                    echo 'Pari terminé.';
-                    if(!isset($pari['Pari']['choix_gagnant']))
-                        echo $this->Html->link(' Déterminez le choix gagnant.',
-                            array('controller' => 'paris', 'action' => 'determiner_gagnant', $pari['Pari']['id']));
-                }
-                ?>
-            </td>
-        </tr>
-    <?php endforeach;
-    if(empty($paris))
-    {
-        ?>
-        <tr>
-            <td colspan="6">Vous n'avez créé aucun pari</td>
-        </tr>
-    <?php
-    }
+<legend><?php echo __('Modifier mes informations'); ?></legend>
 
-    unset($pari); ?>
-</table>
+
+<?php echo $this->Form->input('pseudo', array('label'=>'Pseudo:', 'readonly' => 'readonly'));  ?>
+<?php echo $this->Form->input('mot_passe', array('label'=>'Mot de passe:'));  ?>
+<?php echo $this->Form->input('courriel', array('label'=>'Adresse courriel:'));  ?>
+<label><?php echo __('Jetons:'); ?></label>
+<div class="input text"><?php echo $this->Html->link('Acheter des jetons', array('controller' => 'parieurs', 'action' => 'acheter_jetons')); ?></div>
+<br/>
+<?php echo $this->Form->submit('Soumettre', array(
+'class' => 'btn btn-primary'
+)); ?>
+
+<?php echo $this->Form->end(); ?>
+
