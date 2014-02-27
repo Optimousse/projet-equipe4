@@ -72,13 +72,18 @@ class ParieursController extends AppController {
     //Fonction pour acheter des jetons avec le plugin Stripe
     public function acheter_jetons(){
 
+        $parieur = $this->Parieur->findById($this->Auth->user('id'));
+        $this->set('nombre_jetons', $parieur['Parieur']['nombre_jetons']);
+
         if($this->request->is('post')){
 
-            $token  = $this->request->data['stripeToken'];
             $nombre_jetons_achetes = $this->request->data['Parieur']['nombre_jetons'];
+            if(!is_numeric($nombre_jetons_achetes))
+                return;
 
+            $token  = $this->request->data['stripeToken'];
             $data = array(
-                'amount' => $nombre_jetons_achetes,
+                'amount' => $nombre_jetons_achetes * 5, // Les jetons coûtent 5$
                 'stripeToken' => $token,
             );
 
