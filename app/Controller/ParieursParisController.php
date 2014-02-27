@@ -14,6 +14,8 @@ class ParieursParisController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
+        //Pages accessibles lorsque le parieur n'est pas connecté
+        $this->Auth->allow('miser');
     }
 
     //Vue index: affiche toutes les mises du parieur
@@ -71,14 +73,16 @@ class ParieursParisController extends AppController {
         }
 
         if ($this->request->is(array('post', 'put'))) {
-
-            $this->loadModel('Parieur');
+            if(!$this->Auth->User('id'))
+                return;
             //On ne peut soumettre le formulaire si le pari est déjà terminé
             if(isset($pari['Pari']['choix_gagnant']))
                 return ;
             //On ne peut soumettre le formulaire si on a créé ce pari OU si on a déjà misé
             if($pari['Pari']['parieur_id'] == $this->Auth->user('id') || $dejaMise)
                 return;
+
+            $this->loadModel('Parieur');
 
             // on cherche le nombre de jetons de la personne grace a son id
             $parieur = $this->Parieur->find('first', array('conditions' => array('Parieur.id' => $this->Auth->user('id')), 'fields'=> array('nombre_jetons')));
