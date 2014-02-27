@@ -8,7 +8,7 @@
 class ParieursController extends AppController {
 
     public $components = array(
-        'Stripe2.Stripe2'
+        'Stripe.Stripe'
     );
     public function beforeFilter() {
         parent::beforeFilter();
@@ -69,16 +69,21 @@ class ParieursController extends AppController {
         //TODO compléter cette page: on doit pouvoir modifier son mot de passe et son adresse courriel. On doit aussi pouvoir acheter de nouveaux jetons et échanger ceux qu'on a contre de l'argent (bidon).
      }
 
-    //Fonction pour acheter des jetons avec le plugin Stripe2
+    //Fonction pour acheter des jetons avec le plugin Stripe
     public function acheter_jetons(){
+
+        $parieur = $this->Parieur->findById($this->Auth->user('id'));
+        $this->set('nombre_jetons', $parieur['Parieur']['nombre_jetons']);
 
         if($this->request->is('post')){
 
-            $token  = $this->request->data['stripeToken'];
             $nombre_jetons_achetes = $this->request->data['Parieur']['nombre_jetons'];
+            if(!is_numeric($nombre_jetons_achetes))
+                return;
 
+            $token  = $this->request->data['stripeToken'];
             $data = array(
-                'amount' => $nombre_jetons_achetes,
+                'amount' => $nombre_jetons_achetes * 5, // Les jetons coûtent 5$
                 'stripeToken' => $token,
             );
 

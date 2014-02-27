@@ -1,5 +1,6 @@
 <div class="users form">
-    <?php echo $this->Form->create('Pari', array('class'=>'well')); ?>
+    <?php
+    echo $this->Form->create('Pari', array('class'=>'well')); ?>
     <fieldset>
         <legend><?php echo __('Ajouter un pari'); ?></legend>
         <?php
@@ -12,9 +13,14 @@
         );
         echo $this->Form->input('image', array(
             'label' => 'Image:'));
+
+        //Date par défaut pour l'input: dans une semaine
+        $dateactuelle = date_add(new DateTime('now'), new DateInterval('P7D'));
+        $sDate = $dateactuelle->format('Y-m-d');
         echo $this->Form->input('date_fin', array(
             'label' => 'Se termine le:',
-            'type' => 'date'
+            'type' => 'date',
+            'selected' => $sDate
             ));
         ?>
 
@@ -28,8 +34,7 @@
 
                     echo $this->Form->input('Choix.0.cote', array(
                         'label'=>false,'placeholder'=>'Cote (Obligatoire)',
-                        'type' => 'number',
-                        'type' => 'number', 'class'=>'form-inline','div'=>false
+                        'type' => 'number', 'class'=>'form-inline','div'=>false, 'required'=>'required'
                     ));
                 ?>
             </li>
@@ -40,8 +45,7 @@
 
                     echo $this->Form->input('Choix.1.cote', array(
                         'label'=>false,'placeholder'=>'Cote (Obligatoire)',
-                        'type' => 'number',
-                        'type' => 'number', 'class'=>'form-inline','div'=>false
+                        'type' => 'number', 'class'=>'form-inline','div'=>false, 'required'=>'required'
                     ));
                 ?>
             </li>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>
         <?php echo $title_for_layout; ?>
     </title>
@@ -10,8 +10,8 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <?php $this->Html->css("notreCss", null, array("inline"=>false)); ?>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -58,8 +58,8 @@
                 }
                 else{
                 ?>
-                    <li><?php echo $this->Html->link('Déconnexion', array('controller' =>'parieurs',
-                            'action' => 'logout'
+                    <li><?php echo $this->Html->link('Créer un pari', array('controller' =>'paris',
+                            'action' => 'ajouter'
                         )); ?></li>
                     <li class="dropdown-submenu"><?php echo $this->Html->link('Mon compte', array('controller' =>'parieurs',
                             'action' => 'mon_compte'
@@ -71,17 +71,16 @@
                             <li><?php echo $this->Html->link('Mes paris', array('controller' =>'paris',
                                     'action' => 'mes_paris'
                                 )); ?></li>
+                            <li><?php echo $this->Html->link('Mes mises', array('controller' =>'paris',
+                                    'action' => 'mes_mises'
+                                )); ?></li>
                             <li><?php echo $this->Html->link('Acheter des jetons', array('controller' =>'parieurs',
                                     'action' => 'acheter_jetons'
                                 )); ?></li>
                         </ul>
-
                     </li>
-                    <li><?php echo $this->Html->link('Créer un pari', array('controller' =>'paris',
-                            'action' => 'ajouter'
-                        )); ?></li>
-                    <li><?php echo $this->Html->link('Mes mises', array('controller' =>'paris',
-                            'action' => 'mes_mises'
+                    <li><?php echo $this->Html->link('Déconnexion', array('controller' =>'parieurs',
+                            'action' => 'logout'
                         )); ?></li>
                 <?php
                 }
