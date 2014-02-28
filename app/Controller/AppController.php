@@ -57,10 +57,6 @@ class AppController extends Controller {
                     'fields' => array('username' => 'pseudo', 'password' => 'mot_passe') // On utilise pseudo et mot_passe plutôt que username et password
                 )
             ),
-            'loginRedirect' => array(
-                'controller' => 'paris',
-                'action' => 'mes_mises'
-            ),
             'logoutRedirect' => array(
                 'controller' => 'paris',
                 'action' => 'index'
@@ -78,6 +74,6 @@ class AppController extends Controller {
         parent::beforeFilter();
         //Pages accessibles sans être connecté (Les actions accessibles pour tous les contrôleurs)
         $this->Auth->allow('index');
-        $this->Auth->loginRedirect = array('controller'=>'paris', 'action'=>'mes_mises');
+        $this->Auth->loginRedirect = array('controller'=>'paris', 'action'=>'index');
     }
 }

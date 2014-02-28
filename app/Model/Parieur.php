@@ -23,6 +23,7 @@ class Parieur extends AppModel {
                 "on" => 'create'
             )
         ),
+
         'courriel' => array(//TODO validation email
             'required' => array(
                 'rule' => array('notEmpty'),
