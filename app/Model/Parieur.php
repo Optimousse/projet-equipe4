@@ -41,6 +41,4 @@ class Parieur extends AppModel {
         }
         return true;
     }
-
-
 }
