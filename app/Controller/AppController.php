@@ -27,12 +27,11 @@ App::uses('Controller', 'Controller');
  * Add your application-wide methods in the class below, your controllers
  * will inherit them.
  *
- * @package		app.Controller
- * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
+ * @package        app.Controller
+ * @link        http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-
-
-class AppController extends Controller {
+class AppController extends Controller
+{
     public $helpers = array(
         'Session',
         'Html' => array('className' => 'BoostCake.BoostCakeHtml'),
@@ -70,10 +69,11 @@ class AppController extends Controller {
         )
     );
 
-    public function beforeFilter() {
+    public function beforeFilter()
+    {
         parent::beforeFilter();
         //Pages accessibles sans être connecté (Les actions accessibles pour tous les contrôleurs)
         $this->Auth->allow('index');
-        $this->Auth->loginRedirect = array('controller'=>'paris', 'action'=>'index');
+        $this->Auth->loginRedirect = array('controller' => 'paris', 'action' => 'index');
     }
 }

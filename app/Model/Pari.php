@@ -20,19 +20,19 @@ class Pari extends AppModel {
         'nom' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'Le nom est obligatoire'
+                'message' => 'Le nom est obligatoire.'
             )
         ),
         'description' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'La description est obligatoire'
+                'message' => 'La description est obligatoire.'
             )
         ),
         'image' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'L\'image est obligatoire'
+                'message' => 'L\'image est obligatoire.'
             )
         ),
         'date_fin' => array(

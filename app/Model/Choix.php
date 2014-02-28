@@ -22,8 +22,8 @@ class Choix extends AppModel {
                 'allowEmpty' => true
             ),
             'rule3' => array(
-                'rule'    => '/^[0-9]*$/',
-                'message' => 'La cote doit être un chiffre supérieur à 1',
+                'rule'    => '/^[0-9]*(\.[0-9])?$/',
+                'message' => 'La cote doit être un chiffre supérieur à 1 sous le format 9.9',
                 'allowEmpty' => true
             )
         )
