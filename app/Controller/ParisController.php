@@ -7,6 +7,15 @@
  */
 class ParisController extends AppController {
     public $helpers = array('Html', 'Form');
+    public $components = array('Paginator');
+
+    public $paginate = array(
+        'limit' => 5,
+        'order' => array(
+            'Pari.nom' => 'asc'
+        )
+    );
+
     public function beforeFilter() {
         parent::beforeFilter();
         //Pages accessibles lorsque le parieur n'est pas connecté
@@ -16,7 +25,10 @@ class ParisController extends AppController {
     //Vue index: affiche tous les paris
     public function index()
     {
-        $this->set('paris', $this->Pari->find('all'));
+        $this->Paginator->settings = $this->paginate;
+
+        $data = $this->Paginator->paginate('Pari');
+        $this->set('paris', $data);
     }
 
     //Permet d'ajouter un pari au site
@@ -134,6 +146,13 @@ class ParisController extends AppController {
     }
 
     public function mes_paris(){
-        $this->set('paris', $this->Pari->find('all', array('conditions' => array('Pari.parieur_id' => $this->Auth->user('id')))));
+
+        $this->Paginator->settings = array(
+            'conditions' => array('Pari.parieur_id' => $this->Auth->user('id')),
+            'limit' => 5
+        );
+
+        $data = $this->Paginator->paginate('Pari');
+        $this->set('paris', $data);
     }
 }
