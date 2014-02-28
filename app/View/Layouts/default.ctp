@@ -71,7 +71,7 @@
                             <li><?php echo $this->Html->link('Mes paris', array('controller' =>'paris',
                                     'action' => 'mes_paris'
                                 )); ?></li>
-                            <li><?php echo $this->Html->link('Mes mises', array('controller' =>'paris',
+                            <li><?php echo $this->Html->link('Mes mises', array('controller' =>'parieurs_paris',
                                     'action' => 'mes_mises'
                                 )); ?></li>
                             <li><?php echo $this->Html->link('Acheter des jetons', array('controller' =>'parieurs',

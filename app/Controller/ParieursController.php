@@ -65,9 +65,48 @@ class ParieursController extends AppController {
 
     //Affiche la page "Mon compte"
     public function mon_compte(){
-        //Pour la section "Mes paris"
-        //TODO compléter cette page: on doit pouvoir modifier son mot de passe et son adresse courriel. On doit aussi pouvoir acheter de nouveaux jetons et échanger ceux qu'on a contre de l'argent (bidon).
-     }
+
+        if (!$this->request->data) {
+            $this->request->data = $this->Parieur->find('first',array(
+                                                         'fields' => array('pseudo', 'courriel', 'id'),
+                                                         'conditions' => array("id" => $this->Auth->user('id')))
+           );
+        }
+
+        if ($this->request->is(array('post', 'put'))) {
+
+            // on récupere le mot de passe et l'id propre au parieur
+            $mot_passe = $this->request->data['Parieur']['mot_passe'];
+            var_dump($mot_passe);
+            $id = $this->request->data['Parieur']['id'];
+            $this->Parieur->id = $id;
+
+            var_dump($id);
+
+            if(empty($mot_passe)){
+
+                if($this->Parieur-> save($this->request->data, true, array('courriel')))
+                {
+
+                    $this->Session->setFlash(__('Votre compte a été créé. Veuillez maintenant vous connecter.'), 'alert', array(
+                        'plugin' => 'BoostCake',
+                        'class' => 'alert-success'
+                    ));
+                }
+            }
+            else{
+                if($this->Parieur-> save($this->request->data, true, array('courriel', 'mot_passe')))
+                {
+
+                    $this->Session->setFlash(__('Votre compte a été créé. Veuillez maintenant vous connecter.'), 'alert', array(
+                        'plugin' => 'BoostCake',
+                        'class' => 'alert-success'
+                    ));
+                }
+            }
+
+        }
+    }
 
     //Fonction pour acheter des jetons avec le plugin Stripe
     public function acheter_jetons(){
