@@ -9,7 +9,7 @@
 class MessagesController extends AppController
 {
     public $helpers = array('Html', 'Form');
-    public $components = array('Paginator');
+    public $components = array('Paginator', 'RequestHandler');
 
 
     public function beforeFilter()
@@ -23,14 +23,27 @@ class MessagesController extends AppController
     public function ajouter()
     {
         if($this->request->is('Post')){
-            //Cette ligne = quoi ?
+            $this->autoRender = false;
             $this->layout = 'ajax';
 
             $this->Message->create();
             $this->Message->save($this->request->data);
-
-
-            $this->set('listeMessages', $this->Message->find('list', array('fields' => array('message'))));
         }
+    }
+
+    public function getMessages(){
+
+        $this->autoRender = false;
+        $this->layout = 'ajax';
+                    
+        $messages = $this->Message->find('all', array( 'joins' => array(
+            array(
+                'table' => 'parieurs',
+                'alias' => 'parieurs',
+                'type' => 'inner',
+                'conditions'=> array('parieurs.id = Message.parieur_id'))),
+            'fields' => array('parieurs.pseudo', 'message'), 'limit' => 10, 'order' => array('Message.id DESC'), 'page' => 1));
+
+        return json_encode(array_reverse($messages));
     }
 }

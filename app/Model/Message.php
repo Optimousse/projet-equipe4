@@ -7,4 +7,9 @@
  */
 class Message extends AppModel {
 
+    public $belongsTo = array(
+        'Parieur' => array(
+            'className' => 'Parieur'
+        )
+    );
 }

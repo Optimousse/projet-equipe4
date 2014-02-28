@@ -41,6 +41,7 @@ class AppController extends Controller
     );
     public $components = array(
         'Session',
+        "RequestHandler",
         //Paramètres qui définissent la connexion. NE PAS MODIFIER LA SECTION "AUTHENTICATE"
         'Auth' => array(
             'flash' => array(
