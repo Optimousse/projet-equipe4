@@ -5,7 +5,7 @@
         <legend><?php echo __('Inscription'); ?></legend>
         <?php
         echo $this->Form->input('pseudo', array('label'=>'Pseudo:'));
-        echo $this->Form->input('mot_passe', array('type' => 'password', 'label'=>'Mot de passe:'));
+        echo $this->Form->input('mot_passe', array('type' => 'password', 'label'=>'Mot de passe:', 'required'=>'required'));
         echo $this->Form->input('courriel', array('type' => 'email', 'label'=>'Adresse courriel:'));
 
         echo $this->Form->submit('Soumettre', array(

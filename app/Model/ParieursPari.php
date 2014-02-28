@@ -9,6 +9,18 @@
 
 class ParieursPari extends AppModel {
 
+    /* Lien entre la table Pari et la table ParieurParis */
+    public $belongsTo = array(
+        'Pari' => array(
+            'className' => 'Pari',
+            'limit' => '1'
+        ),
+
+        'Choix' => array(
+            'className' => 'Choix'
+        )
+    );
+
     public $validate = array(
         'mise' => array(
             'rule'    => 'naturalNumber',

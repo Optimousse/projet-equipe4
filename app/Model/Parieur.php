@@ -19,7 +19,8 @@ class Parieur extends AppModel {
         'mot_passe' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'Le mot de passe est obligatoire.'
+                'message' => 'Le mot de passe est obligatoire.',
+                "on" => 'create'
             )
         ),
         'courriel' => array(//TODO validation email
