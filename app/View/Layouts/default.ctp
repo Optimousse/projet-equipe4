@@ -9,13 +9,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
     <!-- Le styles -->
     <?php
     echo $this->Html->css("bootstrap", null, array("inline" => false));
     echo $this->Html->css("bootstrap-theme", null, array("inline" => false));
     echo $this->Html->css("datepicker", null, array("inline" => false));
-    echo $this->Html->script('jquery.min');
-    echo $this->Html->script('html5shiv');
     echo $this->Html->script('bootstrap.min');
     echo $this->Html->script('bootstrap-datepicker');
     ?>
@@ -30,7 +29,6 @@
             width: 220px;
         }
     </style>
-
     <?php
     echo $this->fetch('meta');
     echo $this->fetch('css');
@@ -263,6 +261,7 @@ echo $this->fetch('content');
                             echo $this->Form->input('message', array(
                                 'label' => false, 'id'=> 'txtMessage', 'div'=>false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
                             ));?>
+                            <br/>
                             <span class="input-group-btn">
                                 <button id="btnSoumettre" class="btn btn-primary" type="button">Envoyer</button>
                               </span>
