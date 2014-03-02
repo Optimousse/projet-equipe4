@@ -34,12 +34,6 @@ class Parieur extends AppModel {
             'required' => array(
                 'rule' => array('notEmpty'),
                 'message' => 'Le mot de passe de confirmation est obligatoire.',
-                "on" => 'create'
-            ),
-            'identique' => array(
-                'rule'    => array('equalTo', 'mot_passe'),
-                'message' => 'Les mots de passe doivent être identiques.',
-                'on' => array('create', 'update')
             )
         ),
         'courriel' => array(

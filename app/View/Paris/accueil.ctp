@@ -94,7 +94,7 @@
     </div>
     <div class="col-md-4">
         <div id="thmb3" class="thumbnail" style="min-height: 205px;">
-            <img src="http://lorempixel.com/400/100/people/"/>
+            <img src="http://lorempixel.com/400/100/people/9"/>
 
             <div class="caption">
                 <h3>

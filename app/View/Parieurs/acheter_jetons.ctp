@@ -1,6 +1,6 @@
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#txtNombreJetons').on('keyup',function() {
+    $(document).ready(function () {
+        $('#txtNombreJetons').on('keyup', function () {
             $nombreJetons = $(this).val();
 
             $("#divMontant").empty();
@@ -25,32 +25,25 @@
     });
 </script>
 
-<h1>Acheter des jetons</h1>
+<?php echo $this->Form->create('Parieur', array('class' => 'well')); ?>
 
-<?php echo $this->Form->create('Parieur',
-    array(
-        'inputDefaults' => array(
-            'div' => 'form-group',
-            'class' => 'form-control'
-        ))); ?>
+<legend><?php echo __('Acheter des jetons'); ?></legend>
 
+<p>Vous possédez présentement <?php echo $nombre_jetons; ?> jetons.</p>
 
-    <blockquote>
-        Vous possédez présentement <?php echo $nombre_jetons; ?> jetons.
-
-        Les jetons s'achètent au coût de 5$ l'unité. Ils vous permettent de miser sur des paris.
-    </blockquote>
+<p>Les jetons s'achètent au coût de 5$ l'unité. Ils vous permettent de miser sur des paris.</p>
+</blockquote>
 
 
-    <?php echo $this->Form->input('nombre_jetons', array('label'=>'Nombre de jetons:', 'required' => 'required', 'type' =>'number', 'id' => 'txtNombreJetons'));  ?>
-    <label id="divMontant"></label>
+<?php echo $this->Form->input('nombre_jetons', array('label' => 'Nombre de jetons:', 'class' => 'form-control', 'required' => 'required', 'type' => 'number', 'id' => 'txtNombreJetons')); ?>
+<label id="divMontant"></label>
 <div class="clearfix"/>
-    <script
-        src="https://checkout.stripe.com/checkout.js" class="stripe-button
-        data-key="pk_test_eeU8Ee9Yw9SceuqaYjNrBaCt"
-        data-name="Acheter des jetons"
-        data-panel-label="Passer la commande"
-        data-label="Acheter">
-    </script>
+<script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_eeU8Ee9Yw9SceuqaYjNrBaCt"
+    data-name="Acheter des jetons"
+    data-panel-label="Passer la commande"
+    data-label="Acheter">
+</script>
 
 <?php echo $this->Form->end(); ?>

@@ -8,15 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
     <!-- Le styles -->
     <?php
     echo $this->Html->css("bootstrap", null, array("inline" => false));
     echo $this->Html->css("bootstrap-theme", null, array("inline" => false));
-    echo $this->Html->css("datepicker", null, array("inline" => false));
+    echo $this->Html->script('jquery');
     echo $this->Html->script('bootstrap.min');
-    echo $this->Html->script('bootstrap-datepicker');
     ?>
     <style>
         body {
@@ -235,7 +233,7 @@ echo $this->fetch('content');
                 </h4>
             </div>
 
-            <ul id="divMessages" style="list-style-type: none; max-height:400px; overflow-y: scroll;"></ul>
+            <ul id="divMessages" style="list-style-type: none;"></ul>
             <?php
             echo $this->Form->create('Message', array(
                 'inputDefaults' => array(
@@ -244,7 +242,6 @@ echo $this->fetch('content');
                     'wrapInput' => false,
                     'class' => 'form-control'
                 ),
-                'class' => 'form-inline',
                 'id' => 'frmMessages'
             ));
             ?>
@@ -252,22 +249,20 @@ echo $this->fetch('content');
             <div id="divMessagerie" class="modal-body">
                 <?php
                 echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => AuthComponent::user('id')));
-                ?>
 
-                <div class="row">
-                    <div class="col-lg-6">
+                echo $this->Form->input('message', array(
+                    'label' => false, 'id'=> 'txtMessage', 'div'=>false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
+                ));?>
+                    <br/>
                         <div class="input-group">
-                            <?php
-                            echo $this->Form->input('message', array(
-                                'label' => false, 'id'=> 'txtMessage', 'div'=>false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
-                            ));?>
                             <br/>
                             <span class="input-group-btn">
                                 <button id="btnSoumettre" class="btn btn-primary" type="button">Envoyer</button>
+                                <button id="btnSoumettre" class="btn" type="button">Fermer</button>
                               </span>
                         </div>
-                    </div>
                 </div>
+            </div>
             </div>
             <?php
             echo $this->Form->end();

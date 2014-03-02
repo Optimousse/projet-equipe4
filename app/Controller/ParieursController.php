@@ -46,15 +46,21 @@ class ParieursController extends AppController
     {
         if ($this->request->is(array('post', 'put'))) {
 
-            $this->Parieur->create();
 
-            if ($this->Parieur->save($this->request->data, true, array('pseudo', 'mot_passe', 'courriel'))) {
-                $this->messageSucces('Votre compte a été créé. Veuillez maintenant vous connecter.');
-                return $this->redirect(array('action' => 'connexion'));
+
+            if($this->MotsPasseIdentiques($this->request->data['Parieur']['mot_passe'], $this->request->data['Parieur']['mot_passe_confirmation'])){
+                $this->Parieur->create();
+
+                if ($this->Parieur->save($this->request->data, true, array('pseudo', 'mot_passe', 'courriel'))) {
+                    $this->messageSucces('Votre compte a été créé. Veuillez maintenant vous connecter.');
+                    return $this->redirect(array('action' => 'connexion'));
+                }
+                else {
+                    $this->messageErreur('Une erreur est survenue lors de la création de votre compte.');
+                }
             }
-            else {
-                $this->messageErreur('Une erreur est survenue lors de la création de votre compte.');
-            }
+            else
+                $this->messageErreur('Les mots de passe doivent être identiques.');
         }
     }
 
@@ -86,7 +92,7 @@ class ParieursController extends AppController
             }
             else {
                 // vérification que le nouveau mdp soit égal a la confirmation
-                if ($mot_passe == $this->request->data['Parieur']['mot_passe_confirmation']) {
+                if ($this->MotsPasseIdentiques($mot_passe, $this->request->data['Parieur']['mot_passe_confirmation'])) {
                     // ok, on sauvegarde
                     if ($this->Parieur->save($this->request->data, true, array('courriel', 'mot_passe'))) {
                         $sauvegardeOk = true;
@@ -145,5 +151,10 @@ class ParieursController extends AppController
 
             $this->messageErreur('Les jetons n\'ont pas pu être ajoutés à votre compte.');
         }
+    }
+
+
+    public function MotsPasseIdentiques($mp, $mp_confirmation){
+        return $mp == $mp_confirmation;
     }
 }
