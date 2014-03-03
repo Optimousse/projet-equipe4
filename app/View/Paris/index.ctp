@@ -1,5 +1,7 @@
 <h1>Paris, pas la ville</h1>
-<?php echo $this->Html->link('Connexion',
+<?php
+
+echo $this->Html->link('Connexion',
     array('controller' => 'parieurs', 'action' => 'connexion')); ?>
 <br/>
 <?php echo $this->Html->link('Inscription',
@@ -15,6 +17,7 @@
         <th>Cote</th>
         <th>Image</th>
         <th>Date de fin</th>
+        <th>Miser</th>
     </tr>
 
     <?php foreach ($paris as $pari): ?>
@@ -24,9 +27,13 @@
             <td><?php echo $pari['Pari']['cote']; ?></td>
             <td><?php echo $pari['Pari']['image']; ?></td>
             <td><?php echo $pari['Pari']['date_fin']; ?></td>
+            <td>
+                <?php echo $this->Html->link('Miser',
+                    array('action' => 'miser', $pari['Pari']['id'])); ?>
+            </td>
         </tr>
     <?php endforeach;
-    if(!$paris)
+    if(empty($paris))
     ?>
     <tr>
         <td colspan="5">Aucun pari</td>
