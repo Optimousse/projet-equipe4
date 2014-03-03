@@ -10,7 +10,7 @@
 </div>
 <table class="table table-striped">
     <tr>
-        <th>Image</th>
+        <th></th>
         <th>Nom</th>
         <th>Description</th>
         <th>Se termine le</th>

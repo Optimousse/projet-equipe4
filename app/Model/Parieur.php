@@ -23,11 +23,27 @@ class Parieur extends AppModel {
                 "on" => 'create'
             )
         ),
-
-        'courriel' => array(//TODO validation email
+        'mot_passe_confirmation'=> array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'Le courriel est obligatoire.'
+                'message' => 'Le mot de passe de confirmation est obligatoire.',
+                "on" => 'create'
+            ),
+            'identique' => array(
+                'rule'    => array('equalTo', 'mot_passe'),
+                'message' => 'Les mots de passe doivent être identiques.',
+                'on' => array('create', 'update')
+            )
+        ),
+        'courriel' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'L\'adresse courriel est obligatoire.',
+                'on' => 'create'
+            ),
+            'email' => array(
+                'rule'    => array('email', false),
+                'message' => 'L\'adresse courriel doit avoir une forme valide.'
             )
         )
     );

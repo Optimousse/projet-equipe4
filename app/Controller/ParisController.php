@@ -48,41 +48,27 @@ class ParisController extends AppController
             $choix3 = $this->request->data['Choix']['2'];
             if (empty($choix3['cote']) && empty($choix3['nom'])) {
                 unset($this->request->data['Choix']['2']);
-            } else if (empty($choix3['cote'])) {
-                $this->Session->setFlash(
-                    __('La cote est obligatoire si vous ajoutez un troisième choix.'), 'alert', array(
-                    'plugin' => 'BoostCake',
-                    'class' => 'alert-danger'
-                ));
+            }
+            else if (empty($choix3['cote'])) {
+                $this->messageErreur('La cote est obligatoire si vous ajoutez un troisième choix.');
                 return;
-            } else if (empty($choix3['nom'])) {
-                $this->Session->setFlash(
-                    __('Le nom est obligatoire si vous ajoutez un troisième choix.'), 'alert', array(
-                    'plugin' => 'BoostCake',
-                    'class' => 'alert-danger'
-                ));
+            }
+            else if (empty($choix3['nom'])) {
+                $this->messageErreur('Le nom est obligatoire si vous ajoutez un troisième choix.');
                 return;
             }
 
             if ($this->Pari->saveAll($this->request->data)) {
-                $this->Session->setFlash(__('Le pari a été créé avec succès.'), 'alert', array(
-                    'plugin' => 'BoostCake',
-                    'class' => 'alert-success'
-                ));
+                $this->messageSucces('Le pari a été créé avec succès.');
                 return $this->redirect(array('action' => 'miser', 'controller' => 'ParieursParis', $this->Pari->id));
             }
-            $this->Session->setFlash(
-                __('Une erreur est survenue lors de la sauvegarde du pari. Veuillez réessayer.'), 'alert', array(
-                'plugin' => 'BoostCake',
-                'class' => 'alert-danger'
-            ));
+            $this->messageErreur('Une erreur est survenue lors de la sauvegarde du pari. Veuillez réessayer.');
         }
     }
 
     //Permet au créateur d'un pari de déterminer le choix gagnant d'un pari (Seulement lorsque ce pari est terminé)
     public function determiner_gagnant($id = null)
     {
-
         if (!$id)
             return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
         $pari = $this->Pari->findById($id);
@@ -118,11 +104,11 @@ class ParisController extends AppController
                 //L'ID du choix gagnant qui vient d'être sélectionné
                 $id_ChoixGagnant = $this->request->data['Pari']['choix_gagnant'];
                 //Le choix correspondant à celui qui vient d'être sélectionné
-                $cote = $this->Choix->findById($id_ChoixGagnant);
+                $choix = $this->Choix->findById($id_ChoixGagnant);
                 //La cote du choix en question
-                $coteChoix = $cote['Choix']['cote'];
+                $coteChoix = $choix['Choix']['cote'];
 
-                $misesGagnantes = $this->ParieursPari->find('all', array('conditions' => array('pari_id' => $id, 'choix_id' => $id_ChoixGagnant)));
+                $misesGagnantes = $this->ParieursPari->find('all', array('conditions' => array('ParieursPari.pari_id' => $id, 'choix_id' => $id_ChoixGagnant)));
 
                 //Met à jour le nombre de jetons pour chaque personne qui a parié.
                 foreach ($misesGagnantes as $item) {
@@ -131,24 +117,18 @@ class ParisController extends AppController
                     $nbJetons = $parieur['Parieur']['nombre_jetons'] + $item['ParieursPari']['mise'] * $coteChoix;
                     $this->Parieur->saveField('nombre_jetons', $nbJetons);
                 }
-                $this->Session->setFlash(__('Le pari a été correctement fermé. Les vainqueurs ont reçu leurs jetons.'), 'alert', array(
-                    'plugin' => 'BoostCake',
-                    'class' => 'alert-success'
-                ));
+                $this->messageSucces('Le pari a été correctement fermé. Les vainqueurs ont reçu leurs jetons.');
 
-                return $this->redirect(array('action' => 'mon_compte', 'controller' => 'parieurs'));
+                return $this->redirect(array('action' => 'mes_paris', 'controller' => 'paris'));
             }
 
-            $this->Session->setFlash(__('Une erreur est survenue lors de la fermeture du pari. Veuillez réessayer.'), 'alert', array(
-                'plugin' => 'BoostCake',
-                'class' => 'alert-danger'
-            ));
+            $this->messageErreur('Une erreur est survenue lors de la fermeture du pari. Veuillez réessayer.');
         }
     }
 
+    //Affiche les paris créés par l'utilisateur
     public function mes_paris()
     {
-
         $this->Paginator->settings = array(
             'conditions' => array('Pari.parieur_id' => $this->Auth->user('id')),
             'limit' => 5

@@ -76,4 +76,41 @@ class AppController extends Controller
         $this->Auth->allow('index');
         $this->Auth->loginRedirect = array('controller' => 'paris', 'action' => 'index');
     }
+
+    public function messageSucces($message)
+    {
+        $this->Session->setFlash(
+            __($message), 'alert', array(
+            'plugin' => 'BoostCake',
+            'class' => 'alert-success'
+        ));
+    }
+
+    public function messageErreur($message)
+    {
+        $this->Session->setFlash(
+            __($message), 'alert', array(
+            'plugin' => 'BoostCake',
+            'class' => 'alert-danger'
+        ));
+    }
+
+
+    public function messageInfo($message)
+    {
+        $this->Session->setFlash(
+            __($message), 'alert', array(
+            'plugin' => 'BoostCake',
+            'class' => 'alert-info'
+        ));
+    }
+
+    public function messageAvertissement($message){
+
+        $this->Session->setFlash(
+            __($message), 'alert', array(
+            'plugin' => 'BoostCake',
+            'class' => 'alert-warning'
+        ));
+    }
 }
