@@ -114,6 +114,6 @@
     ?>
 
 </div>
-
-<?php echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-primary')); ?>
+<div class="clearfix"></div>
+<?php echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default')); ?>
 

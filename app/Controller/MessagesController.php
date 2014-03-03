@@ -87,10 +87,10 @@ class MessagesController extends AppController
         $this->Session->write('dernierIdMessageLu', $valeur);
     }
 
-    //Aller chercher le 5e ID inséré à partir de la fin
+    //Aller chercher le 15e ID inséré à partir de la fin (pour afficher l'historique de la conversation)
     private function getDernierMessageDataBase(){
 
-        $dernierId = $this->Message->find('first', array('fields' => array('Message.id'), 'order' => 'Message.id DESC', 'offset' => 5));
+        $dernierId = $this->Message->find('first', array('fields' => array('Message.id'), 'order' => 'Message.id DESC', 'offset' => 15));
 
         if(count($dernierId) > 0){
             return $dernierId['Message']['id'];

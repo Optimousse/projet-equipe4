@@ -39,9 +39,6 @@ class AchatsController extends AppController
             return;
         }
 
-
-
-
         if ($this->request->is(array('post', 'put'))) {
 
             $this->Achat->create();

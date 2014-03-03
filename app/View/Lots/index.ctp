@@ -5,7 +5,7 @@
         jThumbnails .each(function(index, elt){
             max = Math.max(max, $(elt).height());
         });
-        jThumbnails.css('height', max);
+        jThumbnails.css('height', max + 10);
     });
 </script>
 
