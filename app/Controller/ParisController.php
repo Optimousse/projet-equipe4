@@ -151,5 +151,7 @@ class ParisController extends AppController
             $estValide = false;//Si le pari n'est pas encore terminé
         if (isset($pari['Pari']['choix_gagnant']))
             $estValide = false;//Si un gagnant a déjà été choisi
+
+        return $estValide;
     }
 }

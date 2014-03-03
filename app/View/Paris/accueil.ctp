@@ -5,7 +5,7 @@
         jThumbnails .each(function(index, elt){
             max = Math.max(max, $(elt).height());
         });
-        jThumbnails.css('height', '220px');
+        jThumbnails.css('height', max);
     });
 </script>
 
@@ -62,8 +62,11 @@
 
 <div class="row">
     <div class="col-md-4">
-        <div id="thmb1" class="thumbnail" style="min-height: 205px;">
-            <img src="http://lorempixel.com/400/100/city/"/>
+        <div id="thmb1" class="thumbnail">
+
+            <div style="max-height:150px; overflow:hidden; ">
+                <img src="http://lorempixel.com/400/150/city/"/>
+            </div>
 
             <div class="caption">
                 <h3>
@@ -78,8 +81,10 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div id="thmb2" class="thumbnail" style="min-height: 205px;">
-            <img src="http://orionschoolwear.co.uk/image/cache/data/Smaller%20banner/about-1-1200x300.jpg"/>
+        <div id="thmb2" class="thumbnail">
+            <div style="overflow:hidden;">
+                <img style="height:150px;" src="http://orionschoolwear.co.uk/image/cache/data/Smaller%20banner/about-1-1200x300.jpg"/>
+            </div>
 
             <div class="caption">
                 <h3>
@@ -93,8 +98,10 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div id="thmb3" class="thumbnail" style="min-height: 205px;">
-            <img src="http://lorempixel.com/400/100/people/9"/>
+        <div id="thmb3" class="thumbnail">
+            <div style="max-height:150px; overflow:hidden; ">
+                <img src="http://lorempixel.com/400/150/people/9"/>
+            </div>
 
             <div class="caption">
                 <h3>

@@ -5,7 +5,7 @@
         jThumbnails .each(function(index, elt){
             max = Math.max(max, $(elt).height());
         });
-        jThumbnails.css('height', max);
+        jThumbnails.css('height', max + 10);
     });
 </script>
 
@@ -35,7 +35,12 @@
         <div class="col-md-4">
         <div class="thumbnail" >
             <div style="max-height:150px; overflow:hidden; ">
-                <img style="width:100%; " src="<?php echo $pari['Pari']['image']; ?>"/>
+                <?php echo $this->Html->image($pari['Pari']['image'], array(
+                    "alt" => "Brownies",
+                    'style' => 'width:100%;',
+                    'url' => array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id'])
+                ));
+                ?>
             </div>
 
             <div class="caption">

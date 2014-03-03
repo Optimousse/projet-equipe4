@@ -113,5 +113,7 @@
     }
     ?>
 
-
 </div>
+
+<?php echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-primary')); ?>
+
