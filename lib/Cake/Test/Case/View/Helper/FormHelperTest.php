@@ -1497,7 +1497,7 @@ class FormHelperTest extends CakeTestCase {
 				'type' => 'password', 'name' => 'data[Contact][password]',
 				'id' => 'ContactPassword', 'class' => 'form-error'
 			),
-			array('div' => array('class' => 'error-message')),
+			array('div' => array('class' => 'alert alert-danger')),
 			'Please provide a password',
 			'/div',
 			'/div'
@@ -1537,7 +1537,7 @@ class FormHelperTest extends CakeTestCase {
 				'type' => 'password', 'name' => 'data[Contact][password]',
 				'id' => 'ContactPassword', 'class' => 'form-error'
 			),
-			array('div' => array('class' => 'error-message')),
+			array('div' => array('class' => 'alert alert-danger')),
 			array(),
 			'/div',
 			'/div'
@@ -1577,7 +1577,7 @@ class FormHelperTest extends CakeTestCase {
 				'type' => 'password', 'name' => 'data[Contact][password]',
 				'id' => 'ContactPassword', 'class' => 'form-error'
 			),
-			array('div' => array('class' => 'error-message')),
+			array('div' => array('class' => 'alert alert-danger')),
 			array(),
 			'/div',
 			'/div'
@@ -1770,7 +1770,7 @@ class FormHelperTest extends CakeTestCase {
 				'type' => 'text', 'name' => 'data[Contact][2][name]', 'id' => 'Contact2Name',
 				'class' => 'form-error', 'maxlength' => 255
 			),
-			array('div' => array('class' => 'error-message')),
+			array('div' => array('class' => 'alert alert-danger')),
 			'This field cannot be left blank',
 			'/div',
 			'/div'
@@ -1805,7 +1805,7 @@ class FormHelperTest extends CakeTestCase {
 			'input' => array(
 				'type' => 'text', 'name', 'id', 'class' => 'form-error'
 			),
-			array('div' => array('class' => 'error-message')),
+			array('div' => array('class' => 'alert alert-danger')),
 			'This field cannot be empty',
 			'/div',
 			'/div'
@@ -1819,7 +1819,7 @@ class FormHelperTest extends CakeTestCase {
 			'preg:/[^<]+/',
 			'/label',
 			'input' => array('type' => 'text', 'name', 'id', 'class' => 'form-error'),
-			array('div' => array('class' => 'error-message')),
+			array('div' => array('class' => 'alert alert-danger')),
 			'This field cannot be empty',
 			'/div',
 			'/div'
@@ -1847,7 +1847,7 @@ class FormHelperTest extends CakeTestCase {
 				'type' => 'text', 'name' => 'preg:/[^<]+/',
 				'id' => 'preg:/[^<]+/', 'class' => 'form-error'
 			),
-			array('div' => array('class' => 'error-message')),
+			array('div' => array('class' => 'alert alert-danger')),
 			'You must have a last name',
 			'/div',
 			'/div'
@@ -2012,7 +2012,7 @@ class FormHelperTest extends CakeTestCase {
 				'type' => 'text', 'name' => 'data[Contact][field]',
 				'id' => 'ContactField', 'class' => 'form-error'
 			),
-			array('div' => array('class' => 'error-message')),
+			array('div' => array('class' => 'alert alert-danger')),
 			'Badness!',
 			'/div',
 			'/div'
@@ -2030,7 +2030,7 @@ class FormHelperTest extends CakeTestCase {
 				'type' => 'text', 'name' => 'data[Contact][field]',
 				'id' => 'ContactField', 'class' => 'form-error'
 			),
-			array('span' => array('class' => 'error-message')),
+			array('span' => array('class' => 'alert alert-danger')),
 			'Badness!',
 			'/span'
 		);
@@ -2082,7 +2082,7 @@ class FormHelperTest extends CakeTestCase {
 				'id' => 'ContactField', 'class' => 'form-error'
 			),
 			'A message to you, Rudy',
-			array('div' => array('class' => 'error-message')),
+			array('div' => array('class' => 'alert alert-danger')),
 			'Badness!',
 			'/div',
 			'/div'
@@ -2130,7 +2130,7 @@ class FormHelperTest extends CakeTestCase {
 			'Field',
 			'/label',
 			'input' => array('type' => 'text', 'name' => 'data[Contact][field]', 'id' => 'ContactField', 'class' => 'form-error'),
-			array('div' => array('class' => 'error-message')),
+			array('div' => array('class' => 'alert alert-danger')),
 			'Le login doit contenir au moins 2 caractères',
 			'/div',
 			'/div'
@@ -2151,7 +2151,7 @@ class FormHelperTest extends CakeTestCase {
 			'Field',
 			'/label',
 			'input' => array('type' => 'text', 'name' => 'data[Contact][field]', 'id' => 'ContactField', 'class' => 'form-error'),
-			array('span' => array('class' => 'error-message', 'rel' => 'fake')),
+			array('span' => array('class' => 'alert alert-danger', 'rel' => 'fake')),
 			'login too large',
 			'/span',
 			'/div'
@@ -3419,7 +3419,7 @@ class FormHelperTest extends CakeTestCase {
 		$Contact = ClassRegistry::getObject('Contact');
 		$Contact->validationErrors['field'] = array(1);
 		$result = $this->Form->error('Contact.field');
-		$this->assertTags($result, array('div' => array('class' => 'error-message'), 'Error in field Field', '/div'));
+		$this->assertTags($result, array('div' => array('class' => 'alert alert-danger'), 'Error in field Field', '/div'));
 
 		$result = $this->Form->error('Contact.field', null, array('wrap' => false));
 		$this->assertEquals('Error in field Field', $result);
@@ -3430,10 +3430,10 @@ class FormHelperTest extends CakeTestCase {
 
 		$Contact->validationErrors['field'] = array("This field contains invalid input");
 		$result = $this->Form->error('Contact.field', null, array('wrap' => 'span'));
-		$this->assertTags($result, array('span' => array('class' => 'error-message'), 'This field contains invalid input', '/span'));
+		$this->assertTags($result, array('span' => array('class' => 'alert alert-danger'), 'This field contains invalid input', '/span'));
 
 		$result = $this->Form->error('Contact.field', 'There is an error fool!', array('wrap' => 'span'));
-		$this->assertTags($result, array('span' => array('class' => 'error-message'), 'There is an error fool!', '/span'));
+		$this->assertTags($result, array('span' => array('class' => 'alert alert-danger'), 'There is an error fool!', '/span'));
 
 		$result = $this->Form->error('Contact.field', "<strong>Badness!</strong>", array('wrap' => false));
 		$this->assertEquals('&lt;strong&gt;Badness!&lt;/strong&gt;', $result);
@@ -3459,7 +3459,7 @@ class FormHelperTest extends CakeTestCase {
 			'email' => 'No good!'
 		));
 		$expected = array(
-			'div' => array('class' => 'error-message'),
+			'div' => array('class' => 'alert alert-danger'),
 				'ul' => array(),
 					'<li', 'Cannot be empty', '/li',
 					'<li', 'No good!', '/li',
@@ -3474,7 +3474,7 @@ class FormHelperTest extends CakeTestCase {
 
 		$result = $this->Form->error('Contact.field', null, array('listOptions' => 'ol'));
 		$expected = array(
-			'div' => array('class' => 'error-message'),
+			'div' => array('class' => 'alert alert-danger'),
 				'ol' => array(),
 					'<li', 'notEmpty', '/li',
 					'<li', 'email', '/li',
@@ -3485,7 +3485,7 @@ class FormHelperTest extends CakeTestCase {
 
 		$result = $this->Form->error('Contact.field', null, array('listOptions' => array('tag' => 'ol')));
 		$expected = array(
-			'div' => array('class' => 'error-message'),
+			'div' => array('class' => 'alert alert-danger'),
 				'ol' => array(),
 					'<li', 'notEmpty', '/li',
 					'<li', 'email', '/li',
@@ -3503,7 +3503,7 @@ class FormHelperTest extends CakeTestCase {
 			)
 		));
 		$expected = array(
-			'div' => array('class' => 'error-message'),
+			'div' => array('class' => 'alert alert-danger'),
 				'ul' => array('class' => 'ul-class'),
 					array('li' => array('class' => 'li-class')), 'notEmpty', '/li',
 					array('li' => array('class' => 'li-class')), 'email', '/li',
@@ -9184,7 +9184,7 @@ class FormHelperTest extends CakeTestCase {
 				'class' => 'form-error'
 			),
 			'/select',
-			array('div' => array('class' => 'error-message')),
+			array('div' => array('class' => 'alert alert-danger')),
 			'Error',
 			'/div',
 			'/div'
@@ -9202,14 +9202,14 @@ class FormHelperTest extends CakeTestCase {
 		$ValidateProfile = ClassRegistry::getObject('ValidateProfile');
 		$ValidateProfile->validationErrors[2]['ValidateItem'][1]['name'] = array('Error in field name');
 		$result = $this->Form->error('ValidateProfile.2.ValidateItem.1.name');
-		$this->assertTags($result, array('div' => array('class' => 'error-message'), 'Error in field name', '/div'));
+		$this->assertTags($result, array('div' => array('class' => 'alert alert-danger'), 'Error in field name', '/div'));
 
 		$ValidateProfile->validationErrors[2]['city'] = array('Error in field city');
 		$result = $this->Form->error('ValidateProfile.2.city');
-		$this->assertTags($result, array('div' => array('class' => 'error-message'), 'Error in field city', '/div'));
+		$this->assertTags($result, array('div' => array('class' => 'alert alert-danger'), 'Error in field city', '/div'));
 
 		$result = $this->Form->error('2.city');
-		$this->assertTags($result, array('div' => array('class' => 'error-message'), 'Error in field city', '/div'));
+		$this->assertTags($result, array('div' => array('class' => 'alert alert-danger'), 'Error in field city', '/div'));
 	}
 
 /**
@@ -9223,11 +9223,11 @@ class FormHelperTest extends CakeTestCase {
 		$ValidateUser->validationErrors[0]['ValidateItem']['name'] = array('Error in field name');
 
 		$result = $this->Form->error('0.ValidateUser.ValidateItem.name');
-		$this->assertTags($result, array('div' => array('class' => 'error-message'), 'Error in field name', '/div'));
+		$this->assertTags($result, array('div' => array('class' => 'alert alert-danger'), 'Error in field name', '/div'));
 
 		$ValidateUser->validationErrors[0]['city'] = array('Error in field city');
 		$result = $this->Form->error('ValidateUser.0.city');
-		$this->assertTags($result, array('div' => array('class' => 'error-message'), 'Error in field city', '/div'));
+		$this->assertTags($result, array('div' => array('class' => 'alert alert-danger'), 'Error in field city', '/div'));
 	}
 
 /**

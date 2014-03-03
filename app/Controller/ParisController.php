@@ -46,7 +46,7 @@ class ParisController extends AppController
             $this->Choix->create();
 
             //Si l'utilisateur n'a rentré que deux choix, on supprime le troisième pour ne pas l'enregistrer.
-            $choix3 = $this->request->data['Choix']['2'];
+           $choix3 = $this->request->data['Choix']['2'];
             if (empty($choix3['cote']) && empty($choix3['nom'])) {
                 unset($this->request->data['Choix']['2']);
             }
@@ -74,17 +74,8 @@ class ParisController extends AppController
             return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
         $pari = $this->Pari->findById($id);
 
-        if (!$pari)
-            return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
-        //Si tu n'es pas le créateur de ce pari
-        if ($pari['Pari']['parieur_id'] != $this->Auth->user('id'))
-            return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
-        //Si le pari n'est pas encore terminé
-        if ($pari['Pari']['date_fin'] > date("Y-m-d"))
-            return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
-        //Si un gagnant a déjà été choisi
-        if (isset($pari['Pari']['choix_gagnant']))
-            return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
+        if(!$this->validerDroitsChoixGagnant($pari))
+            return $this->redirectAccueil();
 
         $this->loadModel('Choix');
         $this->loadModel('ParieursPari');
@@ -143,5 +134,24 @@ class ParisController extends AppController
     public function accueil(){
         $paris = $this->Pari->find('all', array('limit' => 5, 'order' => 'id DESC', 'fields' => array('nom', 'image', 'description', 'date_fin')));
         $this->set('paris', $paris);
+    }
+
+    /*
+     * Fonctions privées
+     */
+
+    private function validerDroitsChoixGagnant($pari){
+        $estValide = true;
+
+        if (!$pari)
+            $estValide = false;
+        else if ($pari['Pari']['parieur_id'] != $this->Auth->user('id'))
+            $estValide = false; //Si tu n'es pas le créateur de ce pari
+        else if ($pari['Pari']['date_fin'] > date("Y-m-d"))
+            $estValide = false;//Si le pari n'est pas encore terminé
+        if (isset($pari['Pari']['choix_gagnant']))
+            $estValide = false;//Si un gagnant a déjà été choisi
+
+        return $estValide;
     }
 }
