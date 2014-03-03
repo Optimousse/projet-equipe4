@@ -10,7 +10,7 @@
                 <?php
                     $aujourdhui = strtotime(date("Y-m-d"));
                     $dateFin = strtotime($paris['Pari']['date_fin']);
-                    $jours = ($dateFin - $aujourdhui) / 86400 + 1;
+                    $jours = round(($dateFin - $aujourdhui) / 86400);
 
                     $accordJour = 'jour';
                     if($jours > 1)

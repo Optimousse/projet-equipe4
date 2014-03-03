@@ -17,12 +17,16 @@
 
     <div class="carousel slide" id="carousel-15074">
         <ol class="carousel-indicators">
-            <li data-slide-to="0" data-target="#carousel-15074">
-            </li>
-            <li data-slide-to="1" data-target="#carousel-15074">
-            </li>
-            <li data-slide-to="2" data-target="#carousel-15074">
-            </li>
+            <?php
+            $nbParis = count($paris);
+
+            for($i = 0 ; $i < $nbParis; $i++){
+                ?>
+                <li data-slide-to="<?php echo $i;?>" data-target="#carousel-15074">
+                </li>
+            <?php
+            }
+            ?>
         </ol>
         <div class="carousel-inner">
             <?php
@@ -76,6 +80,8 @@
                 <p>
                     En remportant votre mise sur des paris, vous accumulerez des jetons qui vous permettront de vous
                     acheter des lots incroyables.
+                <div class="clearfix"></div>
+                <?php echo $this->Html->link('Voir les lots', array('controller' => 'lots', 'action' => 'index'), array('class' => 'btn btn-primary')); ?>
                 </p>
             </div>
         </div>
