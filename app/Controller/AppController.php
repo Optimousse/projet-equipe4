@@ -34,9 +34,10 @@ class AppController extends Controller
 {
     public $helpers = array(
         'Session',
+        'Js' => array('Jquery'),
         'Html' => array('className' => 'BoostCake.BoostCakeHtml'),
         'Form' => array('className' => 'BoostCake.BoostCakeForm'),
-        'Paginator' => array('className' => 'BoostCake.BoostCakePaginator'),
+        'Paginator' => array('className' => 'BoostCake.BoostCakePaginator')
     );
     public $components = array(
         'Session',

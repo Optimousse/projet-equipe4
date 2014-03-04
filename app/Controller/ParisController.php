@@ -9,7 +9,8 @@
 class ParisController extends AppController
 {
     public $helpers = array('Html', 'Form');
-    public $components = array('Paginator');
+    public $components = array(
+        'RequestHandler','Paginator');
 
     public $paginate = array(
         'limit' => 5,

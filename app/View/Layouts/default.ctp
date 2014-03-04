@@ -10,7 +10,10 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <?php $this->Html->css("notreCss", null, array("inline"=>false)); ?>
+    <?php
+        echo $this->Html->css("notreCss", null, array("inline"=>false));
+        echo $this->Html->script('jquery');
+    ?>
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <style>
         body {
@@ -31,6 +34,7 @@
     <?php
     echo $this->fetch('meta');
     echo $this->fetch('css');
+    echo $this->fetch('script');
     ?>
 </head>
 
@@ -85,6 +89,47 @@
                 <?php
                 }
                 ?>
+
+                <li class="dropdown-submenu"><?php echo
+                    $this->Js->link('Messagerie',
+                        array('controller'=>'null', 'action'=>'null'));
+                     ?>
+                    <ul class="dropdown-menu">
+
+                        <div id="divMessages">
+                            <?php
+                                if(isset($listeMessages)){
+                                    echo $listeMessages;
+                                }
+
+                            ?>
+                        </div>
+                        <?php
+
+                        echo $this->Form->create('Message', array(
+                            'inputDefaults' => array(
+                                'div' => 'form-group',
+                                'label' => false,
+                                'wrapInput' => false,
+                                'class' => 'form-control'
+                            ),
+                            'class' => 'well form-inline',
+                            'controller' => 'messages',
+                            'action' =>'ajouter'
+                        ));
+
+                        echo $this->Form->input('message', array(
+                            'label'=>false
+                        ));
+                        echo $this->Js->submit('Envoyer',
+                            array('update' => '#divMessages',
+                                'class' => 'btn btn-primary',
+                                'url' => array('controller' => 'messages', 'action' => 'ajouter')
+                            ));
+                         echo $this->Form->end();
+                        ?>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -93,9 +138,11 @@
 <div class="container jumbotron">
 
     <?php
-    echo $this->Session->flash();
-    echo $this->Session->flash('auth');
-    echo $this->fetch('content'); ?>
+        echo $this->Session->flash();
+        echo $this->Session->flash('auth');
+
+            echo $this->fetch('content');
+            ?>
 
 </div><!-- /container -->
 
@@ -103,9 +150,9 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script src="//google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-<?php echo $this->fetch('script'); ?>
-
+<?php
+    echo $this->Js->writeBuffer();
+?>
 </body>
 </html>
