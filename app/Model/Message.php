@@ -12,4 +12,12 @@ class Message extends AppModel {
             'className' => 'Parieur'
         )
     );
+
+    public $validate = array(
+        'message' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Vous ne pouvez envoyer un message vide.'
+            )
+        ));
 }

@@ -1,6 +1,5 @@
 <!-- Fichier : /app/View/Posts/view.ctp -->
 
-
 <div style="max-width: 50%;">
     <h3><?php echo $paris['Pari']['nom']; ?></h3>
     <img src=<?php echo $paris['Pari']['image']; ?> alt="img"/>

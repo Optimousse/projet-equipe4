@@ -10,7 +10,7 @@
     </ul>
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped table-hover table-responsive">
     <tr>
         <th></th>
         <th>Nom</th>

@@ -39,20 +39,39 @@
     ?>
 
     <script type="text/javascript">
-
         $(document).ready(function(){
-
+            var urlAjouter = '<?php echo $this->Html->url(array(
+                "controller" => "messages",
+                "action" => "ajouter"
+            )); ?>';
+            var urlGetMessages = '<?php echo $this->Html->url(array(
+                "controller" => "messages",
+                "action" => "getMessages"
+            )); ?>';
+            var urlTousMessagesLus = '<?php echo $this->Html->url(array(
+                "controller" => "messages",
+                "action" => "setTousMessagesLus"
+            )); ?>';
             getMessages();
 
             setInterval(function(){
                 getMessages();
-            },10000);
+            }, 5000);
+
+            $("#liMessagerie").click(function(){
+                $.ajax({
+                    url: urlTousMessagesLus,
+                    success: function(){
+                        $("#badgeNouveauMessage").hide();
+                    }
+                });
+            });
 
             $( "#btnSoumettre" ).click(function(e) {
                 $.ajax({
                     type: "POST",
-                    url: "messages/ajouter",
-                    data: $( "#MessageIndexForm" ).serialize()
+                    url: urlAjouter,
+                    data: $( "#frmMessages" ).serialize()
                 });
 
                 getMessages();
@@ -61,42 +80,46 @@
             });
 
             function getMessages(){
-                console.log('getmessages');
                 $.ajax({
                     type: "POST",
-                    url: "messages/getMessages",
+                    url: urlGetMessages,
                     dataType: "json",
                     success: function (data) {
-                        console.log("succes");
-
                         $("#txtMessage").val('');
-                        var str = '<ul style="list-style-type: none;">' +
-                            '<li><h4>Derniers messages</h4></li>';
 
-                        $.each(data, function() {
-                            $.each(this, function(k, v) {
-                                if(v.pseudo != undefined){
-                                    str += '<li><blockquote> <b>' + v.pseudo + '</b> dit:<br/>'
-                                }
-                                else
-                                {
-                                    str += v.message + '</blockquote></li>';
-                                }
-                            });
-                        });
-                        str += '</ul>'
+                        if(data[0].nouveauMessage){
+                            $("#badgeNouveauMessage").show();
+                            remplirConversation(data);
+                        }
 
-                        $("#divMessages").empty();
-                        $("#divMessages").append(str);
+                        if(document.getElementById("divMessages").innerHTML === ""){
+                            remplirConversation(data);
+                        }
                     }
                 });
+            }
+
+            function remplirConversation(data){
+
+                var str = '<ul style="list-style-type: none;">' +
+                    '<li><h4>Derniers messages</h4></li>';
+                $.each(data, function() {
+                    if(this.parieurs != undefined){
+                        str += '<li><blockquote> <b>' + this.parieurs.pseudo + '</b> dit:<br/>';
+                        str += this.Message.message + '</blockquote></li>';
+                    }
+                });
+                str += '</ul>'
+
+                $("#divMessages").empty();
+                $("#divMessages").append(str);
             }
         });
     </script>
 </head>
 
 <body>
-<div class="navbar navbar-fixed-top">
+<div class="navbar navbar-fixed-top ">
     <div class="navbar-inner">
         <div class="container">
             <?php echo $this->Html->link('Paris, pas la ville', array(
@@ -140,17 +163,14 @@
                     <li><?php echo $this->Html->link('|', array('controller' => 'null',
                             'action' => 'null'
                         )); ?></li>
-                    <li class="dropdown-submenu"><?php echo
-                        $this->Js->link('Messagerie',
-                            array('controller' => 'null', 'action' => 'null'),
-                            array(
-                                'id' => 'aMessagerie',
-                                'class' => 'myClass'
-                            ));
-                        ?>
+                    <li id="liMessagerie" class="dropdown-submenu">
+                        <a href="#">
+                            <span id="badgeNouveauMessage" style="display:none;" class="badge badge-important pull-right">&nbsp;     1</span>
+                            Messagerie&nbsp;
+                        </a>
                         <ul id="ulMessagerie" class="dropdown-menu">
 
-                            <div id="divMessages" style="display:block;"></div>
+                            <div id="divMessages"></div>
                             <?php
                             echo $this->Form->create('Message', array(
                                 'inputDefaults' => array(
@@ -159,7 +179,8 @@
                                     'wrapInput' => false,
                                     'class' => 'form-control'
                                 ),
-                                'class' => 'well form-inline'
+                                'class' => 'well form-inline',
+                                'id' => 'frmMessages'
                             ));
 
                             echo $this->Form->input('message', array(
@@ -174,7 +195,6 @@
 
                             echo $this->Form->end();
                             ?>
-                            <label></label>
                         </ul>
                     </li>
                     <li><?php echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
@@ -190,7 +210,7 @@
     </div>
 </div>
 
-<div class="container jumbotron">
+<div class="container">
 
     <?php
     echo $this->Session->flash();

@@ -8,7 +8,8 @@
         <li><?php echo $this->Paginator->sort('date_fin', 'Date de fin'); ?></li>
     </ul>
 </div>
-<table class="table table-striped">
+<div class="table-responsive">
+<table class="table table-striped table-hover ">
     <tr>
         <th></th>
         <th>Nom</th>
@@ -49,7 +50,7 @@
     }
     unset($pari); ?>
 </table>
-
+</div>
 <?php
 echo $this->Paginator->pagination(array(
     'ul' => 'pagination'

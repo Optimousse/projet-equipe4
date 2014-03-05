@@ -7,6 +7,13 @@
  */
 App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 class Parieur extends AppModel {
+
+    public $hasMany= array(
+        'Message' => array(
+            'className' => 'Message'
+        )
+    );
+
     public $validate = array(
         'pseudo' => array(
             'required' => array(
