@@ -1,8 +1,11 @@
 <!-- Fichier : /app/View/Posts/view.ctp -->
 
 <div class="jumbotron well">
-    <h1><?php echo $paris['Pari']['nom']; ?></h1>
-    <img src=<?php echo $paris['Pari']['image']; ?> alt="img"/>
+
+    <h1 ><?php echo $paris['Pari']['nom']; ?></h1>
+    <div style="max-width:100% ;max-height:400px; overflow-y:hidden;">
+        <img alt="" src="<?php echo $paris['Pari']['image'];?>"/>
+    </div>
 </div>
 
 <div>

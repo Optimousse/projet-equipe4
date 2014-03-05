@@ -44,6 +44,7 @@
 
     <?php echo $this->Form->input('nombre_jetons', array('label'=>'Nombre de jetons:', 'required' => 'required', 'type' =>'number', 'id' => 'txtNombreJetons'));  ?>
     <label id="divMontant"></label>
+<div class="clearfix"/>
     <script
         src="https://checkout.stripe.com/checkout.js" class="stripe-button
         data-key="pk_test_eeU8Ee9Yw9SceuqaYjNrBaCt"

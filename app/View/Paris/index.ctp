@@ -1,57 +1,73 @@
-<h1>Tous les paris</h1>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        var max = 0, jThumbnails = $("div.thumbnail");
+        jThumbnails .each(function(index, elt){
+            max = Math.max(max, $(elt).height());
+        });
+        jThumbnails.css('height', max);
+    });
+</script>
+
+
+<h1>Offres de paris</h1>
 <!-- Affiche tous les paris -->
 <div>
     <label>Trier par:</label>
 
     <div class="clearfix"></div>
-    <ul class="pagination">
+    <ul class="pagination" style="margin-top: 0;">
         <li><?php echo $this->Paginator->sort('nom'); ?></li>
         <li><?php echo $this->Paginator->sort('date_fin', 'Date de fin'); ?></li>
     </ul>
+    <br/>
+    <?php
+    echo $this->Paginator->pagination(array(
+        'ul' => 'pagination'
+    )); ?>
 </div>
-<div class="table-responsive">
-    <table class="table table-striped table-hover ">
-        <tr>
-            <th></th>
-            <th>Nom</th>
-            <th>Description</th>
-            <th>Se termine le</th>
-            <th></th>
-        </tr>
 
-        <?php foreach ($paris as $pari): ?>
-            <tr>
-                <td><img src="<?php echo $pari['Pari']['image']; ?>" class="img-rounded" style="max-width: 150px;"/>
-                </td>
-                <td><?php echo $pari['Pari']['nom']; ?></td>
-                <td style="max-width: 200px;"><?php echo $pari['Pari']['description']; ?></td>
-                <td>
+<div class="row">
+
+    <?php
+    $compteur = 0;
+    foreach ($paris as $pari){?>
+        <div class="col-md-4">
+        <div class="thumbnail" >
+            <div style="max-height:100px; overflow:hidden; ">
+                <img style="width:100%; " src="<?php echo $pari['Pari']['image']; ?>"/>
+            </div>
+
+            <div class="caption">
+                <h3>
+                    <?php echo $pari['Pari']['nom']; ?>
+                </h3>
+                <p>
                     <?php
-                    if (date("Y-m-d") < $pari['Pari']['date_fin'])
-                        echo $pari['Pari']['date_fin'];
+                    $desc = $pari['Pari']['description'];
+                    if(strlen($desc) > 75)
+                        echo substr($desc, 0, 75) . '[...]';
                     else
-                        echo 'Pari terminé';
+                        echo $desc;
                     ?>
-                </td>
-                <td>
-                    <?php
-                    $nomLien = 'Consulter';
-                    if (date("Y-m-d") < $pari['Pari']['date_fin'])
-                        $nomLien = 'Miser';
-                    echo $this->Html->link($nomLien, array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id'])); ?>
-                </td>
-            </tr>
-        <?php endforeach;
-        if (empty($paris)) {
-            ?>
-            <tr>
-                <td colspan="6">Aucun pari</td>
-            </tr>
-        <?php
+                </p>
+                <?php
+                $nomLien = 'Consulter';
+                if(date("Y-m-d") < $pari['Pari']['date_fin'])
+                    $nomLien = 'Miser';
+                echo $this->Html->link($nomLien, array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id']), array('class' => 'btn btn-primary')); ?>
+            </div>
+        </div>
+    </div>
+
+    <?php
+    $compteur++;
+        if($compteur == 3){
+            echo '<div class="clearfix"></div>';
         }
-        unset($pari); ?>
-    </table>
+    }?>
 </div>
+
 <?php
 echo $this->Paginator->pagination(array(
     'ul' => 'pagination'

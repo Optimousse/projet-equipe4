@@ -13,7 +13,7 @@ class ParisController extends AppController
         'RequestHandler','Paginator');
 
     public $paginate = array(
-        'limit' => 5,
+        'limit' => 9,
         'order' => array(
             'Pari.nom' => 'asc'
         )
@@ -141,7 +141,7 @@ class ParisController extends AppController
 
     //Page d'accueil
     public function accueil(){
-        $paris = $this->Pari->find('all', array('limit' => 5, 'order' => 'id DESC', 'fields' => array('nom', 'image', 'description')));
+        $paris = $this->Pari->find('all', array('limit' => 5, 'order' => 'id DESC', 'fields' => array('nom', 'image', 'description', 'date_fin')));
         $this->set('paris', $paris);
     }
 }
