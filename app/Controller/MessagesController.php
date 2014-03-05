@@ -45,7 +45,7 @@ class MessagesController extends AppController
                 'alias' => 'parieurs',
                 'type' => 'inner',
                 'conditions'=> array('parieurs.id = Message.parieur_id'))),
-            'fields' => array('parieurs.pseudo', 'Message.id', 'message'), 'limit' => 10, 'order' => array('Message.id DESC'), 'page' => 1));
+            'fields' => array('parieurs.pseudo', 'Message.id', 'message'), 'limit' => 5, 'order' => array('Message.id DESC')));
 
         $this->setDernierMessageEnvoye($messages[0]['Message']['id']);
 

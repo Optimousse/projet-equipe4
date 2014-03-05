@@ -11,8 +11,11 @@
 
     <!-- Le styles -->
     <?php
-    echo $this->Html->css("notreCss", null, array("inline" => false));
-    echo $this->Html->script('jquery');
+    echo $this->Html->css("bootstrap", null, array("inline" => false));
+    echo $this->Html->css("bootstrap-theme", null, array("inline" => false));
+    echo $this->Html->script('jquery.min');
+    echo $this->Html->script('html5shiv');
+    echo $this->Html->script('bootstrap.min');
     ?>
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <style>
@@ -39,7 +42,7 @@
     ?>
 
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function () {
             var urlAjouter = '<?php echo $this->Html->url(array(
                 "controller" => "messages",
                 "action" => "ajouter"
@@ -54,57 +57,56 @@
             )); ?>';
             getMessages();
 
-            setInterval(function(){
+            setInterval(function () {
                 getMessages();
-            }, 5000);
+            }, 10000);
 
-            $("#liMessagerie").click(function(){
+            $("#liMessagerie").click(function () {
                 $.ajax({
                     url: urlTousMessagesLus,
-                    success: function(){
+                    success: function () {
                         $("#badgeNouveauMessage").hide();
                     }
                 });
             });
 
-            $( "#btnSoumettre" ).click(function(e) {
+            $("#btnSoumettre").click(function (e) {
                 $.ajax({
                     type: "POST",
                     url: urlAjouter,
-                    data: $( "#frmMessages" ).serialize()
+                    data: $("#frmMessages").serialize(),
+                    success: function(){
+                        $("#txtMessage").val('');
+                        getMessages(true);
+                    }
                 });
-
-                getMessages();
-
                 e.preventDefault();
             });
 
-            function getMessages(){
+            function getMessages(estAjout) {
                 $.ajax({
                     type: "POST",
                     url: urlGetMessages,
                     dataType: "json",
                     success: function (data) {
-                        $("#txtMessage").val('');
-
-                        if(data[0].nouveauMessage){
+                        console.log(data.toSource());
+                        if (data[0].nouveauMessage) {
                             $("#badgeNouveauMessage").show();
                             remplirConversation(data);
                         }
 
-                        if(document.getElementById("divMessages").innerHTML === ""){
+                        if (document.getElementById("divMessages").innerHTML === "" || estAjout) {
                             remplirConversation(data);
                         }
                     }
                 });
             }
 
-            function remplirConversation(data){
+            function remplirConversation(data) {
 
-                var str = '<ul style="list-style-type: none;">' +
-                    '<li><h4>Derniers messages</h4></li>';
-                $.each(data, function() {
-                    if(this.parieurs != undefined){
+                var str = '<ul style="list-style-type: none;">';
+                $.each(data, function () {
+                    if (this.parieurs != undefined) {
                         str += '<li><blockquote> <b>' + this.parieurs.pseudo + '</b> dit:<br/>';
                         str += this.Message.message + '</blockquote></li>';
                     }
@@ -119,107 +121,141 @@
 </head>
 
 <body>
-<div class="navbar navbar-fixed-top ">
-    <div class="navbar-inner">
-        <div class="container">
-            <?php echo $this->Html->link('Paris, pas la ville', array(
-                'controller' => 'paris',
-                'action' => 'index'
-            ), array('class' => 'brand')); ?>
-            <ul class="nav">
-                <?php
-                if (!AuthComponent::user()) {
-                    ?>
-                    <li><?php echo $this->Html->link('Connexion', array('controller' => 'parieurs',
-                            'action' => 'connexion'
-                        )); ?></li>
-                    <li><?php echo $this->Html->link('Inscription', array('controller' => 'parieurs',
-                            'action' => 'inscription'
-                        )); ?></li>
-                <?php
-                } else {
-                    ?>
-                    <li><?php echo $this->Html->link('Créer un pari', array('controller' => 'paris',
-                            'action' => 'ajouter'
-                        )); ?></li>
-                    <li class="dropdown-submenu"><?php echo $this->Html->link('Mon compte', array('controller' => 'parieurs',
-                            'action' => 'mon_compte'
-                        )); ?>
-                        <ul class="dropdown-menu">
-                            <li><?php echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
-                                    'action' => 'mon_compte'
-                                )); ?></li>
-                            <li><?php echo $this->Html->link('Mes paris', array('controller' => 'paris',
-                                    'action' => 'mes_paris'
-                                )); ?></li>
-                            <li><?php echo $this->Html->link('Mes mises', array('controller' => 'parieurs_paris',
-                                    'action' => 'mes_mises'
-                                )); ?></li>
-                            <li><?php echo $this->Html->link('Acheter des jetons', array('controller' => 'parieurs',
-                                    'action' => 'acheter_jetons'
-                                )); ?></li>
-                        </ul>
-                    </li>
-                    <li><?php echo $this->Html->link('|', array('controller' => 'null',
-                            'action' => 'null'
-                        )); ?></li>
-                    <li id="liMessagerie" class="dropdown-submenu">
-                        <a href="#">
-                            <span id="badgeNouveauMessage" style="display:none;" class="badge badge-important pull-right">&nbsp;     1</span>
-                            Messagerie&nbsp;
-                        </a>
-                        <ul id="ulMessagerie" class="dropdown-menu">
-
-                            <div id="divMessages"></div>
-                            <?php
-                            echo $this->Form->create('Message', array(
-                                'inputDefaults' => array(
-                                    'div' => 'form-group',
-                                    'label' => false,
-                                    'wrapInput' => false,
-                                    'class' => 'form-control'
-                                ),
-                                'class' => 'well form-inline',
-                                'id' => 'frmMessages'
-                            ));
-
-                            echo $this->Form->input('message', array(
-                                'label' => false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
-                            ));
-                            echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => AuthComponent::user('id')));
-
-                            echo $this->Form->submit('Envoyer', array(
-                                'div' => false,
-                                'class' => 'btn btn-primary', 'id' => 'btnSoumettre'
-                            ));
-
-                            echo $this->Form->end();
-                            ?>
-                        </ul>
-                    </li>
-                    <li><?php echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
-                            'action' => 'logout'
-                        )); ?></li>
-                <?php
-                }
-                ?>
-
-
-            </ul>
-        </div>
-    </div>
-</div>
 
 <div class="container">
+<div class="row clearfix">
+<div class="col-md-12 column">
 
-    <?php
-    echo $this->Session->flash();
-    echo $this->Session->flash('auth');
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
+                class="icon-bar"></span><span class="icon-bar"></span>
+        </button> <?php echo $this->Html->link('Paris, pas la ville', array(
+            'controller' => 'paris',
+            'action' => 'accueil'
+        ), array('class' => 'navbar-brand')); ?>
+    </div>
 
-    echo $this->fetch('content');
-    ?>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
 
-</div>
+            <li><?php echo $this->Html->link('Catalogue', array('controller' => 'paris',
+                    'action' => 'index'
+                )); ?></li>
+            <?php
+            if (!AuthComponent::user()) {
+                ?>
+                <li><?php echo $this->Html->link('Connexion', array('controller' => 'parieurs',
+                        'action' => 'connexion'
+                    )); ?></li>
+                <li><?php echo $this->Html->link('Inscription', array('controller' => 'parieurs',
+                        'action' => 'inscription'
+                    )); ?></li>
+            <?php
+            } else {
+                ?>
+                <li><?php echo $this->Html->link('Créer un pari', array('controller' => 'paris',
+                        'action' => 'ajouter'
+                    )); ?></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mon compte<strong class="caret"></strong></a>
+
+                    <ul class="dropdown-menu">
+                        <li><?php echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
+                                'action' => 'mon_compte'
+                            )); ?></li>
+                        <li><?php echo $this->Html->link('Mes paris', array('controller' => 'paris',
+                                'action' => 'mes_paris'
+                            )); ?></li>
+                        <li><?php echo $this->Html->link('Mes mises', array('controller' => 'parieurs_paris',
+                                'action' => 'mes_mises'
+                            )); ?></li>
+                        <li><?php echo $this->Html->link('Acheter des jetons', array('controller' => 'parieurs',
+                                'action' => 'acheter_jetons'
+                            )); ?></li>
+                    </ul>
+                </li>
+                <li><?php echo $this->Html->link('|', array('controller' => 'null',
+                        'action' => 'null'
+                    )); ?></li>
+                <li id="liMessagerie" class="dropdown">
+                    <a id="modal-473524" href="#modal-Mesagerie" role="button" class="btn" data-toggle="modal">
+                        <span id="badgeNouveauMessage" style="display:none;" class="badge badge-important pull-right">     1</span>
+                        Messagerie&nbsp;<strong class="caret"></strong>&nbsp;
+                    </a>
+                </li>
+                <li><?php echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
+                        'action' => 'logout'
+                    )); ?></li>
+            <?php
+            }
+            ?>
+        </ul>
+    </div>
+
+</nav>
+
+<?php
+echo $this->Session->flash();
+echo $this->Session->flash('auth');
+
+echo $this->fetch('content');
+?>
+<div class="modal fade" id="modal-Mesagerie" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Derniers messages
+                </h4>
+            </div>
+
+            <div id="divMessages"></div>
+            <?php
+            echo $this->Form->create('Message', array(
+                'inputDefaults' => array(
+                    'div' => 'form-group',
+                    'label' => false,
+                    'wrapInput' => false,
+                    'class' => 'form-control'
+                ),
+                'class' => 'form-inline',
+                'id' => 'frmMessages'
+            ));
+            ?>
+
+            <div class="modal-body">
+                <?php
+                echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => AuthComponent::user('id')));
+                ?>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <?php
+                            echo $this->Form->input('message', array(
+                                'label' => false, 'id'=> 'txtMessage', 'div'=>false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
+                            ));?>
+                            <span class="input-group-btn">
+                                <button id="btnSoumettre" class="btn btn-primary" type="button">Envoyer</button>
+                              </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+            echo $this->Form->end();
+            ?>
+        </div>
+
+    </div>
+
+    </div>
+    </div>
+    </div>
+    </div>
 <!-- /container -->
 
 <!-- Le javascript

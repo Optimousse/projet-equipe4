@@ -138,4 +138,10 @@ class ParisController extends AppController
         $data = $this->Paginator->paginate('Pari');
         $this->set('paris', $data);
     }
+
+    //Page d'accueil
+    public function accueil(){
+        $paris = $this->Pari->find('all', array('limit' => 5, 'order' => 'id DESC', 'fields' => array('nom', 'image', 'description')));
+        $this->set('paris', $paris);
+    }
 }

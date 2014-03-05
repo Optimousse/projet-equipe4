@@ -25,9 +25,15 @@
     });
 </script>
 
-<?php echo $this->Form->create('Parieur', array('class'=>'well')); ?>
+<h1>Acheter des jetons</h1>
 
-    <legend><?php echo __('Acheter des jetons'); ?></legend>
+<?php echo $this->Form->create('Parieur',
+    array(
+        'inputDefaults' => array(
+            'div' => 'form-group',
+            'class' => 'form-control'
+        ))); ?>
+
 
     <blockquote>
         Vous possédez présentement <?php echo $nombre_jetons; ?> jetons.
@@ -39,7 +45,7 @@
     <?php echo $this->Form->input('nombre_jetons', array('label'=>'Nombre de jetons:', 'required' => 'required', 'type' =>'number', 'id' => 'txtNombreJetons'));  ?>
     <label id="divMontant"></label>
     <script
-        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        src="https://checkout.stripe.com/checkout.js" class="stripe-button
         data-key="pk_test_eeU8Ee9Yw9SceuqaYjNrBaCt"
         data-name="Acheter des jetons"
         data-panel-label="Passer la commande"

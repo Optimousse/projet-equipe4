@@ -1,8 +1,14 @@
 <div class="users form">
+    <h1> Créer un pari </h1>
     <?php
-    echo $this->Form->create('Pari', array('class'=>'well')); ?>
+    echo $this->Form->create('Pari', array(
+        'inputDefaults' => array(
+            'div' => 'form-group',
+            'wrapInput' => false,
+            'class' => 'form-control'
+        ),
+    'role' => 'form')); ?>
     <fieldset>
-        <legend><?php echo __('Ajouter un pari'); ?></legend>
         <?php
         echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));
         echo $this->Form->input('nom', array(
@@ -28,37 +34,43 @@
         <p>Note: Deux choix sont obligatoires. Le troisième est facultatif.</p>
         <ol>
             <li>
+                <div class="form-group">
                 <?php
                     echo $this->Form->input('Choix.0.nom', array('label'=>false, 'placeholder'=>'Nom (Obligatoire)',
-                        'required' =>'required', 'class'=>'form-inline','div'=>false));
+                        'required' =>'required', 'class'=>'form-control','div'=>false));
 
                     echo $this->Form->input('Choix.0.cote', array(
                         'label'=>false,'placeholder'=>'Cote (Obligatoire)',
-                        'type' => 'number', 'class'=>'form-inline','div'=>false, 'required'=>'required'
+                        'type' => 'number', 'class'=>'form-control','div'=>false, 'required'=>'required'
                     ));
                 ?>
+                </div>
             </li>
             <li>
+                <div class="form-group">
                 <?php
                     echo $this->Form->input('Choix.1.nom', array('label'=>false, 'placeholder'=>'Nom (Obligatoire)',
-                        'required' =>'required', 'class'=>'form-inline','div'=>false));
+                        'required' =>'required', 'class'=>'form-control form-inline','div'=>false));
 
                     echo $this->Form->input('Choix.1.cote', array(
                         'label'=>false,'placeholder'=>'Cote (Obligatoire)',
-                        'type' => 'number', 'class'=>'form-inline','div'=>false, 'required'=>'required'
+                        'type' => 'number', 'class'=>'form-control form-inline','div'=>false, 'required'=>'required'
                     ));
                 ?>
+                </div>
             </li>
             <li>
+                <div class="form-group">
                 <?php
                     echo $this->Form->input('Choix.2.nom', array('label'=>false, 'placeholder'=>'Nom',
-                        'class'=>'form-inline','div'=>false));
+                        'class'=>'form-control form-inline','div'=>false));
 
                     echo $this->Form->input('Choix.2.cote', array(
                         'label'=>false,'placeholder'=>'Cote',
-                        'type' => 'number', 'class'=>'form-inline','div'=>false
+                        'type' => 'number', 'class'=>'form-control form-inline','div'=>false
                     ));
                 ?>
+            </div>
             </li>
         </ol>
 
