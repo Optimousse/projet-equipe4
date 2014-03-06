@@ -34,7 +34,7 @@
     foreach ($paris as $pari){?>
         <div class="col-md-4">
         <div class="thumbnail" >
-            <div style="max-height:100px; overflow:hidden; ">
+            <div style="max-height:150px; overflow:hidden; ">
                 <img style="width:100%; " src="<?php echo $pari['Pari']['image']; ?>"/>
             </div>
 
@@ -45,8 +45,8 @@
                 <p>
                     <?php
                     $desc = $pari['Pari']['description'];
-                    if(strlen($desc) > 75)
-                        echo substr($desc, 0, 75) . '[...]';
+                    if(strlen($desc) > 150)
+                        echo substr($desc, 0, 150) . '[...]';
                     else
                         echo $desc;
                     ?>
