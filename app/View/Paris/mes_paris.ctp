@@ -11,8 +11,9 @@
     </ul>
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped table-hover table-responsive">
     <tr>
+        <th></th>
         <th>Nom</th>
         <th>Description</th>
         <th>Statut</th>
@@ -21,6 +22,7 @@
 
     <?php foreach ($paris as $pari): ?>
         <tr>
+            <td><img src="<?php echo $pari['Pari']['image']; ?>" class="img-rounded" style="max-width: 150px;" /></td>
             <td><?php echo $pari['Pari']['nom']; ?></td>
             <td><?php echo $pari['Pari']['description']; ?></td>
             <td>

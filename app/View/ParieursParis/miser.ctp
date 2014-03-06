@@ -1,33 +1,39 @@
 <!-- Fichier : /app/View/Posts/view.ctp -->
 
+<div class="jumbotron well">
 
-<div style="max-width: 50%;">
-    <h3><?php echo $paris['Pari']['nom']; ?></h3>
-    <img src=<?php echo $paris['Pari']['image']; ?> alt="img"/>
-<br/><br/>
-    <blockquote><?php echo $paris['Pari']['description']; ?></blockquote>
-    <table class="table table-striped">
-        <tr>
-            <th>Choix</th>
-            <th>Cote</th>
-        </tr>
+    <h1 ><?php echo $paris['Pari']['nom']; ?></h1>
+    <div style="max-width:100% ;max-height:400px; overflow-y:hidden;">
+        <img alt="" src="<?php echo $paris['Pari']['image'];?>"/>
+    </div>
+</div>
+
+<div>
+    <p class="lead"><?php echo $paris['Pari']['description']; ?></p>
+    <p>
+        <?php
+            if(date("Y-m-d") < $paris['Pari']['date_fin']){
+                echo 'Ce pari se termine le ' .$paris['Pari']['date_fin'] .'.';
+            }
+        ?>
+    <p></p>
+
+    </p>
+    <hr/>
+    <h3>Cotes</h3>
+    <dl>
     <?php
         foreach ($choix as $choi):?>
-        <tr>
-            <td><?php echo $choi['Choix']['nom']; ?></td>
-            <td><?php echo $choi['Choix']['cote']; ?></td>
-        </tr>
+            <dt><?php echo $choi['Choix']['nom']; ?></dt>
+            <dd><?php echo $choi['Choix']['cote']; ?></dd>
 
     <?php endforeach ; ?>
-    </table>
+    </dl>
+
+    <hr/>
 
     <?php
     if(date("Y-m-d") < $paris['Pari']['date_fin']){
-    ?>
-        <p>Ce pari se termine le <?php echo $paris['Pari']['date_fin']; ?>.</p>
-
-    <?php
-
         if($paris['Pari']['parieur_id'] == $id_util){
             echo '<div class="alert alert-info">Vous ne pouvez miser sur ce pari puisque vous êtes son créateur.</div>';
         }
@@ -35,13 +41,18 @@
             echo '<div class="alert alert-info">Vous avez déjà misé sur ce pari.</div>';
         }
         else if(AuthComponent::user()){
-            echo $this->Form->create('ParieursPari', array('class'=>'well')); ?>
+            echo $this->Form->create('ParieursPari',array(
+                'inputDefaults' => array(
+                    'div' => 'form-group',
+                    'wrapInput' => false,
+                    'class' => 'form-control'
+                ))); ?>
             <fieldset>
-                <legend>Faites votre mise !</legend>
+                <h1>Faites votre mise !</h1>
                 <?php
-                echo $this->Form->input('choix_id',
-                    array('options' => $options, 'type' => 'radio', 'required'=>'required','legend'=>false));
 
+                $attributes = array('legend' => false, 'separator' => '<br/>');
+                echo $this->Form->radio('choix_id', $options, $attributes);
                 echo $this->Form->input('mise',
                     array('label'=>'Mise:', 'type'=>'number'));
 

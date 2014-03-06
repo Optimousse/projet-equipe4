@@ -10,9 +10,9 @@
     </ul>
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped table-hover table-responsive">
     <tr>
-        <th>Image</th>
+        <th></th>
         <th>Nom</th>
         <th>Mon choix</th>
         <th>Ma mise</th>

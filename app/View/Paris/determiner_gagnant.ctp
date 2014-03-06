@@ -1,18 +1,24 @@
 <!-- Fichier : /app/View/Posts/view.ctp -->
 
 
-    <h3><?php echo $paris['Pari']['nom']; ?></h3>
+    <h1><?php echo $paris['Pari']['nom']; ?>
+    <small>Déterminez le choix gagnant.</small>
+    </h1>
 
 <?php
-    echo $this->Form->create('Pari', array('class'=>'well')); ?>
+    echo $this->Form->create('Pari', array(
+        'inputDefaults' => array(
+    'div' => 'form-group',
+    'wrapInput' => false,
+    'class' => 'form-control'
+))); ?>
     <fieldset>
-        <legend>Déterminer le choix gagnant</legend>
         <?php
-        echo $this->Form->input('choix_gagnant',
-            array('options' => $options, 'type' => 'radio', 'required'=>'required','legend'=>false));
+
+        $attributes = array('legend' => false, 'separator' => '<br/>', 'required' => 'required');
+        echo $this->Form->radio('choix_gagnant', $options, $attributes);
 
         echo $this->Form->submit('Soumettre', array(
-            'div' => false,
             'class' => 'btn btn-primary'
         ));
 

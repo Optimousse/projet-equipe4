@@ -1,111 +1,289 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <title>
         <?php echo $title_for_layout; ?>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
     <!-- Le styles -->
-    <?php $this->Html->css("notreCss", null, array("inline"=>false)); ?>
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <?php
+    echo $this->Html->css("bootstrap", null, array("inline" => false));
+    echo $this->Html->css("bootstrap-theme", null, array("inline" => false));
+    echo $this->Html->script('jquery');
+    echo $this->Html->script('bootstrap.min');
+    ?>
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         }
+
         .affix {
             position: fixed;
             top: 60px;
             width: 220px;
         }
     </style>
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
     <?php
     echo $this->fetch('meta');
     echo $this->fetch('css');
+    echo $this->fetch('script');
     ?>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var _messagesLus = false;
+            var _nbMessagesLus = 0;
+            var urlAjouter = '<?php echo $this->Html->url(array(
+                "controller" => "messages",
+                "action" => "ajouter"
+            )); ?>';
+            var urlGetMessages = '<?php echo $this->Html->url(array(
+                "controller" => "messages",
+                "action" => "getMessages"
+            )); ?>';
+            var urlTousMessagesLus = '<?php echo $this->Html->url(array(
+                "controller" => "messages",
+                "action" => "setTousMessagesLus"
+            )); ?>';
+
+            if($("#txtConnecte").val() === '1'){
+                getMessages(true, true);
+
+                setInterval(function () {
+                    getMessages(false);
+                }, 5000);
+            }
+
+            $("#liMessagerie").click(function () {
+                _messagesLus = true;
+                setMessagesLus();
+            });
+            $("#divMessagerie").click(function(){
+                setMessagesLus();
+            });
+            $("#divMessages").click(function(){
+                setMessagesLus();
+            });
+
+            $("#btnSoumettre").click(function (e) {
+                $.ajax({
+                    type: "POST",
+                    url: urlAjouter,
+                    data: $("#frmMessages").serialize(),
+                    success: function(data){
+                        $("#txtMessage").val('');
+                        getMessages(true)
+                    }
+                });
+                e.preventDefault();
+            });
+
+            function setMessagesLus(){
+                _nbMessagesLus = 0;
+                $.ajax({
+                    url: urlTousMessagesLus,
+                    success: function(){
+                        $("#badgeNouveauMessage").css('display', 'none');
+                    }
+                });
+            }
+
+            //Va chercher les derniers messages qui n'ont pas été lus
+            function getMessages(estAjout, estPageLoad) {
+                if(estAjout == undefined)
+                    estAjout = false;
+                if(estPageLoad === undefined)
+                    estPageLoad = false;
+                $.ajax({
+                    type: "POST",
+                    url: urlGetMessages,
+                    data: {'estPageLoad': estPageLoad, 'estAjout': estAjout},
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data.length > 0) {
+                            //On n'affiche le badge que si l'utilisateur a utilisé la messagerie
+                            //(Pour ne pas l'importuner) et si le nouveau message en question n'est pas celui
+                            //qu'il vient d'écrire
+                            if(estAjout === false && _messagesLus){
+                                _nbMessagesLus += data.length;
+                                $("#badgeNouveauMessage").empty();
+                                $("#badgeNouveauMessage").append(_nbMessagesLus);
+                                $("#badgeNouveauMessage").css('display', 'block');
+                            }
+                            remplirConversation(data);
+                        }
+                    }
+                });
+            }
+
+            //Ajoute les derniers messages à la liste non ordonnée
+            function remplirConversation(data) {
+
+                var str = "";
+                $.each(data, function () {
+                    if (this.parieurs != undefined) {
+                        str += '<li><blockquote> <b>' + this.parieurs.pseudo + '</b> dit:<br/>';
+                        str += this.Message.message + '</blockquote></li>';
+                    }
+                });
+
+                $("#divMessages").append(str);
+                $("#divMessages").animate({ scrollTop: $('#divMessages')[0].scrollHeight}, 1000);
+            }
+        });
+    </script>
 </head>
 
 <body>
 
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <?php echo $this->Html->link('Paris, pas la ville', array(
-                'controller' => 'paris',
-                'action' => 'index'
-            ), array('class' => 'brand')); ?>
-            <ul class="nav">
-                <?php
-                if (!AuthComponent::user())
-                {
-                ?>
-                    <li><?php echo $this->Html->link('Connexion', array('controller' => 'parieurs',
-                            'action' => 'connexion'
-                        )); ?></li>
-                    <li><?php echo $this->Html->link('Inscription', array('controller' =>'parieurs',
-                            'action' => 'inscription'
-                        )); ?></li>
-                <?php
-                }
-                else{
-                ?>
-                    <li><?php echo $this->Html->link('Créer un pari', array('controller' =>'paris',
-                            'action' => 'ajouter'
-                        )); ?></li>
-                    <li class="dropdown-submenu"><?php echo $this->Html->link('Mon compte', array('controller' =>'parieurs',
-                            'action' => 'mon_compte'
-                        )); ?>
-                        <ul class="dropdown-menu">
-                            <li><?php echo $this->Html->link('Modifier mon compte', array('controller' =>'parieurs',
-                                    'action' => 'mon_compte'
-                                )); ?></li>
-                            <li><?php echo $this->Html->link('Mes paris', array('controller' =>'paris',
-                                    'action' => 'mes_paris'
-                                )); ?></li>
-                            <li><?php echo $this->Html->link('Mes mises', array('controller' =>'parieurs_paris',
-                                    'action' => 'mes_mises'
-                                )); ?></li>
-                            <li><?php echo $this->Html->link('Acheter des jetons', array('controller' =>'parieurs',
-                                    'action' => 'acheter_jetons'
-                                )); ?></li>
-                        </ul>
-                    </li>
-                    <li><?php echo $this->Html->link('Déconnexion', array('controller' =>'parieurs',
-                            'action' => 'logout'
-                        )); ?></li>
-                <?php
-                }
-                ?>
-            </ul>
-        </div>
+<div class="container">
+<div class="row clearfix">
+<div class="col-md-12 column">
+
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
+                class="icon-bar"></span><span class="icon-bar"></span>
+        </button> <?php echo $this->Html->link('Paris, pas la ville', array(
+            'controller' => 'paris',
+            'action' => 'accueil'
+        ), array('class' => 'navbar-brand')); ?>
     </div>
-</div>
 
-<div class="container jumbotron">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
 
-    <?php
-    echo $this->Session->flash();
-    echo $this->Session->flash('auth');
-    echo $this->fetch('content'); ?>
+            <li><?php echo $this->Html->link('Catalogue', array('controller' => 'paris',
+                    'action' => 'index'
+                )); ?></li>
+            <?php
+            if (!AuthComponent::user()) {
+                ?>
+                <li><?php echo $this->Html->link('Connexion', array('controller' => 'parieurs',
+                        'action' => 'connexion'
+                    )); ?></li>
+                <li><?php echo $this->Html->link('Inscription', array('controller' => 'parieurs',
+                        'action' => 'inscription'
+                    )); ?></li>
+            <?php
+            }
+            else{
+                ?>
+                <input type="hidden" id="txtConnecte" value="1"/>
+                <li><?php echo $this->Html->link('Créer un pari', array('controller' => 'paris',
+                        'action' => 'ajouter'
+                    )); ?></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mon compte<strong class="caret"></strong></a>
 
-</div><!-- /container -->
+                    <ul class="dropdown-menu">
+                        <li><?php echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
+                                'action' => 'mon_compte'
+                            )); ?></li>
+                        <li><?php echo $this->Html->link('Mes paris', array('controller' => 'paris',
+                                'action' => 'mes_paris'
+                            )); ?></li>
+                        <li><?php echo $this->Html->link('Mes mises', array('controller' => 'parieurs_paris',
+                                'action' => 'mes_mises'
+                            )); ?></li>
+                        <li><?php echo $this->Html->link('Acheter des jetons', array('controller' => 'parieurs',
+                                'action' => 'acheter_jetons'
+                            )); ?></li>
+                    </ul>
+                </li>
+                <li><?php echo $this->Html->link('|', array('controller' => 'null',
+                        'action' => 'null'
+                    )); ?></li>
+                <li id="liMessagerie" class="dropdown">
+                    <a id="modal-473524" href="#modal-Mesagerie" role="button" class="btn" data-toggle="modal">
+                        <span id="badgeNouveauMessage" style="display:none;" class="badge badge-important pull-right">1</span>
+                        Messagerie&nbsp;<strong class="caret"></strong>&nbsp;
+                    </a>
+                </li>
+                <li><?php echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
+                        'action' => 'logout'
+                    )); ?></li>
+            <?php
+            }
+            ?>
+        </ul>
+    </div>
+
+</nav>
+
+<?php
+echo $this->Session->flash();
+echo $this->Session->flash('auth');
+
+echo $this->fetch('content');
+?>
+<div class="modal fade" style="margin-top:22px;" id="modal-Mesagerie" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Derniers messages
+                </h4>
+            </div>
+
+            <ul id="divMessages" style="list-style-type: none;"></ul>
+            <?php
+            echo $this->Form->create('Message', array(
+                'inputDefaults' => array(
+                    'div' => 'form-group',
+                    'label' => false,
+                    'wrapInput' => false,
+                    'class' => 'form-control'
+                ),
+                'id' => 'frmMessages'
+            ));
+            ?>
+
+            <div id="divMessagerie" class="modal-body">
+                <?php
+                echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => AuthComponent::user('id')));
+
+                echo $this->Form->input('message', array(
+                    'label' => false, 'id'=> 'txtMessage', 'div'=>false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
+                ));?>
+                    <br/>
+                        <div class="input-group">
+                            <br/>
+                            <span class="input-group-btn">
+                                <button id="btnSoumettre" class="btn btn-primary" type="button">Envoyer</button>
+                                <button id="btnSoumettre" class="btn" type="button">Fermer</button>
+                              </span>
+                        </div>
+                </div>
+            </div>
+            </div>
+            <?php
+            echo $this->Form->end();
+            ?>
+        </div>
+
+    </div>
+
+    </div>
+    </div>
+    </div>
+    </div>
+<!-- /container -->
 
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script src="//google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-<?php echo $this->fetch('script'); ?>
-
+<?php
+echo $this->Js->writeBuffer();
+?>
 </body>
 </html>

@@ -7,6 +7,13 @@
  */
 App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 class Parieur extends AppModel {
+
+    public $hasMany= array(
+        'Message' => array(
+            'className' => 'Message'
+        )
+    );
+
     public $validate = array(
         'pseudo' => array(
             'required' => array(
@@ -23,11 +30,21 @@ class Parieur extends AppModel {
                 "on" => 'create'
             )
         ),
-
-        'courriel' => array(//TODO validation email
+        'mot_passe_confirmation'=> array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'Le courriel est obligatoire.'
+                'message' => 'Le mot de passe de confirmation est obligatoire.',
+            )
+        ),
+        'courriel' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'L\'adresse courriel est obligatoire.',
+                'on' => 'create'
+            ),
+            'email' => array(
+                'rule'    => array('email', false),
+                'message' => 'L\'adresse courriel doit avoir une forme valide.'
             )
         )
     );
