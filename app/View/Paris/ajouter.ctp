@@ -1,3 +1,9 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.datepicker').datepicker()
+    });
+
+</script>
 <div class="users form">
     <h1> Créer un pari </h1>
     <?php
@@ -25,8 +31,8 @@
         $sDate = $dateactuelle->format('Y-m-d');
         echo $this->Form->input('date_fin', array(
             'label' => 'Se termine le:',
-            'type' => 'date',
-            'selected' => $sDate
+            'type' => 'text',
+                'class' => 'datepicker form-control'
             ));
         ?>
 

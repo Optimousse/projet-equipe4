@@ -13,9 +13,11 @@
     <?php
     echo $this->Html->css("bootstrap", null, array("inline" => false));
     echo $this->Html->css("bootstrap-theme", null, array("inline" => false));
+    echo $this->Html->css("datepicker", null, array("inline" => false));
     echo $this->Html->script('jquery.min');
     echo $this->Html->script('html5shiv');
     echo $this->Html->script('bootstrap.min');
+    echo $this->Html->script('bootstrap-datepicker');
     ?>
     <style>
         body {

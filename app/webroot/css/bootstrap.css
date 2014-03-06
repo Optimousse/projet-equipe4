@@ -2209,7 +2209,7 @@ textarea.input-lg {
 
 .btn {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 10px 22px;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
@@ -2220,7 +2220,6 @@ textarea.input-lg {
   cursor: pointer;
   background-image: none;
   border: 1px solid transparent;
-  border-radius: 4px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -2303,7 +2302,6 @@ fieldset[disabled] .btn-default.active {
 .btn-primary {
   color: #ffffff;
   background-color: #428bca;
-  border-color: #357ebd;
 }
 
 .btn-primary:hover,
