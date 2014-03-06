@@ -36,6 +36,8 @@ class ParieursController extends AppController
     public function logout()
     {
         $this->messageInfo('Vous êtes maintenant déconnecté.');
+        $this->Session->delete('dernierIdMessageRecupere');
+        $this->Session->delete('dernierIdMessageLu');
         return $this->redirect($this->Auth->logout());
     }
 

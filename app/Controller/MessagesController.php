@@ -30,12 +30,13 @@ class MessagesController extends AppController
 
         $estAjout = $this->request->data['estAjout'] == 'true';
 
-        $idRef = -1;
         //Si on ne vient pas tout juste de charger la page,
         //on va chercher l'ID du dernier message récupéré
         //pour aller lire les nouveaux (plus récents que cet id)
-        if($this->request->data['estPageLoad'] == 'false'){
-            $idRef = $this->getDernierMessageRecupere();
+
+        $idRef = $this->getDernierMessageRecupere();
+        if($this->request->data['estPageLoad'] == 'true'){
+            $idRef = $this->getDernierMessageDataBase();
         }
 
         $messages = $this->Message->find('all', array(
@@ -84,5 +85,16 @@ class MessagesController extends AppController
 
     private function setDernierMessageLu($valeur){
         $this->Session->write('dernierIdMessageLu', $valeur);
+    }
+
+    //Aller chercher le 5e ID inséré à partir de la fin
+    private function getDernierMessageDataBase(){
+
+        $dernierId = $this->Message->find('first', array('fields' => array('Message.id'), 'order' => 'Message.id DESC', 'offset' => 5));
+
+        if(count($dernierId) > 0){
+            return $dernierId['Message']['id'];
+        }
+        return -1;
     }
 }

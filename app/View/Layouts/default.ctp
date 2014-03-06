@@ -62,13 +62,13 @@
 
             $("#liMessagerie").click(function () {
                 _messagesLus = true;
-                _nbMessagesLus = 0;
-                $.ajax({
-                    url: urlTousMessagesLus,
-                    success: function () {
-                        $("#badgeNouveauMessage").hide();
-                    }
-                });
+                setMessagesLus();
+            });
+            $("#divMessagerie").click(function(){
+                setMessagesLus();
+            });
+            $("#divMessages").click(function(){
+                setMessagesLus();
             });
 
             $("#btnSoumettre").click(function (e) {
@@ -83,6 +83,16 @@
                 });
                 e.preventDefault();
             });
+
+            function setMessagesLus(){
+                _nbMessagesLus = 0;
+                $.ajax({
+                    url: urlTousMessagesLus,
+                    success: function(){
+                        $("#badgeNouveauMessage").css('display', 'none');
+                    }
+                });
+            }
 
             //Va chercher les derniers messages qui n'ont pas été lus
             function getMessages(estAjout, estPageLoad) {
@@ -105,7 +115,7 @@
                                 _nbMessagesLus += data.length;
                                 $("#badgeNouveauMessage").empty();
                                 $("#badgeNouveauMessage").append(_nbMessagesLus);
-                                $("#badgeNouveauMessage").show();
+                                $("#badgeNouveauMessage").css('display', 'block');
                             }
                             remplirConversation(data);
                         }
@@ -113,7 +123,7 @@
                 });
             }
 
-            //Ajoute les derniers message à la liste non ordonnée
+            //Ajoute les derniers messages à la liste non ordonnée
             function remplirConversation(data) {
 
                 var str = "";
@@ -125,6 +135,7 @@
                 });
 
                 $("#divMessages").append(str);
+                $("#divMessages").animate({ scrollTop: $('#divMessages')[0].scrollHeight}, 1000);
             }
         });
     </script>
@@ -214,7 +225,7 @@ echo $this->Session->flash('auth');
 
 echo $this->fetch('content');
 ?>
-<div class="modal fade" id="modal-Mesagerie" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" style="margin-top:22px;" id="modal-Mesagerie" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -224,7 +235,7 @@ echo $this->fetch('content');
                 </h4>
             </div>
 
-            <ul id="divMessages" style="list-style-type: none;"></ul>
+            <ul id="divMessages" style="list-style-type: none; max-height:400px; overflow-y: scroll;"></ul>
             <?php
             echo $this->Form->create('Message', array(
                 'inputDefaults' => array(
@@ -238,7 +249,7 @@ echo $this->fetch('content');
             ));
             ?>
 
-            <div class="modal-body">
+            <div id="divMessagerie" class="modal-body">
                 <?php
                 echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => AuthComponent::user('id')));
                 ?>

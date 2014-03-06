@@ -44,9 +44,9 @@
                         <h4>
                             <?php echo $pari['Pari']['nom'];?>
                         </h4>
-                        <p>
+                        <small>
                             <?php echo $pari['Pari']['description'];?>
-                        </p>
+                        </small>
                     </div>
                 </div>
         <?php } ?>
