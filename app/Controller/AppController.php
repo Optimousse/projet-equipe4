@@ -49,7 +49,7 @@ class AppController extends Controller
                 'key' => 'auth',
                 'params' => array(
                     'plugin' => 'BoostCake',
-                    'class' => 'alert-error'
+                    'class' => 'alert-danger'
                 )
             ),
             'authenticate' => array(

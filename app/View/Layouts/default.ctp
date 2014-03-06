@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <title>
@@ -17,7 +17,6 @@
     echo $this->Html->script('html5shiv');
     echo $this->Html->script('bootstrap.min');
     ?>
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -30,11 +29,6 @@
         }
     </style>
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
     <?php
     echo $this->fetch('meta');
     echo $this->fetch('css');
@@ -43,6 +37,8 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            var _messagesLus = false;
+            var _nbMessagesLus = 0;
             var urlAjouter = '<?php echo $this->Html->url(array(
                 "controller" => "messages",
                 "action" => "ajouter"
@@ -55,13 +51,18 @@
                 "controller" => "messages",
                 "action" => "setTousMessagesLus"
             )); ?>';
-            getMessages();
 
-            setInterval(function () {
-                getMessages();
-            }, 10000);
+            if($("#txtConnecte").val() === '1'){
+                getMessages(true, true);
+
+                setInterval(function () {
+                    getMessages(false);
+                }, 5000);
+            }
 
             $("#liMessagerie").click(function () {
+                _messagesLus = true;
+                _nbMessagesLus = 0;
                 $.ajax({
                     url: urlTousMessagesLus,
                     success: function () {
@@ -75,45 +76,54 @@
                     type: "POST",
                     url: urlAjouter,
                     data: $("#frmMessages").serialize(),
-                    success: function(){
+                    success: function(data){
                         $("#txtMessage").val('');
-                        getMessages(true);
+                        getMessages(true)
                     }
                 });
                 e.preventDefault();
             });
 
-            function getMessages(estAjout) {
+            //Va chercher les derniers messages qui n'ont pas été lus
+            function getMessages(estAjout, estPageLoad) {
+                if(estAjout == undefined)
+                    estAjout = false;
+                if(estPageLoad === undefined)
+                    estPageLoad = false;
                 $.ajax({
                     type: "POST",
                     url: urlGetMessages,
+                    data: {'estPageLoad': estPageLoad, 'estAjout': estAjout},
                     dataType: "json",
                     success: function (data) {
-                        console.log(data.toSource());
-                        if (data[0].nouveauMessage) {
-                            $("#badgeNouveauMessage").show();
-                            remplirConversation(data);
-                        }
 
-                        if (document.getElementById("divMessages").innerHTML === "" || estAjout) {
+                        if (data.length > 0) {
+                            //On n'affiche le badge que si l'utilisateur a utilisé la messagerie
+                            //(Pour ne pas l'importuner) et si le nouveau message en question n'est pas celui
+                            //qu'il vient d'écrire
+                            if(estAjout === false && _messagesLus){
+                                _nbMessagesLus += data.length;
+                                $("#badgeNouveauMessage").empty();
+                                $("#badgeNouveauMessage").append(_nbMessagesLus);
+                                $("#badgeNouveauMessage").show();
+                            }
                             remplirConversation(data);
                         }
                     }
                 });
             }
 
+            //Ajoute les derniers message à la liste non ordonnée
             function remplirConversation(data) {
 
-                var str = '<ul style="list-style-type: none;">';
+                var str = "";
                 $.each(data, function () {
                     if (this.parieurs != undefined) {
                         str += '<li><blockquote> <b>' + this.parieurs.pseudo + '</b> dit:<br/>';
                         str += this.Message.message + '</blockquote></li>';
                     }
                 });
-                str += '</ul>'
 
-                $("#divMessages").empty();
                 $("#divMessages").append(str);
             }
         });
@@ -153,8 +163,10 @@
                         'action' => 'inscription'
                     )); ?></li>
             <?php
-            } else {
+            }
+            else{
                 ?>
+                <input type="hidden" id="txtConnecte" value="1"/>
                 <li><?php echo $this->Html->link('Créer un pari', array('controller' => 'paris',
                         'action' => 'ajouter'
                     )); ?></li>
@@ -181,7 +193,7 @@
                     )); ?></li>
                 <li id="liMessagerie" class="dropdown">
                     <a id="modal-473524" href="#modal-Mesagerie" role="button" class="btn" data-toggle="modal">
-                        <span id="badgeNouveauMessage" style="display:none;" class="badge badge-important pull-right">     1</span>
+                        <span id="badgeNouveauMessage" style="display:none;" class="badge badge-important pull-right">1</span>
                         Messagerie&nbsp;<strong class="caret"></strong>&nbsp;
                     </a>
                 </li>
@@ -212,7 +224,7 @@ echo $this->fetch('content');
                 </h4>
             </div>
 
-            <div id="divMessages"></div>
+            <ul id="divMessages" style="list-style-type: none;"></ul>
             <?php
             echo $this->Form->create('Message', array(
                 'inputDefaults' => array(

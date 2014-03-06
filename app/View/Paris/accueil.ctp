@@ -5,13 +5,13 @@
         jThumbnails .each(function(index, elt){
             max = Math.max(max, $(elt).height());
         });
-        jThumbnails.css('height', max);
+        jThumbnails.css('height', '220px');
     });
 </script>
 
 <div class="jumbotron well">
 
-    <h1 class="text-center" style=" margin-top: -10px;">
+    <h1 class="text-center">
         Paris <small> Pas la ville</small>
     </h1>
 
@@ -62,7 +62,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <div class="thumbnail">
+        <div id="thmb1" class="thumbnail" style="min-height: 205px;">
             <img src="http://lorempixel.com/400/100/city/"/>
 
             <div class="caption">
@@ -78,7 +78,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="thumbnail">
+        <div id="thmb2" class="thumbnail" style="min-height: 205px;">
             <img src="http://orionschoolwear.co.uk/image/cache/data/Smaller%20banner/about-1-1200x300.jpg"/>
 
             <div class="caption">
@@ -93,7 +93,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="thumbnail">
+        <div id="thmb3" class="thumbnail" style="min-height: 205px;">
             <img src="http://lorempixel.com/400/100/people/"/>
 
             <div class="caption">
