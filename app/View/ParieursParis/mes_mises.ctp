@@ -12,7 +12,7 @@
 
 <table class="table table-striped">
     <tr>
-        <th>Image</th>
+        <th></th>
         <th>Nom</th>
         <th>Mon choix</th>
         <th>Ma mise</th>

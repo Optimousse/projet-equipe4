@@ -5,7 +5,7 @@
             <?php echo __('Connexion'); ?>
         </legend>
         <?php
-        echo $this->Form->input('pseudo', array('label' => 'Pseudo:'));
+        echo $this->Form->input('pseudo', array('label' => 'Pseudo:', 'autoCapitalize' => 'off'));
         echo $this->Form->input('mot_passe', array('type'=> 'password','label'=>'Mot de passe:', 'required'=>'required'));
 
         echo $this->Form->submit('Soumettre', array(

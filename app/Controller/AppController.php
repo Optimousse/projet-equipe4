@@ -34,12 +34,14 @@ class AppController extends Controller
 {
     public $helpers = array(
         'Session',
+        'Js' => array('Jquery'),
         'Html' => array('className' => 'BoostCake.BoostCakeHtml'),
         'Form' => array('className' => 'BoostCake.BoostCakeForm'),
-        'Paginator' => array('className' => 'BoostCake.BoostCakePaginator'),
+        'Paginator' => array('className' => 'BoostCake.BoostCakePaginator')
     );
     public $components = array(
         'Session',
+        "RequestHandler",
         //Paramètres qui définissent la connexion. NE PAS MODIFIER LA SECTION "AUTHENTICATE"
         'Auth' => array(
             'flash' => array(
@@ -75,5 +77,42 @@ class AppController extends Controller
         //Pages accessibles sans être connecté (Les actions accessibles pour tous les contrôleurs)
         $this->Auth->allow('index');
         $this->Auth->loginRedirect = array('controller' => 'paris', 'action' => 'index');
+    }
+
+    public function messageSucces($message)
+    {
+        $this->Session->setFlash(
+            __($message), 'alert', array(
+            'plugin' => 'BoostCake',
+            'class' => 'alert-success'
+        ));
+    }
+
+    public function messageErreur($message)
+    {
+        $this->Session->setFlash(
+            __($message), 'alert', array(
+            'plugin' => 'BoostCake',
+            'class' => 'alert-danger'
+        ));
+    }
+
+
+    public function messageInfo($message)
+    {
+        $this->Session->setFlash(
+            __($message), 'alert', array(
+            'plugin' => 'BoostCake',
+            'class' => 'alert-info'
+        ));
+    }
+
+    public function messageAvertissement($message){
+
+        $this->Session->setFlash(
+            __($message), 'alert', array(
+            'plugin' => 'BoostCake',
+            'class' => 'alert-warning'
+        ));
     }
 }

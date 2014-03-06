@@ -29,9 +29,12 @@
 
     <legend><?php echo __('Acheter des jetons'); ?></legend>
 
-    <p>Vous possédez présentement <?php echo $nombre_jetons; ?> jetons.</p>
+    <blockquote>
+        Vous possédez présentement <?php echo $nombre_jetons; ?> jetons.
 
-    <p>Les jetons s'achètent au coût de 5$ l'unité. Ils vous permettent de miser sur des paris.</p>
+        Les jetons s'achètent au coût de 5$ l'unité. Ils vous permettent de miser sur des paris.
+    </blockquote>
+
 
     <?php echo $this->Form->input('nombre_jetons', array('label'=>'Nombre de jetons:', 'required' => 'required', 'type' =>'number', 'id' => 'txtNombreJetons'));  ?>
     <label id="divMontant"></label>

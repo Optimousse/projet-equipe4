@@ -29,14 +29,15 @@ class ParieursParisController extends AppController
         $this->Auth->allow('miser');
     }
 
-    // Permet de miser sur un paris
+    // Permet de miser sur un pari
     public function miser($id = null)
     {
-        $this->set('id_util', $this->Auth->user('id'));
+        $id_usager = $this->Auth->user('id');
+        $this->set('id_util', $id_usager);
         if (!$id)
             return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
-        $pari = $this->Pari->findById($id);
 
+        $pari = $this->Pari->findById($id);
         if (!$pari)
             return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
 
@@ -61,15 +62,13 @@ class ParieursParisController extends AppController
          * si le paris est terminé on affiche les résultats (le nom du choix gagnant)
          *   et le nom du choix du joueur (si il a joué)
          */
-
         if (isset($pari['Pari']['choix_gagnant'])) {
 
             // on "fait passer" dans nom_choixGagnant le nom du choix Gagnant
             $this->set('nom_choixGagnant', $this->choixGagnant($id));
 
             $leparis = $this->ParieursPari->find('first', array(
-                'conditions' => array('ParieursPari.pari_id' => $id, 'ParieursPari.parieur_id' => $this->Auth->user('id'))));
-
+                'conditions' => array('ParieursPari.pari_id' => $id, 'ParieursPari.parieur_id' => $id_usager)));
 
             if (!empty($leparis)) {
 
@@ -85,13 +84,13 @@ class ParieursParisController extends AppController
             if (isset($pari['Pari']['choix_gagnant']))
                 return;
             //On ne peut soumettre le formulaire si on a créé ce pari OU si on a déjà misé
-            if ($pari['Pari']['parieur_id'] == $this->Auth->user('id') || $dejaMise)
+            if ($pari['Pari']['parieur_id'] == $id_usager || $dejaMise)
                 return;
 
             $this->loadModel('Parieur');
 
             // on cherche le nombre de jetons de la personne grace a son id
-            $parieur = $this->Parieur->find('first', array('conditions' => array('Parieur.id' => $this->Auth->user('id')), 'fields' => array('nombre_jetons')));
+            $parieur = $this->Parieur->find('first', array('conditions' => array('Parieur.id' => $id_usager), 'fields' => array('nombre_jetons')));
             $jetonPossede = $parieur['Parieur']['nombre_jetons'];
 
             $mise = $this->request->data["ParieursPari"]["mise"];
@@ -101,37 +100,41 @@ class ParieursParisController extends AppController
 
                 $lien = Router::url(array('controller' => 'parieurs', 'action' => 'acheter_jetons'), false);
                 // explication de l'erreur
-                $this->Session->setFlash(__('Vous n\'avez pas assez de jetons pour parier ce montant.
-                                                 <a href="' . $lien . '">Vous pouvez en racheter ici.</a>'), 'alert',
-                    array('plugin' => 'BoostCake', 'class' => 'alert-info'));
-
+                $this->messageAvertissement('Vous n\'avez pas assez de jetons pour parier ce montant.
+                                                 <a href="' . $lien . '">Vous pouvez en racheter ici.</a>');
                 return;
             }
 
             $this->ParieursPari->create();
-            if ($this->ParieursPari->save($this->request->data)) {
 
-                // test
-                $this->Session->setFlash(__('La mise a bien été créée.'), 'alert', array(
-                    'plugin' => 'BoostCake',
-                    'class' => 'alert-success'
-                ));
+            if ($this->sauvegarderNouveauxJetons($id_usager, $mise) && $this->ParieursPari->save($this->request->data)) {
+
+                $this->messageSucces('La mise a bien été créée. Votre compte a été débité de '.$mise .' jetons.');
                 return $this->redirect(array('action' => 'mes_mises', 'controller' => 'parieurs_paris'));
             }
-            $this->Session->setFlash(__('Une erreur est survenue lors de la création de la mise. Veuillez réessayer.'), 'alert', array(
-                'plugin' => 'BoostCake',
-                'class' => 'alert-danger'
-            ));
+            $this->messageErreur('Une erreur est survenue lors de la création de la mise. Veuillez réessayer.');
         }
     }
 
-    /*
-     * Récupere l'intitulé du choix gagnant
-     * pour l'afficher lorsque le paris est terminé
-     */
-    public function choixGagnant($idParis)
+    //Affiche les mises de l'usager
+    public function mes_mises()
     {
+        $this->Paginator->settings = array(
+            'conditions' => array('ParieursPari.parieur_id' => $this->Auth->user('id')),
+            'limit' => 5
+        );
 
+        $data = $this->Paginator->paginate('ParieursPari');
+        $this->set('mises', $data);
+    }
+
+    /*
+     * Fonctions privées
+     */
+
+    //Récupere l'intitulé du choix gagnant
+    private function choixGagnant($idParis)
+    {
         // on récupere tout ce qui concerne le paris
         $leparis = $this->Pari->find('first', array(
             'conditions' => array('Pari.id' => $idParis)));
@@ -149,16 +152,11 @@ class ParieursParisController extends AppController
         return $nom;
     }
 
-    /*
-     * Récupere l'intitulé du choix du parieur
-     * pour l'afficher lorsque le paris est terminé
-     */
-    public function choixParieur($leparis)
+    //Récupere l'intitulé du choix du parieur pour l'afficher lorsque le paris est terminé
+    private function choixParieur($leparis)
     {
-
         // on garde la ligne qui nous interesse => l'id du choix gagnant
         $id_choix = $leparis['ParieursPari']['choix_id'];
-
 
         // on récupere la ligne correspondante du choix du joueur
         $intituleChoix = $this->Choix->find('first', array(
@@ -170,16 +168,12 @@ class ParieursParisController extends AppController
         return $nom;
     }
 
-    public function mes_mises()
-    {
+    private function sauvegarderNouveauxJetons($id_usager, $mise){
 
+        $this->Parieur->id = $id_usager;
+        $parieur = $this->Parieur->findById($id_usager);
+        $nbJetons = $parieur['Parieur']['nombre_jetons'] - $mise;
 
-        $this->Paginator->settings = array(
-            'conditions' => array('ParieursPari.parieur_id' => $this->Auth->user('id')),
-            'limit' => 5
-        );
-
-        $data = $this->Paginator->paginate('ParieursPari');
-        $this->set('mises', $data);
+        return $this->Parieur->saveField('nombre_jetons', $nbJetons);
     }
 }
