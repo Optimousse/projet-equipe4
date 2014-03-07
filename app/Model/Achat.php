@@ -2,12 +2,6 @@
 
 class Achat extends AppModel {
 
-    public $hasMany= array(
-        'Message' => array(
-            'className' => 'Message'
-        )
-    );
-
     public $validate = array(
         'adresse' => array(
             'required' => array(
