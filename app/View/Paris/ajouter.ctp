@@ -20,6 +20,7 @@
             }
             e.preventDefault();
         });
+        $('#txtImage').tooltip();
 
         function AjouterChoix() {
             $("#liTroisiemeChoix").css('display', 'block');
@@ -46,22 +47,37 @@
     <fieldset>
         <?php
         echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));
-        echo $this->Form->input('nom', array(
-            'label' => 'Nom du pari:'));
+
+        ?>
+        <div class="form-inline">
+            <div class="form-group">
+                <?php echo $this->Form->input('nom', array(
+                    'label' => 'Nom:'));?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('date_fin', array(
+                    'label' => 'Se termine le:',
+                    'type' => 'text',
+                    'class' => 'form-control',
+                    'id' => 'txtDate'
+                ));
+                 ?>
+            </div>
+            <div class="form-group">
+                <?php
+                echo $this->Form->input('image', array(
+                    'label' => 'Url de l\'image:',
+                    'data-toggle' => 'tooltip',
+                    'data-placement' => 'right',
+                    'data-original-title' => 'Url de l\'image du pari',
+                    'id' => 'txtImage'
+                )); ?>
+            </div>
+        </div>
+        <?php
         echo $this->Form->input('description', array(
-                'label' => 'Description:',
-                'type' => 'textarea')
-        );
-        echo $this->Form->input('image', array(
-            'label' => 'Image:'));
-
-        echo $this->Form->input('date_fin', array(
-            'label' => 'Se termine le:',
-            'type' => 'text',
-            'class' => 'form-control',
-            'id' => 'txtDate'
-        ));
-
+            'label' => 'Description:',
+            'type' => 'textarea'));
         ?>
 
         <h3>Choix possibles</h3>

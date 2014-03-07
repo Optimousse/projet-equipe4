@@ -6,6 +6,12 @@
             if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
         });
         $("div.caption").height(maxHeight + 15);
+
+        maxHeight = 0;
+        $("p.description").each(function(){
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+        });
+        $("p.description").height(maxHeight);
     });
 </script>
 
@@ -42,7 +48,7 @@
                     <h3>
                         <?php echo $lot['Lot']['nom']; ?>
                     </h3>
-                    <p>
+                    <p class="description">
                         <?php
                         $desc = $lot['Lot']['description'];
 
@@ -53,7 +59,7 @@
                             echo $desc;
                         }
                         echo '<br>';
-                        echo 'prix :<strong> '.$prix.'</strong> jetons';
+                        echo 'Prix :<strong> '.$prix.'</strong> jetons';
 
                         ?>
                     </p>
