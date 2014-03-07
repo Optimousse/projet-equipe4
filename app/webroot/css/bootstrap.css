@@ -8,6 +8,7 @@
 
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
 
+
 article,
 aside,
 details,
@@ -2210,6 +2211,7 @@ textarea.input-lg {
 .btn {
   display: inline-block;
   padding: 10px 22px;
+    width:180px;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
@@ -2261,17 +2263,6 @@ fieldset[disabled] .btn {
 .btn-default {
   color: #333333;
   background-color: #ffffff;
-  border-color: #cccccc;
-}
-
-.btn-default:hover,
-.btn-default:focus,
-.btn-default:active,
-.btn-default.active,
-.open .dropdown-toggle.btn-default {
-  color: #333333;
-  background-color: #ebebeb;
-  border-color: #adadad;
 }
 
 .btn-default:active,
@@ -2310,8 +2301,6 @@ fieldset[disabled] .btn-default.active {
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
   color: #ffffff;
-  background-color: #3276b1;
-  border-color: #285e8e;
 }
 
 .btn-primary:active,
@@ -3850,7 +3839,6 @@ input[type="button"].btn-block {
 
 .input-group {
   position: relative;
-  display: table;
   border-collapse: separate;
 }
 
@@ -3988,10 +3976,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .input-group-btn {
   position: relative;
   white-space: nowrap;
-}
-
-.input-group-btn:first-child > .btn {
-  margin-right: -1px;
 }
 
 .input-group-btn:last-child > .btn {
@@ -5267,7 +5251,7 @@ a.thumbnail.active {
 
 .alert {
   padding: 15px;
-  margin-bottom: 20px;
+  margin: 15px;
   border: 1px solid transparent;
   border-radius: 4px;
 }

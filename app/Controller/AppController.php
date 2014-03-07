@@ -60,7 +60,7 @@ class AppController extends Controller
             ),
             'logoutRedirect' => array(
                 'controller' => 'paris',
-                'action' => 'index'
+                'action' => 'accueil'
             ),
             //Si pas connecté, redirige vers la page de connexion
             'loginAction' => array(
@@ -114,5 +114,10 @@ class AppController extends Controller
             'plugin' => 'BoostCake',
             'class' => 'alert-warning'
         ));
+    }
+
+    public function redirectAccueil(){
+
+        return $this->redirect(array('action' => 'accueil', 'controller' => 'paris'));
     }
 }

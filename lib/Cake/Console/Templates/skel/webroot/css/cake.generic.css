@@ -377,7 +377,7 @@ form .error {
 	border-radius: 4px;
 	font-weight: normal;
 }
-form .error-message {
+form .alert alert-danger {
 	-moz-border-radius: none;
 	-webkit-border-radius: none;
 	border-radius: none;
@@ -388,7 +388,7 @@ form .error-message {
 	padding-right: 0;
 }
 form .error,
-form .error-message {
+form .alert alert-danger {
 	color: #9E2424;
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
@@ -414,7 +414,7 @@ form .error-message {
 .cake-debug,
 .notice,
 p.error,
-.error-message {
+.alert alert-danger {
 	background: #ffcc00;
 	background-repeat: repeat-x;
 	background-image: -moz-linear-gradient(top, #ffcc00, #E6B800);
@@ -440,7 +440,7 @@ p.error,
 .message,
 .cake-error,
 p.error,
-.error-message {
+.alert alert-danger {
 	clear: both;
 	color: #fff;
 	background: #c43c35;

@@ -35,11 +35,11 @@ class ParieursParisController extends AppController
         $id_usager = $this->Auth->user('id');
         $this->set('id_util', $id_usager);
         if (!$id)
-            return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
+            return $this->redirectAccueil();
 
         $pari = $this->Pari->findById($id);
         if (!$pari)
-            return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
+            return $this->redirectAccueil();
 
         $this->loadModel('Choix');
 
@@ -58,33 +58,13 @@ class ParieursParisController extends AppController
         $this->set('choix', $choix);
         $this->set('dejaMise', $dejaMise);
 
-        /*
-         * si le paris est terminé on affiche les résultats (le nom du choix gagnant)
-         *   et le nom du choix du joueur (si il a joué)
-         */
         if (isset($pari['Pari']['choix_gagnant'])) {
-
-            // on "fait passer" dans nom_choixGagnant le nom du choix Gagnant
-            $this->set('nom_choixGagnant', $this->choixGagnant($id));
-
-            $leparis = $this->ParieursPari->find('first', array(
-                'conditions' => array('ParieursPari.pari_id' => $id, 'ParieursPari.parieur_id' => $id_usager)));
-
-            if (!empty($leparis)) {
-
-                // on "fait passer" dans nom_choixParieur le nom de son choix de mise
-                $this->set('nom_choixParieur', $this->choixParieur($leparis));
-            }
+            $this->affichageChoixGagnant($id);
         }
 
         if ($this->request->is(array('post', 'put'))) {
-            if (!$this->Auth->User('id'))
-                return;
-            //On ne peut soumettre le formulaire si le pari est déjà terminé
-            if (isset($pari['Pari']['choix_gagnant']))
-                return;
-            //On ne peut soumettre le formulaire si on a créé ce pari OU si on a déjà misé
-            if ($pari['Pari']['parieur_id'] == $id_usager || $dejaMise)
+
+            if(!$this->miseValide($dejaMise))
                 return;
 
             $this->loadModel('Parieur');
@@ -175,5 +155,34 @@ class ParieursParisController extends AppController
         $nbJetons = $parieur['Parieur']['nombre_jetons'] - $mise;
 
         return $this->Parieur->saveField('nombre_jetons', $nbJetons);
+    }
+
+    //valide que la personne peut miser est valide
+    private function miseValide($dejaMise){
+        $valide = true;
+        if (!$this->Auth->User('id'))
+            $valide = false;
+        else if (isset($pari['Pari']['choix_gagnant']))//On ne peut soumettre le formulaire si le pari est déjà terminé
+            $valide = false;
+        if ($pari['Pari']['parieur_id'] == $this->Auth->User('id') || $dejaMise)
+            $valide = false;//On ne peut soumettre le formulaire si on a créé ce pari OU si on a déjà misé
+
+        return $valide;
+    }
+
+    //Affiche le nom du choix gagnant d'un pari et le nom du choix du joueur (si il a joué)
+    private function affichageChoixGagnant($id){
+
+        // on "fait passer" dans nom_choixGagnant le nom du choix Gagnant
+        $this->set('nom_choixGagnant', $this->choixGagnant($id));
+
+        $leparis = $this->ParieursPari->find('first', array(
+            'conditions' => array('ParieursPari.pari_id' => $id, 'ParieursPari.parieur_id' => $this->Auth->User('id'))));
+
+        if (!empty($leparis)) {
+
+            // on "fait passer" dans nom_choixParieur le nom de son choix de mise
+            $this->set('nom_choixParieur', $this->choixParieur($leparis));
+        }
     }
 }

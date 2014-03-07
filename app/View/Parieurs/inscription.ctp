@@ -4,6 +4,9 @@
 <p>
     L'inscription est simple, rapide et gratuite ! Une fois votre compte créé, vous vous verrez attribuer 100
     jetons en guise de cadeau de bienvenue.
+
+    <?php echo $this->Html->link('Vous possédez déjà un compte ?',
+        array('controller' => 'parieurs', 'action' => 'connexion')); ?>
 </p>
 
 <div class="users form">
