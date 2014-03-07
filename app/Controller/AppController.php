@@ -60,7 +60,7 @@ class AppController extends Controller
             ),
             'logoutRedirect' => array(
                 'controller' => 'paris',
-                'action' => 'index'
+                'action' => 'accueil'
             ),
             //Si pas connecté, redirige vers la page de connexion
             'loginAction' => array(
