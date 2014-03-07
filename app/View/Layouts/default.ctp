@@ -162,6 +162,11 @@
             <li><?php echo $this->Html->link('Catalogue', array('controller' => 'paris',
                     'action' => 'index'
                 )); ?></li>
+
+            <li><?php echo $this->Html->link('Lots', array('controller' => 'lots',
+                    'action' => 'index'
+                )); ?></li>
+
             <?php
             if (!AuthComponent::user()) {
                 ?>
@@ -179,6 +184,8 @@
                 <li><?php echo $this->Html->link('Créer un pari', array('controller' => 'paris',
                         'action' => 'ajouter'
                     )); ?></li>
+
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mon compte<strong class="caret"></strong></a>
 
