@@ -1,24 +1,31 @@
 <!-- Fichier : /app/View/Posts/view.ctp -->
 
 <div class="well">
-
     <h1>
-        <?php echo $paris['Pari']['nom']; ?>
-        <small>
-            <?php
+        <?php echo $paris['Pari']['nom'];
+            //Affiche le nombre de jours avant la fin du pari
             if (date("Y-m-d") < $paris['Pari']['date_fin']) {
-                $aujourdhui = strtotime(date("Y-m-d"));
-                $dateFin = strtotime($paris['Pari']['date_fin']);
-                $jours = ($dateFin - $aujourdhui) / 86400;
+                ?>
+            <small>
+                <?php
+                    $aujourdhui = strtotime(date("Y-m-d"));
+                    $dateFin = strtotime($paris['Pari']['date_fin']);
+                    $jours = ($dateFin - $aujourdhui) / 86400 + 1;
 
-                echo 'Ce pari se termine dans ' . '<h2 style="display:inline-block; color:#2D6CA2;">' . $jours . '</h2> jours.';
+                    $accordJour = 'jour';
+                    if($jours > 1)
+                        $accordJour = $accordJour . 's';
+                    echo 'Ce pari se termine dans ' . '<h2 style="display:inline-block; color:#2D6CA2;"><abbr title=' . $paris['Pari']['date_fin'] .'>' . $jours . '</abbr></h2> ' . $accordJour;
+                ?>
+            </small>
+        <?php
             }
-            ?>
-        </small>
+        ?>
     </h1>
     <div class="row">
         <div class="col-xs-12 col-md-8">
-            <img alt="" style="max-width:100%;" src="<?php echo $paris['Pari']['image']; ?>"/></div>
+            <img alt="" style="max-width:100%;" src="<?php echo $paris['Pari']['image']; ?>"/>
+        </div>
         <div class="col-xs-6 col-md-4">
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -29,7 +36,6 @@
                         foreach ($choix as $choi):?>
                             <dt><?php echo $choi['Choix']['nom']; ?></dt>
                             <dd><?php echo $choi['Choix']['cote']; ?></dd>
-
                         <?php endforeach; ?>
                     </dl>
                 </div>

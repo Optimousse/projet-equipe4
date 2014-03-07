@@ -46,8 +46,6 @@ class ParieursController extends AppController
     {
         if ($this->request->is(array('post', 'put'))) {
 
-
-
             if($this->MotsPasseIdentiques($this->request->data['Parieur']['mot_passe'], $this->request->data['Parieur']['mot_passe_confirmation'])){
                 $this->Parieur->create();
 
@@ -152,7 +150,6 @@ class ParieursController extends AppController
             $this->messageErreur('Les jetons n\'ont pas pu être ajoutés à votre compte.');
         }
     }
-
 
     public function MotsPasseIdentiques($mp, $mp_confirmation){
         return $mp == $mp_confirmation;

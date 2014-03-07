@@ -115,4 +115,9 @@ class AppController extends Controller
             'class' => 'alert-warning'
         ));
     }
+
+    public function redirectAccueil(){
+
+        return $this->redirect(array('action' => 'accueil', 'controller' => 'paris'));
+    }
 }

@@ -13,7 +13,6 @@
     <?php
     echo $this->Html->css("bootstrap", null, array("inline" => false));
     echo $this->Html->css("bootstrap-theme", null, array("inline" => false));
-    echo $this->Html->script('jquery');
     echo $this->Html->script('bootstrap.min');
     ?>
     <style>
@@ -233,7 +232,7 @@ echo $this->fetch('content');
                 </h4>
             </div>
 
-            <ul id="divMessages" style="list-style-type: none;"></ul>
+            <ul id="divMessages" style="list-style-type: none; max-height:420px; overflow-y: scroll;"></ul>
             <?php
             echo $this->Form->create('Message', array(
                 'inputDefaults' => array(
