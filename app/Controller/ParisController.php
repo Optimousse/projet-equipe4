@@ -39,6 +39,12 @@ class ParisController extends AppController
             $this->Pari->create();
             $this->Choix->create();
 
+            //"27/03/2014"
+            $date = $this->request->data['Pari']["date_fin"];
+            list($day, $month, $year) = split('[/.-]', $date);
+            $date_fin = array("date_fin" => array("month" => $month, "day" => $day, "year" => $year));
+            $this->request->data = array_replace($this->request->data['Pari'], $date_fin);
+
             //Si l'utilisateur n'a rentré que deux choix, on supprime le troisième pour ne pas l'enregistrer.
            $choix3 = $this->request->data['Choix']['2'];
             if (empty($choix3['cote']) && empty($choix3['nom'])) {
@@ -58,6 +64,7 @@ class ParisController extends AppController
                 return $this->redirect(array('action' => 'miser', 'controller' => 'ParieursParis', $this->Pari->id));
             }
             $this->messageErreur('Une erreur est survenue lors de la sauvegarde du pari. Veuillez réessayer.');
+            var_dump($this->request->data);
         }
     }
 

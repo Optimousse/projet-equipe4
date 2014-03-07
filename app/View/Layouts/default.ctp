@@ -13,7 +13,9 @@
     <?php
     echo $this->Html->css("bootstrap", null, array("inline" => false));
     echo $this->Html->css("bootstrap-theme", null, array("inline" => false));
+    echo $this->Html->css("datepicker3", null, array("inline" => false));
     echo $this->Html->script('bootstrap.min');
+    echo $this->Html->script('bootstrap-datepicker');
     ?>
     <style>
         body {
@@ -56,10 +58,10 @@
                     getMessages(false);
                 }, 5000);
             }
-
-            $("#aFauxLien").click(function (e) {
-                e.preventDefault();
-            });
+            jQuery.noConflict();
+            $('#myModal').on('shown.bs.modal', function (e) {
+                $("#divMessages").animate({ scrollTop: $('#divMessages')[0].scrollHeight}, 500);
+            })
 
             $("#liMessagerie").click(function () {
                 _messagesLus = true;
@@ -211,9 +213,9 @@
                         'action' => 'logout'
                     )); ?></li>
                 <li id="liMessagerie" class="dropdown">
-                    <a id="modal-473524" href="#modal-Mesagerie" role="button" class="btn" data-toggle="modal">
+                    <a id="modal-473524" href="#myModal" role="button" class="btn" data-toggle="modal">
                         <span id="badgeNouveauMessage" style="display:none;" class="badge badge-important pull-right">1</span>
-                        <?php echo $this->Html->image('glyphicons_309_comments.png'); ?>
+                        <?php echo $this->Html->image('glyphicons_010_envelope.png'); ?>
                         &nbsp;&nbsp;<strong class="caret"></strong>&nbsp;
                     </a>
                 </li>
@@ -231,7 +233,7 @@ echo $this->Session->flash('auth');
 
 echo $this->fetch('content');
 ?>
-<div class="modal fade" style="margin-top:22px;" id="modal-Mesagerie" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" style="margin-top:22px;" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

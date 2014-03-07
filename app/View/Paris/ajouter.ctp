@@ -1,5 +1,11 @@
 <script type="text/javascript">
     $(document).ready(function () {
+        var today = new Date();
+        jQuery.noConflict();
+        $('#txtDate').datepicker({
+            startDate: today,
+            language: "fr"
+        });
 
         if ($("#txtChoix3").val() !== "" || $("#txtCote3").val() !== "")
             AjouterChoix();
@@ -49,15 +55,13 @@
         echo $this->Form->input('image', array(
             'label' => 'Image:'));
 
-        //Date par défaut pour l'input: dans une semaine
-        $dateactuelle = date_add(new DateTime('now'), new DateInterval('P7D'));
-        $sDate = $dateactuelle->format('Y-m-d');
         echo $this->Form->input('date_fin', array(
             'label' => 'Se termine le:',
-            'type' => 'date',
-            'selected' => $sDate,
-            'class' => 'form-control'
+            'type' => 'text',
+            'class' => 'form-control',
+            'id' => 'txtDate'
         ));
+
         ?>
 
         <h3>Choix possibles</h3>
