@@ -159,6 +159,17 @@ class ParisController extends AppController
 
             $this->envoyerCourrielGagnant($parieur['Parieur']['courriel'], $item['ParieursPari']['mise'] * $coteChoix, $pari);
         }
+
+        //Envoie courriel aux perdants
+        $misesPerdantes = $this->ParieursPari->find('all', array('conditions' => array('ParieursPari.pari_id' => $pari['Pari']['id'], 'choix_id != '. $id_ChoixGagnant)));
+        foreach ($misesPerdantes as $item) {
+
+            $this->Parieur->id = $item['ParieursPari']['parieur_id'];
+            $parieur = $this->Parieur->findById($this->Parieur->id);
+
+            $this->envoyerCourrielPerdant($parieur['Parieur']['courriel'], $pari);
+        }
+
         $this->messageSucces('Le pari a été correctement fermé. Les vainqueurs ont reçu leurs jetons.');
 
     }
@@ -175,6 +186,22 @@ class ParisController extends AppController
         $Email->viewVars(array('nbJetons' => $nbJetons, 'pari' => $pari));
         $Email->template('default');
         $Email->subject('Félicitations, vous avez remporté votre mise !');
+        $Email->emailFormat('both');
+        $Email->send('Hello');
+    }
+
+    //Envoie un courriel d'information à un utilisateur qui a perdu une mise sur un pari
+    private function envoyerCourrielPerdant($courriel, $pari){
+
+        $Email = new CakeEmail();
+        $Email->config('gmail');
+
+        $Email->from('parispaslaville@gmail.com', 'Paris, pas la ville');
+        $Email->to($courriel);
+
+        $Email->viewVars(array('pari' => $pari));
+        $Email->template('perduMise');
+        $Email->subject('Vous avez perdu votre mise.');
         $Email->emailFormat('both');
         $Email->send('Hello');
     }
