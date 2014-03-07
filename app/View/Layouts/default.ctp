@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <title>
@@ -233,7 +233,7 @@ echo $this->fetch('content');
                 </h4>
             </div>
 
-            <ul id="divMessages" style="list-style-type: none;"></ul>
+            <ul id="divMessages" style="list-style-type: none; max-height: 400px; overflow-y: scroll;"></ul>
             <?php
             echo $this->Form->create('Message', array(
                 'inputDefaults' => array(
