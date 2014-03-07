@@ -17,9 +17,6 @@
  */
 ?>
 <?php
-$content = explode("\n", $content);
-
-foreach ($content as $line):
-	echo '<p> ' . $line . "</p>\n";
-endforeach;
+echo 'Félicitations ! Vous avez remporté votre mise sur le pari ' .'<i>' .$pari['Pari']['nom'] .'</i>.
+ Vous avez remporté ' . $nbJetons. ' jetons. ';
 ?>

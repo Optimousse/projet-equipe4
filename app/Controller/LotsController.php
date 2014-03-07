@@ -16,7 +16,8 @@ class LotsController extends AppController
     public $paginate = array(
         'limit' => 9,
         'order' => array(
-            'Lot.nom' => 'asc'
+            'Lot.nom' => 'asc',
+            'Lot.prix' => 'asc'
         )
     );
 

@@ -1,11 +1,12 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-        var max = 0, jThumbnails = $("div.thumbnail");
-        jThumbnails .each(function(index, elt){
-            max = Math.max(max, $(elt).height());
+
+        var maxHeight = 0;
+        $("div.thumbnail").each(function(){
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
         });
-        jThumbnails.css('height', max + 10);
+        $("div.thumbnail").height(maxHeight + 10);
     });
 </script>
 
