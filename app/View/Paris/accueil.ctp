@@ -96,7 +96,7 @@
     <div class="col-md-4">
         <div id="thmb2" class="thumbnail">
             <div style="overflow:hidden;">
-                <img style="height:150px;" src="http://orionschoolwear.co.uk/image/cache/data/Smaller%20banner/about-1-1200x300.jpg"/>
+                <img src="http://lorempixel.com/400/150/people/9"/>
             </div>
 
             <div class="caption">
@@ -113,7 +113,7 @@
     <div class="col-md-4">
         <div id="thmb3" class="thumbnail">
             <div style="max-height:150px; overflow:hidden; ">
-                <img src="http://lorempixel.com/400/150/people/9"/>
+                <img style="height:150px;" src="http://orionschoolwear.co.uk/image/cache/data/Smaller%20banner/about-1-1200x300.jpg"/>
             </div>
 
             <div class="caption">

@@ -29,6 +29,4 @@ class LotsController extends AppController
         $data = $this->Paginator->paginate('Lot');
         $this->set('lots', $data);
     }
-
-
 }

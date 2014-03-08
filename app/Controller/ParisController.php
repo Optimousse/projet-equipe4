@@ -176,7 +176,7 @@ class ParisController extends AppController
         $Email->to($courriel);
 
         $Email->viewVars(array('nbJetons' => $nbJetons, 'pari' => $pari));
-        $Email->template('default');
+        $Email->template('gagneMise');
         $Email->subject('Félicitations, vous avez remporté votre mise !');
         $Email->emailFormat('both');
         $Email->send('Hello');
