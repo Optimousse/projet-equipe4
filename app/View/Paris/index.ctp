@@ -1,12 +1,11 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-
         var maxHeight = 0;
-        $("div.thumbnail").each(function(){
+        $("div.caption").each(function(){
             if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
         });
-        $("div.thumbnail").height(maxHeight + 10);
+        $("div.caption").height(maxHeight + 15);
     });
 </script>
 
@@ -35,7 +34,7 @@
     foreach ($paris as $pari){?>
         <div class="col-md-4">
         <div class="thumbnail" >
-            <div style="max-height:150px; overflow:hidden; ">
+            <div style="height:150px; overflow:hidden; ">
                 <?php echo $this->Html->image($pari['Pari']['image'], array(
                     "alt" => "Brownies",
                     'style' => 'width:100%;',

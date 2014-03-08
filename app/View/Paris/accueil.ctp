@@ -1,12 +1,12 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-
+        //Hauteur maximale pour les thumbnails, pour qu'ils soient tous égaux
         var maxHeight = 0;
-        $("div.thumbnail").each(function(){
+        $("div.caption").each(function(){
             if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
         });
-        $("div.thumbnail").height(maxHeight + 10);
+        $("div.caption").height(maxHeight + 10);
     });
 </script>
 
@@ -18,16 +18,22 @@
 
     <div class="carousel slide" id="carousel-15074">
         <ol class="carousel-indicators">
+
+            <li class="active" data-slide-to="0" data-target="#carousel-15074">
+            </li>
             <?php
             $nbParis = count($paris);
 
-            for($i = 0 ; $i < $nbParis; $i++){
+            for($i = 1 ; $i < $nbParis - 1; $i++){
                 ?>
                 <li data-slide-to="<?php echo $i;?>" data-target="#carousel-15074">
                 </li>
             <?php
             }
             ?>
+
+            <li data-slide-to="0" data-target="#carousel-15074">
+            </li>
         </ol>
         <div class="carousel-inner">
             <?php
@@ -42,7 +48,7 @@
                     $class = "item";
                 }
                 ?>
-                <div class="<?php echo $class;?>" style="max-width:1200px; max-height:400px;">
+                <div class="<?php echo $class;?>" style="max-width:1200px; height:400px;">
                     <img style="width:1200px; overflow:hidden;" alt="" src="<?php echo $pari['Pari']['image'];?>"/>
 
                     <div class="carousel-caption">

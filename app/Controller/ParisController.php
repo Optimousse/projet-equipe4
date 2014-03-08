@@ -1,11 +1,4 @@
 <?php
-
-/**
- * Created by PhpStorm.
- * User: Admin
- * Date: 14-02-04
- * Time: 18:31
- */
 App::uses('CakeEmail', 'Network/Email');
 class ParisController extends AppController
 {
@@ -171,7 +164,6 @@ class ParisController extends AppController
         }
 
         $this->messageSucces('Le pari a été correctement fermé. Les vainqueurs ont reçu leurs jetons.');
-
     }
 
     //Envoie un courriel de félicitations à un utilisateur qui a remporté une mise sur un pari

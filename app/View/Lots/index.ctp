@@ -1,12 +1,11 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-
         var maxHeight = 0;
-        $("div.thumbnail").each(function(){
+        $("div.caption").each(function(){
             if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
         });
-        $("div.thumbnail").height(maxHeight + 10);
+        $("div.caption").height(maxHeight + 15);
     });
 </script>
 
@@ -35,7 +34,7 @@
     foreach ($lots as $lot){?>
         <div class="col-md-4">
             <div class="thumbnail" >
-                <div style="max-height:100px; overflow:hidden; ">
+                <div style="max-height:150px; overflow:hidden; ">
                     <img style="width:100%; " src="<?php echo $lot['Lot']['image']; ?>"/>
                 </div>
 

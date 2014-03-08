@@ -64,7 +64,7 @@ class ParieursParisController extends AppController
 
         if ($this->request->is(array('post', 'put'))) {
 
-            if(!$this->miseValide($dejaMise))
+            if(!$this->miseValide($dejaMise, $pari))
                 return;
 
             $this->loadModel('Parieur');
@@ -157,8 +157,8 @@ class ParieursParisController extends AppController
         return $this->Parieur->saveField('nombre_jetons', $nbJetons);
     }
 
-    //valide que la personne peut miser est valide
-    private function miseValide($dejaMise){
+    //valide que la personne peut miser
+    private function miseValide($dejaMise, $pari){
         $valide = true;
         if (!$this->Auth->User('id'))
             $valide = false;
