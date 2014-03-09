@@ -7,7 +7,7 @@
  */
 
 class Choix extends AppModel {
-    public $useTable = 'Choix';
+    public $useTable = 'choix';
 
     /* Le lien entre la table Choix et la table Pari */
     public $belongsTo = 'Pari';
