@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: administrateur
- * Date: 14-03-07
- * Time: 08:34
- */
+App::uses('CakeEmail', 'Network/Email');
 class AchatsController extends AppController
 {
     // Informations pour l'achat
@@ -66,11 +61,9 @@ class AchatsController extends AppController
 
     private function sauvegarderNouveauxJetons($id_usager, $nombre_jetons){
 
-        var_dump($nombre_jetons);
         $this->Parieur->id = $id_usager;
         $parieur = $this->Parieur->findById($id_usager);
         $nbJetons = $parieur['Parieur']['nombre_jetons'] - $nombre_jetons;
-        var_dump($nbJetons);
         return $this->Parieur->saveField('nombre_jetons', $nbJetons);
     }
 
