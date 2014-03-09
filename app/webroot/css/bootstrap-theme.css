@@ -99,25 +99,7 @@
 }
 
 .btn-danger {
-  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#d9534f), to(#c12e2a));
-  background-image: -webkit-linear-gradient(top, #d9534f 0%, #c12e2a 100%);
-  background-image: -moz-linear-gradient(top, #d9534f 0%, #c12e2a 100%);
-  background-image: linear-gradient(to bottom, #d9534f 0%, #c12e2a 100%);
-  background-repeat: repeat-x;
-  border-color: #b92c28;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc12e2a', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-}
-
-.btn-danger:hover,
-.btn-danger:focus {
-  background-color: #c12e2a;
-  background-position: 0 -15px;
-}
-
-.btn-danger:active,
-.btn-danger.active {
-  background-color: #c12e2a;
+  background-color:#b92c28;
   border-color: #b92c28;
 }
 

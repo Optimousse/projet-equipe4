@@ -44,10 +44,10 @@
             </div>
 
             <div class="caption">
-                <h3>
+                <h3 class="text-center">
                     <?php echo $pari['Pari']['nom']; ?>
                 </h3>
-                <p>
+                <p class="text-center" style="color: #797979;">
                     <?php
                     $desc = $pari['Pari']['description'];
                     if(strlen($desc) > 150)
@@ -56,9 +56,10 @@
                         echo $desc;
                     ?>
                 </p>
-                <?php
+                <p class="text-center">
+                    <?php
                 $nomLien = 'Consulter';
-                if(date("Y-m-d") < $pari['Pari']['date_fin'])
+                    if(date("Y-m-d") < $pari['Pari']['date_fin'])
                     $nomLien = 'Miser';
                 echo $this->Html->link($nomLien, array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id']), array('class' => 'btn btn-primary')); ?>
             </div>

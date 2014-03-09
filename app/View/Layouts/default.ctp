@@ -207,16 +207,16 @@
                             )); ?></li>
                     </ul>
                 </li>
-                <li><a id="aFauxLien" href="#">|</a></li>
-                <li id="liMessagerie" class="dropdown">
-                    <a id="modal-473524" href="#modal-Mesagerie" role="button" class="btn" data-toggle="modal">
-                        <span id="badgeNouveauMessage" style="display:none;" class="badge badge-important pull-right">1</span>
-                        Messagerie&nbsp;<strong class="caret"></strong>&nbsp;
-                    </a>
-                </li>
                 <li><?php echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
                         'action' => 'logout'
                     )); ?></li>
+                <li id="liMessagerie" class="dropdown">
+                    <a id="modal-473524" href="#modal-Mesagerie" role="button" class="btn" data-toggle="modal">
+                        <span id="badgeNouveauMessage" style="display:none;" class="badge badge-important pull-right">1</span>
+                        <?php echo $this->Html->image('glyphicons_309_comments.png'); ?>
+                        &nbsp;&nbsp;<strong class="caret"></strong>&nbsp;
+                    </a>
+                </li>
             <?php
             }
             ?>

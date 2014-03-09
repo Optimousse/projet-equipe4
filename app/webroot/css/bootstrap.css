@@ -47,6 +47,7 @@ html {
 }
 
 body {
+    font:18px/24px "Open Sans",Helvetica,Arial,Verdana,sans-serif;
   margin: 0;
     background-image:url('http://subtlepatterns.com/patterns/tweed.png') !important;
 }
@@ -2219,7 +2220,7 @@ textarea.input-lg {
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
-  cursor: pointer;
+  cursor: default;
   background-image: none;
   border: 1px solid transparent;
   -webkit-user-select: none;
@@ -2227,6 +2228,7 @@ textarea.input-lg {
       -ms-user-select: none;
        -o-user-select: none;
           user-select: none;
+    border-radius:4px;
 }
 
 .btn:focus {
@@ -2381,8 +2383,6 @@ fieldset[disabled] .btn-warning.active {
 .btn-danger.active,
 .open .dropdown-toggle.btn-danger {
   color: #ffffff;
-  background-color: #d2322d;
-  border-color: #ac2925;
 }
 
 .btn-danger:active,
@@ -5580,10 +5580,6 @@ a.list-group-item.active:focus .list-group-item-text {
   border-radius: 4px;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-}
-
-.panel-body {
-  padding: 15px;
 }
 
 .panel-body:before,

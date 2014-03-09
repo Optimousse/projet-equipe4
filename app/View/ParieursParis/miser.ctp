@@ -10,7 +10,7 @@
                 <?php
                     $aujourdhui = strtotime(date("Y-m-d"));
                     $dateFin = strtotime($paris['Pari']['date_fin']);
-                    $jours = round(($dateFin - $aujourdhui) / 86400);
+                    $jours = round(($dateFin - $aujourdhui) / 86400) + 1;
 
                     $accordJour = 'jour';
                     if($jours > 1)
@@ -29,15 +29,19 @@
         <div class="col-xs-6 col-md-4">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <p><?php echo $paris['Pari']['description']; ?></p>
+                    <span class="btn btn-danger" style="width:100%;">Détails</span>
+                    <div style="padding:15px;">
+                        <p><?php echo $paris['Pari']['description']; ?></p>
                         <span class="lead" style="margin:0;">Choix et cotes</span>
-                    <dl>
-                        <?php
-                        foreach ($choix as $choi):?>
-                            <dt><?php echo $choi['Choix']['nom']; ?></dt>
-                            <dd><?php echo $choi['Choix']['cote']; ?></dd>
-                        <?php endforeach; ?>
-                    </dl>
+                        <dl>
+                            <?php
+                            foreach ($choix as $choi):?>
+                                <dt>
+                                    <?php echo $choi['Choix']['nom']; ?></dt>
+                                <dd><?php echo $choi['Choix']['cote']; ?></dd>
+                            <?php endforeach; ?>
+                        </dl>
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,8 +58,11 @@
                 '</h3> pour miser sur ce pari.</p';
         } else {
             if ($paris['Pari']['parieur_id'] == $id_util) {
-                echo '<blockquote style="border-color:#2D6CA2; background-color:#eee;">
-                        Vous ne pouvez miser sur ce pari puisque vous êtes son créateur.
+                echo '<blockquote style="border-color:#2D6CA2; background-color:#eee;">';
+                ?>
+                <span class="glyphicon glyphicon-remove"></span>
+                <?php
+                        echo 'Vous ne pouvez miser sur ce pari puisque vous êtes son créateur.
                         </blockquote>';
             } else if ($dejaMise) {
                 echo '<blockquote style="border-color:#2D6CA2; background-color:#eee;">Vous avez déjà misé sur ce pari.</blockquote>';
@@ -80,7 +87,7 @@
 
                     echo $this->Form->submit('Miser', array(
                         'div' => false,
-                        'class' => 'btn btn-primary'
+                        'class' => 'btn btn-primary',
                     ));
 
                     ?>
@@ -100,8 +107,14 @@
                 echo 'Vous avez misé  <i>' . $nom_choixParieur . '</i><br/><br/>';
 
                 if ($nom_choixParieur == $nom_choixGagnant) {
+                    ?>
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    <?php
                     echo 'Félicitations, vous aviez la bonne réponse !';
                 } else {
+                    ?>
+                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                    <?php
                     echo 'Dommage, vous vous êtes trompé. Meilleure chance la prochaine fois !';
                 }
             }
