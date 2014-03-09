@@ -46,7 +46,7 @@ class AchatsController extends AppController
 
             if ($this->Achat->save($this->request->data, true, array('adresse', 'code_postal', 'ville','parieur_id', 'lot_id'))) {
                 $this->messageSucces('Votre commande a bien été passée.');
-                $this->envoyerCourrielAcheteur($parieur['Parieur']['courriel'], $leLot['Lot']['nom']);
+                $this->envoyerCourrielAcheteur($parieur['Parieur']['courriel'], $leLot['Lot']['nom'], $montant);
                 return $this->redirect(array('action' => 'index', 'controller' => 'Lots'));
             } else {
                 $this->messageErreur('Une erreur est survenue lors de l\'achat du lot.');
@@ -68,7 +68,7 @@ class AchatsController extends AppController
     }
 
     //Envoie un courriel d'information à un utilisateur qui a acheté un lot.
-    private function envoyerCourrielAcheteur($courriel, $nomLot){
+    private function envoyerCourrielAcheteur($courriel, $nomLot, $montant){
 
         $Email = new CakeEmail();
         $Email->config('gmail');
@@ -76,7 +76,7 @@ class AchatsController extends AppController
         $Email->from('parispaslaville@gmail.com', 'Paris, pas la ville');
         $Email->to($courriel);
 
-        $Email->viewVars(array('nomLot' => $nomLot));
+        $Email->viewVars(array('nomLot' => $nomLot, 'nbJetons' => $montant));
         $Email->template('acheteLot');
         $Email->subject('Votre commande a été passée.');
         $Email->emailFormat('both');
