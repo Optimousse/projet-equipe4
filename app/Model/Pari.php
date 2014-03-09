@@ -35,7 +35,9 @@ class Pari extends AppModel {
             'required' => array(
                 'rule' => array('notEmpty'),
                 'message' => 'La cote est obligatoire'
-            )
+            ),
+            'rule'    => array('comparison', '>', 1),
+            'message' => 'La cote doit être un chiffre supérieur à 1'
         ),
         'image' => array(
             'required' => array(

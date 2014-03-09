@@ -52,6 +52,12 @@
                 <li><?php echo $this->Html->link('Inscription', array('controller' =>'parieurs',
                         'action' => 'inscription'
                     )); ?></li>
+                <li><?php echo $this->Html->link('Mon comte', array('controller' =>'parieurs',
+                        'parieur' => 'compte'
+                    )); ?></li>
+                <li><?php echo $this->Html->link('Mes paris', array('controller' =>'paris',
+                        'action' => 'mes_paris'
+                    )); ?></li>
             </ul>
         </div>
     </div>

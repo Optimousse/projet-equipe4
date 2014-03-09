@@ -1,8 +1,10 @@
 <div class="users form">
+    <?php echo $this->Session->flash('Session'); ?>
     <?php echo $this->Form->create('Pari'); ?>
     <fieldset>
         <legend><?php echo __('Ajouter un pari'); ?></legend>
         <?php
+        echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));
         echo $this->Form->input('nom', array(
             'label' => 'Nom:'));
         echo $this->Form->input('description', array(
@@ -25,10 +27,10 @@
         <p>Note: Deux choix sont obligatoires. Le troisième est facultatif.</p>
         <ol>
             <li>
-                <?php echo $this->Form->input('Choix.0.nom', array('label'=>false, 'after'=>' *')); ?>
+                <?php echo $this->Form->input('Choix.0.nom', array('label'=>false, 'after'=>' *', 'required' =>'required')); ?>
             </li>
             <li>
-                <?php echo $this->Form->input('Choix.1.nom', array('label'=>false, 'after'=>' *')); ?>
+                <?php echo $this->Form->input('Choix.1.nom', array('label'=>false, 'after'=>' *', 'required' =>'required')); ?>
             </li>
             <li>
                 <?php echo $this->Form->input('Choix.2.nom', array('label'=>false)); ?>

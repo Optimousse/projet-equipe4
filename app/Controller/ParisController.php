@@ -22,15 +22,21 @@ class ParisController extends AppController {
 
     //Permet d'ajouter un pari au site
     public function ajouter() {
+        $this->set('id_util', $this->Auth->user('id'));
+
         if ($this->request->is('post')) {
+
             $this->Pari->create();
-            $this->Pari->set('parieur_id', $this->Auth->user('id'));
-//allo
-            //TODO poursuivre la sauvegarde des choix. Ne doit pas sauvegarder ceux qui sont vides.
-            //essayer de construire une variable $data en y ajoutant les choix sils ne sont pas vides :)
+
+            //Si l'utilisateur n'a rentré que deux choix, on supprime le troisième pour ne pas l'enregistrer.
+            $choix3 = $this->request->data['Choix']['2']['nom'];
+            if(empty($choix3)){
+                unset($this->request->data['Choix']['2']);
+            }
+
             if ($this->Pari->saveAll($this->request->data)) {
-                $this->Session->setFlash(__('Le pari a été créé avec succès.'));
-                return $this->redirect(array('action' => 'index'));
+                $this->Session->setFlash(__('Le pari a été créé avec succès.', 'default', array('class' => 'alert alert-success')));
+                return $this->redirect(array('action' => 'consulter', $this->Pari->id));
             }
             $this->Session->setFlash(
                 __('Une erreur est survenue lors de la sauvegarde du pari. Veuillez réessayer.')

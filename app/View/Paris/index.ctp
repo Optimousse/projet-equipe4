@@ -19,7 +19,7 @@
             <td><?php echo $pari['Pari']['date_fin']; ?></td>
             <td>
                 <?php echo $this->Html->link('Miser',
-                    array('controller' => 'parieurspari', 'action' => 'miser', $pari['Pari']['id'])); ?>
+                    array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id'])); ?>
                 |
                 <?php echo $this->Html->link('Consulter',
                     array('action' => 'consulter', $pari['Pari']['id'])); ?>

@@ -12,7 +12,9 @@ class Parieur extends AppModel {
             'required' => array(
                 'rule' => array('notEmpty'),
                 'message' => 'Le pseudo est obligatoire.'
-            )
+            ),
+            'rule'    => 'isUnique',
+            'message' => 'Ce pseudo a déjà été choisi par un autre utilisateur.'
         ),
         'mot_passe' => array(
             'required' => array(
