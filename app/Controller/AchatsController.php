@@ -45,11 +45,11 @@ class AchatsController extends AppController
             $this->Achat->create();
 
             if ($this->Achat->save($this->request->data, true, array('adresse', 'code_postal', 'ville','parieur_id', 'lot_id'))) {
-                $this->messageSucces('Votre compte commande a été passée.');
+                $this->messageSucces('Votre commande a bien été passée.');
                 $this->envoyerCourrielAcheteur($parieur['Parieur']['courriel'], $leLot['Lot']['nom']);
                 return $this->redirect(array('action' => 'index', 'controller' => 'Lots'));
             } else {
-                $this->messageErreur('Une erreur est survenue lors de la création de votre compte.');
+                $this->messageErreur('Une erreur est survenue lors de l\'achat du lot.');
             }
         }
 
@@ -80,6 +80,11 @@ class AchatsController extends AppController
         $Email->template('acheteLot');
         $Email->subject('Votre commande a été passée.');
         $Email->emailFormat('both');
-        $Email->send('Hello');
+
+        try{
+            $Email->send('Achat');
+        }
+        catch(Exception $e){
+        }
     }
 }
