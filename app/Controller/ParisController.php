@@ -27,17 +27,29 @@ class ParisController extends AppController
         $this->Paginator->settings = $this->paginate;
 
         //Si on a rempli le champ de recherche
-        if(isset($this->request->query['nom'])){
+        if(isset($this->request->query['motCle'])){
+
+            $RechercheNom = array();
+            $RechercheDescription = array();
+
+            if(isset($this->request->query['nom'])){
+                $RechercheNom = array("nom LIKE" => '%'.$this->request->query['motCle'].'%');
+                $this->set('estRechercheParNom', array('checked' => 'checked'));
+            }
+
+            if(isset($this->request->query['description'])){
+                $RechercheNom = array("description LIKE" => '%'.$this->request->query['motCle'].'%');
+                $this->set('estRechercheParDescription', array('checked' => 'checked'));
+            }
 
             $data = $this->Paginator->paginate(
                 'Pari',
                 array("OR" => array(
-                    "nom LIKE" => '%'.$this->request->query['nom'].'%',
-                    "description LIKE" => '%'.$this->request->query['nom'].'%'))
+                    $RechercheNom, $RechercheDescription))
             );
 
             $this->set('paris', $data);
-            $this->set('critereActuel', $this->request->query['nom']);
+            $this->set('critereActuel', $this->request->query['motCle']);
         }
         else{
 
