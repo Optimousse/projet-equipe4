@@ -283,12 +283,12 @@
 
                             <div class="input-group">
                                 <br/>
-                            <span class="input-group-btn">
+
                                 <button id="btnSoumettre" class="btn btn-primary" type="button">Envoyer</button>
-                                <button class="btn btn-default" contenteditable="true" data-dismiss="modal"
+                                <button class="btn btn-default btn-separation" contenteditable="true" data-dismiss="modal"
                                         type="button">Fermer
                                 </button>
-                              </span>
+
                             </div>
                         </div>
                         <?php

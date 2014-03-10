@@ -35,14 +35,17 @@
                 <div class="panel-body">
                     <span class="btn btn-danger" style="width:100%;">Détails</span>
                     <div style="padding:15px;">
-                        <p><?php echo $paris['Pari']['description']; ?></p>
-                        <span class="lead" style="margin:0;">Choix et cotes</span>
+                        <p><?php echo '<strong>'.$paris['Pari']['description'].'</strong>'; ?></p>
+                        <p><?php echo 'Créateur du paris : '.$pseudo; ?></p>
+                        <br/>
+                        <span style="margin:0;">Choix et cotes</span>
                         <dl>
                             <?php
                             foreach ($choix as $choi):?>
-                                <dt>
-                                    <?php echo $choi['Choix']['nom']; ?></dt>
-                                <dd><?php echo $choi['Choix']['cote']; ?></dd>
+
+                                    <?php echo '<strong>'.$choi['Choix']['nom'].'</strong>'; ?>
+                                     <span class ="glyphicon glyphicon-chevron-right"></span>
+                                    <?php echo $choi['Choix']['cote']; ?> <br/>
                             <?php endforeach; ?>
                         </dl>
                     </div>
