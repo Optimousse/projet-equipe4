@@ -24,7 +24,7 @@
             <td><?php echo $this->Html->link($mise['Pari']['nom'], array('controller' => 'parieurs_paris', 'action' => 'miser', $mise['Pari']['id']));?></td>
 
             <td><?php echo $mise['Choix']['nom']; ?></td>
-            <td><?php echo $mise['ParieursPari']['mise']; ?></td>
+            <td><?php echo $mise['ParieursPari']['mise'] .' '; ?>jetons</td>
         </tr>
     <?php endforeach;
     if(empty($mises))
