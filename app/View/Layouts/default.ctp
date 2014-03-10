@@ -119,7 +119,7 @@
                                 _nbMessagesLus += data.length;
                                 $("#badgeNouveauMessage").empty();
                                 $("#badgeNouveauMessage").append(_nbMessagesLus);
-                                $("#badgeNouveauMessage").css('display', 'block');
+                                $("#badgeNouveauMessage").css('display', 'inline-block');
                             }
                             remplirConversation(data);
                         }
@@ -134,7 +134,7 @@
                 $.each(data, function () {
                     if (this.parieurs != undefined) {
                         str += '<li><blockquote> <b>' + this.parieurs.pseudo + '</b> dit:<br/>';
-                        str += this.Message.message + '</blockquote></li>';
+                        str += this.Message.message + '</blockquote></li><hr>';
                     }
                 });
 
@@ -230,9 +230,9 @@
                             <li id="liMessagerie" class="dropdown">
                                 <a id="modal-473524" href="#myModal" role="button" class="btn" data-toggle="modal">
                                     <span id="badgeNouveauMessage" style="display:none;"
-                                          class="badge badge-important pull-right">1</span>
+                                          class="badge badge-important">1</span>
                                     <?php echo $this->Html->image('glyphicons_010_envelope.png'); ?>
-                                    &nbsp;&nbsp;<strong class="caret"></strong>&nbsp;
+                                    &nbsp;&nbsp;<strong class="caret"></strong>
                                 </a>
                             </li>
                         <?php
