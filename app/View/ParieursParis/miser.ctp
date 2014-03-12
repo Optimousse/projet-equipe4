@@ -57,7 +57,7 @@
                 '</h3> pour miser sur ce pari.</p';
         } else {
             if ($paris['Pari']['parieur_id'] == $id_util) {
-                echo '<blockquote style="border-color:#2D6CA2; background-color:#eee;">';
+                echo '<blockquote class="blockquote-info">';
                 ?>
                 <span class="glyphicon glyphicon-remove"></span>
                 <?php
@@ -97,7 +97,7 @@
     } else {
         // si le choix gagnant a été décidé on l'affiche
         if (isset($nom_choixGagnant)) {
-            echo '<blockquote style="border-color:#2D6CA2; background-color:#eee;">Ce pari est déjà terminé.';
+            echo '<blockquote  class="blockquote-info">Ce pari est déjà terminé.';
             echo '<br/><br/>';
             echo 'Le choix gagnant était <i>' . $nom_choixGagnant .'</i>.';
             echo '<br/>';
@@ -120,7 +120,7 @@
             echo '</blockquote>';
             // le choix n'a pas encore été fait
         } else {
-            echo '<blockquote style="border-color:#2D6CA2; background-color:#eee;">Le pari est terminé. Le résultat n\'a pas encore été déterminé.</blockquote>';
+            echo '<blockquote class="blockquote-info">Le pari est terminé. Le résultat n\'a pas encore été déterminé.</blockquote>';
         }
     }
     ?>

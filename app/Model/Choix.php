@@ -23,12 +23,17 @@ class Choix extends AppModel {
 
             'rule1' => array(
                 'rule'    => array('comparison', '>', 1),
-                'message' => 'La cote doit être un chiffre supérieur à 1',
+                'message' => 'La cote doit être un chiffre compris entre 1.1 et 5',
+                'allowEmpty' => true
+            ),
+            'rule2' => array(
+                'rule'    => array('comparison', '<', 5),
+                'message' => 'La cote doit être un chiffre compris entre 1.1 et 5',
                 'allowEmpty' => true
             ),
             'rule3' => array(
                 'rule'    => '/^[0-9]*(\.[0-9])?$/',
-                'message' => 'La cote doit être un chiffre supérieur à 1 sous le format 9.9',
+                'message' => 'La cote doit être un chiffre compris entre 1.1 et 5',
                 'allowEmpty' => true
             )
         )

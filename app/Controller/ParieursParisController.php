@@ -92,7 +92,7 @@ class ParieursParisController extends AppController
                 $this->messageSucces('La mise a bien été créée. Votre compte a été débité de '.$mise .' jetons.');
                 return $this->redirect(array('action' => 'mes_mises', 'controller' => 'parieurs_paris'));
             }
-            $this->messageErreur('Une erreur est survenue lors de la création de la mise. Veuillez réessayer.');
+            $this->messageErreur('Un ou plusieurs champs n\'ont pas été remplis correctement.');
         }
     }
 

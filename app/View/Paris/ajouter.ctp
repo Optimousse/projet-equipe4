@@ -1,11 +1,18 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var today = new Date();
+        today.setDate(today.getDate() + 1)
         jQuery.noConflict();
         $('#txtDate').datepicker({
             startDate: today,
             language: "fr"
         });
+
+        if($('#txtDate').val() !== ""){
+            var $tDate = $('#txtDate').val().split(' ');
+            var sDate = $tDate[1] + '/' + $tDate[0] + '/' + $tDate[2];
+            $('#txtDate').val(sDate);
+        }
 
         if ($("#txtChoix3").val() !== "" || $("#txtCote3").val() !== "")
             AjouterChoix();
@@ -49,30 +56,28 @@
         echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));
 
         ?>
-        <div class="form-inline">
-            <div class="form-group">
-                <?php echo $this->Form->input('nom', array(
-                    'label' => 'Nom:'));?>
-            </div>
-            <div class="form-group">
-                <?php echo $this->Form->input('date_fin', array(
-                    'label' => 'Se termine le:',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                    'id' => 'txtDate'
-                ));
-                 ?>
-            </div>
-            <div class="form-group">
-                <?php
-                echo $this->Form->input('image', array(
-                    'label' => 'Url de l\'image:',
-                    'data-toggle' => 'tooltip',
-                    'data-placement' => 'right',
-                    'data-original-title' => 'Url de l\'image du pari',
-                    'id' => 'txtImage'
-                )); ?>
-            </div>
+        <div class="form-group">
+            <?php echo $this->Form->input('nom', array(
+                'label' => 'Nom:'));?>
+        </div>
+        <div class="form-group">
+            <?php echo $this->Form->input('date_fin', array(
+                'label' => 'Se termine le:',
+                'type' => 'text',
+                'class' => 'form-control',
+                'id' => 'txtDate'
+            ));
+            ?>
+        </div>
+        <div class="form-group">
+            <?php
+            echo $this->Form->input('image', array(
+                'label' => 'Url de l\'image:',
+                'data-toggle' => 'tooltip',
+                'data-placement' => 'right',
+                'data-original-title' => 'Url de l\'image du pari',
+                'id' => 'txtImage'
+            )); ?>
         </div>
         <?php
         echo $this->Form->input('description', array(
@@ -88,7 +93,7 @@
 
         <ol class="list-unstyled">
             <li>
-                <blockquote style="border-color:#2D6CA2; padding-bottom:1px; background-color:#eee;">
+                <blockquote class="blockquote-info">
                     <div class="form-horizontal">
                         <div class="form-group">
                             <strong>Choix #1</strong>
@@ -119,7 +124,7 @@
             </li>
 
             <li>
-                <blockquote style="border-color:#2D6CA2; padding-bottom:1px; background-color:#eee;">
+                <blockquote class="blockquote-info">
                     <div class="form-horizontal">
                         <div class="form-group">
                             <strong>Choix #2</strong>
@@ -150,7 +155,7 @@
             </li>
 
             <li id="liTroisiemeChoix" style="display:none;">
-                <blockquote style="border-color:#2D6CA2; padding-bottom:1px; background-color:#eee;">
+                <blockquote class="blockquote-info">
                     <div class="form-horizontal">
                         <div class="form-group">
                             <strong>Choix #3</strong>

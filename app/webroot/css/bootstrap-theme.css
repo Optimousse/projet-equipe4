@@ -405,3 +405,13 @@
   -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1);
           box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1);
 }
+
+.blockquote-alert{
+    border-color:#D9534F;
+    background-color:#FDF7F7;
+}
+
+.blockquote-info{
+    border-color:#2D6CA2;
+    background-color:#eee;
+}
