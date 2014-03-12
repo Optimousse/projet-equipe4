@@ -1,4 +1,9 @@
 <!-- Fichier : /app/View/Posts/view.ctp -->
+<script>
+    $(document).ready(function(){
+       $("#txtMise").tooltip();
+    });
+</script>
 
 <div class="well">
     <h1>
@@ -79,7 +84,11 @@
                     $attributes = array('legend' => false, 'separator' => '<br/>');
                     echo $this->Form->radio('choix_id', $options, $attributes);
                     echo $this->Form->input('mise',
-                        array('label' => 'Mise:', 'type' => 'number', 'autocomplete' => 'off'));
+                        array('label' => 'Mise:', 'type' => 'number', 'autocomplete' => 'off',
+                            'id' => 'txtMise',
+                            'data-toggle'=>"tooltip",
+                            'data-placement'=>"top",
+                            'title'=>"Doit être un nombre entier positif supérieur au nombre de jetons que vous possédez."));
 
                     echo $this->Form->input('pari_id', array('type' => 'hidden', 'value' => $paris['Pari']['id']));
                     echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));

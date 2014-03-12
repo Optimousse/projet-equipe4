@@ -20,7 +20,7 @@
 
     <?php foreach ($mises as $mise): ?>
         <tr>
-            <td><?php echo $this->Html->image($mise['Pari']['image'], array('class'=>'img-rounded', 'style'=>'max-width:150px')); ?></td>
+            <td><?php echo $this->Html->image($mise['Pari']['image'], array('class'=>'img-rounded', 'style'=>'width:150px')); ?></td>
             <td><?php echo $this->Html->link($mise['Pari']['nom'], array('controller' => 'parieurs_paris', 'action' => 'miser', $mise['Pari']['id']));?></td>
 
             <td><?php echo $mise['Choix']['nom']; ?></td>

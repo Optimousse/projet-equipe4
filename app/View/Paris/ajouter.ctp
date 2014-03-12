@@ -37,6 +37,12 @@
             $("#liTroisiemeChoix").css('display', 'none');
             $("#dNouveauChoix").append('Ajouter un troisième choix.');
         }
+
+        $("#txtDate").tooltip();
+        $("#txtImage").tooltip();
+        $("#txtCote1").tooltip();
+        $("#txtCote2").tooltip();
+        $("#txtCote3").tooltip();
     });
 </script>
 
@@ -64,7 +70,10 @@
                 'label' => 'Se termine le:',
                 'type' => 'text',
                 'class' => 'form-control',
-                'id' => 'txtDate'
+                'id' => 'txtDate',
+                'data-toggle'=>"tooltip",
+                'data-placement'=>"top",
+                'title'=>"Doit être supérieure à la date actuelle"
             ));
             ?>
         </div>
@@ -75,7 +84,10 @@
                 'label' => 'Url de l\'image:',
                 'type' => 'file',
                 'id' => 'txtImage',
-                'class' =>''
+                'class' =>'',
+                'data-toggle'=>"tooltip",
+                'data-placement'=>"top",
+                'title'=>"Doit être dans l'un des formats suivants: jpg, jpeg, png, gif, bmp. Taille maximale: 2 Mo"
             )); ?>
         </div>
         <?php
@@ -112,8 +124,16 @@
 
                             <div class="col-sm-11">
                                 <?php echo $this->Form->input('Choix.0.cote', array(
-                                    'label' => false, 'placeholder' => 'Cote (Obligatoire)',
-                                    'type' => 'number', 'class' => 'form-control', 'div' => false, 'required' => 'required'
+                                    'label' => false,
+                                    'placeholder' => 'Cote (Obligatoire)',
+                                    'type' => 'number',
+                                    'class' => 'form-control',
+                                    'div' => false,
+                                    'required' => 'required',
+                                    'data-toggle'=>"tooltip",
+                                    'data-placement'=>"top",
+                                    'title'=>"Doit être comprise entre 1.1 et 5",
+                                    'id' => 'txtCote1'
                                 ));
                                 ?>
                             </div>
@@ -144,7 +164,11 @@
                             <div class="col-sm-11">
                                 <?php echo $this->Form->input('Choix.1.cote', array(
                                     'label' => false, 'placeholder' => 'Cote (Obligatoire)',
-                                    'type' => 'number', 'class' => 'form-control', 'div' => false, 'required' => 'required'
+                                    'type' => 'number', 'class' => 'form-control', 'div' => false, 'required' => 'required',
+                                    'data-toggle'=>"tooltip",
+                                    'data-placement'=>"top",
+                                    'title'=>"Doit être comprise entre 1.1 et 5",
+                                    'id' => 'txtCote2'
                                 ));
                                 ?>
                             </div>
@@ -177,7 +201,10 @@
                                 <?php echo $this->Form->input('Choix.2.cote', array(
                                     'label' => false, 'placeholder' => 'Cote',
                                     'type' => 'number', 'class' => 'form-control', 'div' => false,
-                                    'id' => 'txtCote3'
+                                    'id' => 'txtCote3',
+                                    'data-toggle'=>"tooltip",
+                                    'data-placement'=>"top",
+                                    'title'=>"Doit être comprise entre 1.1 et 5"
                                 ));
                                 ?>
                             </div>
