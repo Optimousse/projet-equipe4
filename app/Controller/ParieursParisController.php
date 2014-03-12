@@ -41,6 +41,7 @@ class ParieursParisController extends AppController
         if (!$pari)
             return $this->redirectAccueil();
 
+        $this->set('title_for_layout', $pari['Pari']['nom']);
         $this->loadModel('Choix');
 
         //Permet d'afficher les choix disponibles pour ce pari
@@ -99,6 +100,7 @@ class ParieursParisController extends AppController
     //Affiche les mises de l'usager
     public function mes_mises()
     {
+        $this->set('title_for_layout', 'Mes mises');
         $this->Paginator->settings = array(
             'conditions' => array('ParieursPari.parieur_id' => $this->Auth->user('id')),
             'limit' => 5

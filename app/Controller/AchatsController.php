@@ -8,10 +8,10 @@
  */
 class AchatsController extends AppController
 {
-
     // Informations pour l'achat
     public function informations($id = null)
     {
+        $this->set('title_for_layout', 'Acheter un lot');
         // on récupere l'id de la personne
         $id_usager = $this->Auth->user('id');
         $this->set('id_util', $id_usager);

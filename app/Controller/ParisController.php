@@ -23,6 +23,7 @@ class ParisController extends AppController
     //Vue index: affiche tous les paris
     public function index()
     {
+        $this->set('title_for_layout', 'Catalogue');
         $this->Paginator->settings = $this->paginate;
 
         $data = $this->Paginator->paginate('Pari');
@@ -32,6 +33,7 @@ class ParisController extends AppController
     //Permet d'ajouter un pari au site
     public function ajouter()
     {
+        $this->set('title_for_layout', 'Créer un pari');
         $this->set('id_util', $this->Auth->user('id'));
         $this->loadModel('Choix');
         if ($this->request->is('post')) {
@@ -39,7 +41,6 @@ class ParisController extends AppController
             $this->Pari->create();
             $this->Choix->create();
 
-            //"27/03/2014"
             $date = $this->request->data['Pari']["date_fin"];
             list($day, $month, $year) = split('[/.-]', $date);
             $date_fin = array("date_fin" => array("month" => $month, "day" => $day, "year" => $year));
@@ -58,18 +59,23 @@ class ParisController extends AppController
                 $this->messageErreur('Le nom est obligatoire si vous ajoutez un troisième choix.');
                 return;
             }
-            if ($this->Pari->saveAll($this->request->data)) {
-                $this->messageSucces('Le pari a été créé avec succès.');
-                return $this->redirect(array('action' => 'miser', 'controller' => 'ParieursParis', $this->Pari->id));
-            }
-            $this->messageErreur('Vérifiez que tous les champs ont été correctement remplis.');
 
+            if($this->uploadImage()){
+
+                if ($this->Pari->saveAll($this->request->data)) {
+                    $this->messageSucces('Le pari a été créé avec succès.');
+                    return $this->redirect(array('action' => 'miser', 'controller' => 'ParieursParis', $this->Pari->id));
+                }
+
+                $this->messageErreur('Vérifiez que tous les champs ont été correctement remplis.');
+            }
         }
     }
 
     //Permet au créateur d'un pari de déterminer le choix gagnant d'un pari (Seulement lorsque ce pari est terminé)
     public function determiner_gagnant($id = null)
     {
+        $this->set('title_for_layout', 'Déterminer le choix gagnant');
         if (!$id)
             return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
         $pari = $this->Pari->findById($id);
@@ -100,6 +106,7 @@ class ParisController extends AppController
     //Affiche les paris créés par l'utilisateur
     public function mes_paris()
     {
+        $this->set('title_for_layout', 'Mes paris');
         $this->Paginator->settings = array(
             'conditions' => array('Pari.parieur_id' => $this->Auth->user('id')),
             'limit' => 5
@@ -111,6 +118,7 @@ class ParisController extends AppController
 
     //Page d'accueil
     public function accueil(){
+        $this->set('title_for_layout', 'Paris, pas la ville');
         $paris = $this->Pari->find('all', array('limit' => 5, 'order' => 'id DESC', 'fields' => array('nom', 'image', 'description', 'date_fin')));
         $this->set('paris', $paris);
     }
@@ -202,5 +210,38 @@ class ParisController extends AppController
         $Email->subject('Vous avez perdu votre mise.');
         $Email->emailFormat('both');
         $Email->send('Hello');
+    }
+
+    //Upload une image lors de la création d'un pari
+    private function uploadImage(){
+        $dossier = 'uploads';
+
+        $image = $this->request->data['Pari']['image'];
+        $taillemax = 2097152;
+        $taille = filesize($image['tmp_name']);
+        $estValide = true;
+        $extension = strrchr($image['name'], '.');
+        $extensionsOK = array('.jpg', '.jpeg', '.png', '.gif', '.bmp');
+        if(!in_array($extension, $extensionsOK))
+        {
+            $this->messageErreur('L\'image doit être dans l\'un des formats suivants: jpg, jpeg, png, gif ou bmp.');
+            $estValide = false;
+        }
+        else if($taille > $taillemax){
+
+            $this->messageErreur('Le fichier est trop volumineux. La taille maximale est de 2 Mo.');
+            $estValide = false;
+        }
+        else{
+            $id = String::uuid();
+            if(!move_uploaded_file($image['tmp_name'], IMAGES.$dossier.'/'.$id.$extension)){
+                $this->messageErreur('Une erreur est survenue lors de l\'upload de l\'image.');
+                $estValide = false;
+            }
+
+            unset($this->request->data['Pari']['image']);
+            $this->request->data['Pari']['image'] =$dossier.'/'.$id.$extension;
+        }
+        return $estValide;
     }
 }

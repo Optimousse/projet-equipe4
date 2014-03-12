@@ -27,7 +27,6 @@
             }
             e.preventDefault();
         });
-        $('#txtImage').tooltip();
 
         function AjouterChoix() {
             $("#liTroisiemeChoix").css('display', 'block');
@@ -50,7 +49,7 @@
             'wrapInput' => false,
             'class' => 'form-control'
         ),
-        'role' => 'form')); ?>
+        'role' => 'form', 'enctype'=>"multipart/form-data")); ?>
     <fieldset>
         <?php
         echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));
@@ -70,13 +69,13 @@
             ?>
         </div>
         <div class="form-group">
+            <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
             <?php
             echo $this->Form->input('image', array(
                 'label' => 'Url de l\'image:',
-                'data-toggle' => 'tooltip',
-                'data-placement' => 'right',
-                'data-original-title' => 'Url de l\'image du pari',
-                'id' => 'txtImage'
+                'type' => 'file',
+                'id' => 'txtImage',
+                'class' =>''
             )); ?>
         </div>
         <?php

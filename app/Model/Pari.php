@@ -29,12 +29,6 @@ class Pari extends AppModel {
                 'message' => 'La description est obligatoire.'
             )
         ),
-        'image' => array(
-            'required' => array(
-                'rule' => array('notEmpty'),
-                'message' => 'L\'image est obligatoire.'
-            )
-        ),
         'date_fin' => array(
             'rule'    => array('validationDate'),
             'message' => 'La date de fin ne doit pas être antérieure à la date actuelle.'

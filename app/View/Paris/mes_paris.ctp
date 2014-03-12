@@ -22,7 +22,7 @@
 
     <?php foreach ($paris as $pari): ?>
         <tr>
-            <td><img src="<?php echo $pari['Pari']['image']; ?>" class="img-rounded" style="max-width: 150px;" /></td>
+            <td><?php echo $this->Html->image($paris['Pari']['image'], array('class'=>'img-rounded', 'style'=>'max-width:150px')); ?></td>
             <td><?php echo $pari['Pari']['nom']; ?></td>
             <td><?php echo $pari['Pari']['description']; ?></td>
             <td>
