@@ -3,14 +3,9 @@
     $(document).ready(function(){
         //Hauteur maximale pour les thumbnails, pour qu'ils soient tous égaux
         var maxHeight = 0;
-        $("div.caption").each(function(){
-            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
-        });
-        $("div.caption").height(maxHeight + 10);
-
-        maxHeight = 0;
         $("p.description").each(function(){
-            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+            if ($(this).height() > maxHeight) {
+                maxHeight = $(this).height(); }
         });
         $("p.description").height(maxHeight);
     });
@@ -80,9 +75,7 @@
 <div class="row">
     <div class="col-md-4">
         <div id="thmb1" class="thumbnail">
-
-            <div style="max-height:150px; overflow:hidden; ">
-
+            <div style="height:150px; overflow:hidden; ">
                 <?php echo $this->Html->image($lot['Lot']['image'], array('height'=>'150px;')); ?>
             </div>
 
@@ -94,15 +87,15 @@
                 <p class="description">
                     En remportant votre mise sur des paris, vous accumulerez des jetons qui vous permettront de vous
                     acheter des lots incroyables.
-                <div class="clearfix"></div>
-                <?php echo $this->Html->link('Voir les lots', array('controller' => 'lots', 'action' => 'index'), array('class' => 'btn btn-primary')); ?>
+                    <div class="clearfix"></div>
+                    <?php echo $this->Html->link('Voir les lots', array('controller' => 'lots', 'action' => 'index'), array('class' => 'btn btn-primary')); ?>
                 </p>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div id="thmb2" class="thumbnail">
-            <div style="overflow:hidden;">
+            <div style="height:150px; overflow:hidden; ">
                 <?php echo $this->Html->image('faq.jpg'); ?>
             </div>
 
@@ -113,15 +106,15 @@
 
                 <p class="description">
                     Perdu ? Consultez notre foire aux questions pour bien connaître le fonctionnement du site.<div class="clearfix"></div>
-                <?php echo $this->Html->link('Consulter la FAQ', array('controller' => 'divers', 'action' => 'faq'), array('class' => 'btn btn-primary')); ?>
-                </p>
+                    <div class="clearfix"></div>
+                    <?php echo $this->Html->link('Consulter la FAQ', array('controller' => 'divers', 'action' => 'faq'), array('class' => 'btn btn-primary')); ?>
                 </p>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div id="thmb3" class="thumbnail">
-            <div style="max-height:150px; overflow:hidden; ">
+            <div style="height:150px; overflow:hidden; ">
                 <?php echo $this->Html->image('inscription.jpg'); ?>
             </div>
 
@@ -132,8 +125,8 @@
 
                 <p class="description">
                     L'inscription est simple et rapide. Une fois votre compte créé, vous pourrez commencer à miser en ligne et également profiter du système de messagerie.
-                <div class="clearfix"></div>
-                <?php echo $this->Html->link('S\'inscrire', array('controller' => 'parieurs', 'action' => 'inscription'), array('class' => 'btn btn-primary')); ?>
+                    <div class="clearfix"></div>
+                    <?php echo $this->Html->link('S\'inscrire', array('controller' => 'parieurs', 'action' => 'inscription'), array('class' => 'btn btn-primary')); ?>
                 </p>
             </div>
         </div>

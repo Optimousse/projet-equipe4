@@ -1,8 +1,8 @@
 <h1>Foire aux questions</h1>
 
-<p>
+<blockquote class="blockquote-info">
    Trouvez ici les réponses aux questions les plus fréquemment posées. Si vous ne parvenez pas à trouver une réponse à votre question, vous pouvez nous <a href="#">écrire un courriel</a>.
-</p>
+</blockquote>
 
 <div class="panel-group" id="accordion">
     <div class="panel panel-default">
@@ -173,8 +173,35 @@
         </div>
         <div id="collapseHeight" class="panel-collapse collapse">
             <div class="panel-body padding-small">
-                Choisissez un lot dans la liste et appuyez sur le bouton <strong>Acheter</strong>.
-                Remplissez le formulaire qui s'affiche afin que nous puissions envoyer votre achat à la bonne adresse.
+                Rendez-vous dans la section
+                <?php echo $this->Html->link('Lots', array('controller' => 'lots', 'action' => 'index')); ?>
+                , choisissez un item qui vous intéresse dans la liste et appuyez sur le bouton
+                <strong>Acheter</strong>.
+                Remplissez le formulaire qui s'affiche afin que nous puissions envoyer votre achat
+                à la bonne adresse.
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseNine">
+                    Je suis le créateur d'un pari et la date de fin est maintenant passée. Que dois-je faire ?
+                </a>
+            </h4>
+        </div>
+        <div id="collapseNine" class="panel-collapse collapse">
+            <div class="panel-body padding-small">
+                En tant que créateur d'un pari, vous avez le devoir de déterminer le choix gagnant de ce
+                pari une fois qu'il est terminé.
+                <br/>
+                Pour ce faire, rendez-vous dans la section
+                <?php echo $this->Html->link('Mes paris', array('controller' => 'paris', 'action' => 'mes_paris')); ?>
+                , cliquez sur le lien <strong>Déterminer le choix gagnant</strong> correspondant au pari terminé,
+                puis remplissez le formulaire.
+                <br/>
+                Lorsque vous aurez soumis le formulaire, les parieurs qui avaient misé sur le choix que vous avez sélectionné
+                se verront attribuer des jetons. Le pari sera alors clos et il ne sera plus possible d'y ajouter des mises.
             </div>
         </div>
     </div>
