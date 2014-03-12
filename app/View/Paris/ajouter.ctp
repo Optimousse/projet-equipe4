@@ -127,6 +127,9 @@
                                     'label' => false,
                                     'placeholder' => 'Cote (Obligatoire)',
                                     'type' => 'number',
+                                    'step' =>'0.1',
+                                    'min' => '1.1',
+                                    'max' => '5',
                                     'class' => 'form-control',
                                     'div' => false,
                                     'required' => 'required',
@@ -168,7 +171,10 @@
                                     'data-toggle'=>"tooltip",
                                     'data-placement'=>"top",
                                     'title'=>"Doit être comprise entre 1.1 et 5",
-                                    'id' => 'txtCote2'
+                                    'id' => 'txtCote2',
+                                    'step' =>'0.1',
+                                    'min' => '1.1',
+                                    'max' => '5',
                                 ));
                                 ?>
                             </div>
@@ -204,7 +210,10 @@
                                     'id' => 'txtCote3',
                                     'data-toggle'=>"tooltip",
                                     'data-placement'=>"top",
-                                    'title'=>"Doit être comprise entre 1.1 et 5"
+                                    'title'=>"Doit être comprise entre 1.1 et 5",
+                                    'step' =>'0.1',
+                                    'min' => '1.1',
+                                    'max' => '5',
                                 ));
                                 ?>
                             </div>
