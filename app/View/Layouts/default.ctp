@@ -52,15 +52,24 @@
             )); ?>';
 
             if ($("#txtConnecte").val() === '1') {
-                getMessages(true, true);
+                getMessages(false, true);
 
                 setInterval(function () {
                     getMessages(false);
                 }, 5000);
             }
+
+            $("#txtMessage").keydown(function (e) {
+                if (e.keyCode === 13) {
+                    soumettreForm();
+                    e.preventDefault();
+                }
+            });
+
             jQuery.noConflict();
             $('#myModal').on('shown.bs.modal', function (e) {
                 $("#divMessages").animate({ scrollTop: $('#divMessages')[0].scrollHeight}, 500);
+                $("#txtMessage").focus();
             })
 
             $("#liMessagerie").click(function () {
@@ -75,15 +84,7 @@
             });
 
             $("#btnSoumettre").click(function (e) {
-                $.ajax({
-                    type: "POST",
-                    url: urlAjouter,
-                    data: $("#frmMessages").serialize(),
-                    success: function (data) {
-                        $("#txtMessage").val('');
-                        getMessages(true)
-                    }
-                });
+                soumettreForm();
                 e.preventDefault();
             });
 
@@ -99,7 +100,7 @@
 
             //Va chercher les derniers messages qui n'ont pas été lus
             function getMessages(estAjout, estPageLoad) {
-                if (estAjout == undefined)
+                if (estAjout === undefined)
                     estAjout = false;
                 if (estPageLoad === undefined)
                     estPageLoad = false;
@@ -139,6 +140,19 @@
 
                 $("#divMessages").append(str);
                 $("#divMessages").animate({ scrollTop: $('#divMessages')[0].scrollHeight}, 1000);
+            }
+
+            function soumettreForm(){
+
+                $.ajax({
+                    type: "POST",
+                    url: urlAjouter,
+                    data: $("#frmMessages").serialize(),
+                    success: function (data) {
+                        $("#txtMessage").val('');
+                        getMessages(true, false)
+                    }
+                });
             }
         });
     </script>

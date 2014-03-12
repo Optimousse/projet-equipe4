@@ -11,6 +11,7 @@ class DiversController extends AppController
 
     //Page d'accueil
     public function accueil(){
+        $this->set('title_for_layout', 'Paris, pas la ville');
         $this->loadModel('Pari');
         $paris = $this->Pari->find('all', array('limit' => 5, 'order' => 'id DESC', 'fields' => array('nom', 'image', 'description', 'date_fin')));
         $this->set('paris', $paris);
@@ -22,6 +23,7 @@ class DiversController extends AppController
 
     //Page Foire aux questions
     public function faq(){
+        $this->set('title_for_layout', 'Foire aux questions');
 
     }
 }
