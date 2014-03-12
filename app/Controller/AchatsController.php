@@ -32,7 +32,7 @@ class AchatsController extends AppController
         // on teste si le parieur possède assez de jetons pour parier le montant désiré
         if ($montant > $jetonPossede) {
 
-            $lien = Router::url(array('controller' => 'parieurs', 'action' => 'acheter_jetons'), false);
+            $lien = Router::url(array('controller' => 'parieurs', 'action' => 'acheter_jetons', 'lots'), false);
             // explication de l'erreur
             $this->messageAvertissement('Vous n\'avez pas assez de jetons pour acheter ce lot.
                                                  <a href="' . $lien . '">Vous pouvez en racheter ici.</a>');

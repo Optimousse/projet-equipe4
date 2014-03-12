@@ -116,7 +116,8 @@ class ParieursController extends AppController
     }
 
     //Fonction pour acheter des jetons avec le plugin Stripe
-    public function acheter_jetons()
+    //Param: $ref = page qui nous a appelé
+    public function acheter_jetons($ref = null)
     {
         $this->set('title_for_layout', 'Acheter des jetons');
         $parieur = $this->Parieur->findById($this->Auth->user('id'));
@@ -147,7 +148,11 @@ class ParieursController extends AppController
                 if ($this->Parieur->save()) {
 
                     $this->messageSucces($nombre_jetons_achetes . ' jetons ont été ajoutés à votre compte.');
-                    return $this->redirect(array('controller' => 'parieurs', 'action' => 'mon_compte'));
+
+                    if($ref == 'lots')
+                        return $this->redirect(array('controller' => 'lots', 'action' => 'index'));
+                    else
+                        return $this->redirect(array('controller' => 'parieurs', 'action' => 'mon_compte'));
                 }
             }
 

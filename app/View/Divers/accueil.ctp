@@ -76,7 +76,7 @@
     <div class="col-md-4">
         <div id="thmb1" class="thumbnail">
             <div style="height:150px; overflow:hidden; ">
-                <?php echo $this->Html->image($lot['Lot']['image'], array('height'=>'150px;')); ?>
+                <?php echo $this->Html->image($lot['Lot']['image'], array('height'=>'150px; width:100%;')); ?>
             </div>
 
             <div class="caption">
