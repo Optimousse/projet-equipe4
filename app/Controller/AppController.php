@@ -59,7 +59,7 @@ class AppController extends Controller
                 )
             ),
             'logoutRedirect' => array(
-                'controller' => 'paris',
+                'controller' => 'divers',
                 'action' => 'accueil'
             ),
             //Si pas connecté, redirige vers la page de connexion
@@ -75,7 +75,7 @@ class AppController extends Controller
     {
         parent::beforeFilter();
         //Pages accessibles sans être connecté (Les actions accessibles pour tous les contrôleurs)
-        $this->Auth->allow('index', 'accueil');
+        $this->Auth->allow('index');
         $this->Auth->loginRedirect = array('controller' => 'paris', 'action' => 'index');
     }
 
@@ -118,6 +118,12 @@ class AppController extends Controller
 
     public function redirectAccueil(){
 
-        return $this->redirect(array('action' => 'accueil', 'controller' => 'paris'));
+        return $this->redirect(array('action' => 'accueil', 'controller' => 'divers'));
+    }
+
+
+    public function redirectCatalogue(){
+
+        return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
     }
 }

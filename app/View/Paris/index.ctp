@@ -1,11 +1,17 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-        var max = 0, jThumbnails = $("div.thumbnail");
-        jThumbnails .each(function(index, elt){
-            max = Math.max(max, $(elt).height());
+        var maxHeight = 0;
+        $("div.caption").each(function(){
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
         });
-        jThumbnails.css('height', max + 10);
+        $("div.caption").height(maxHeight + 15);
+
+        maxHeight = 0;
+        $("p.description").each(function(){
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+        });
+        $("p.description").height(maxHeight);
     });
 </script>
 
@@ -34,7 +40,7 @@
     foreach ($paris as $pari){?>
         <div class="col-md-4">
         <div class="thumbnail" >
-            <div style="max-height:150px; overflow:hidden; ">
+            <div style="height:150px; overflow:hidden; ">
                 <?php echo $this->Html->image($pari['Pari']['image'], array(
                     "alt" => "Brownies",
                     'style' => 'width:100%;',
@@ -44,10 +50,10 @@
             </div>
 
             <div class="caption">
-                <h3>
+                <h3 class="text-center">
                     <?php echo $pari['Pari']['nom']; ?>
                 </h3>
-                <p>
+                <p class="description" style="color: #797979;">
                     <?php
                     $desc = $pari['Pari']['description'];
                     if(strlen($desc) > 150)
@@ -56,9 +62,10 @@
                         echo $desc;
                     ?>
                 </p>
-                <?php
+                <p class="text-center">
+                    <?php
                 $nomLien = 'Consulter';
-                if(date("Y-m-d") < $pari['Pari']['date_fin'])
+                    if(date("Y-m-d") < $pari['Pari']['date_fin'])
                     $nomLien = 'Miser';
                 echo $this->Html->link($nomLien, array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id']), array('class' => 'btn btn-primary')); ?>
             </div>

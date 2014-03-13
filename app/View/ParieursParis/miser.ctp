@@ -11,7 +11,6 @@
                     $aujourdhui = strtotime(date("Y-m-d"));
                     $dateFin = strtotime($paris['Pari']['date_fin']);
                     $jours = round(($dateFin - $aujourdhui) / 86400);
-
                     $accordJour = 'jour';
                     if($jours > 1)
                         $accordJour = $accordJour . 's';
@@ -29,15 +28,19 @@
         <div class="col-xs-6 col-md-4">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <p><?php echo $paris['Pari']['description']; ?></p>
+                    <span class="btn btn-danger" style="width:100%;">Détails</span>
+                    <div style="padding:15px;">
+                        <p><?php echo $paris['Pari']['description']; ?></p>
                         <span class="lead" style="margin:0;">Choix et cotes</span>
-                    <dl>
-                        <?php
-                        foreach ($choix as $choi):?>
-                            <dt><?php echo $choi['Choix']['nom']; ?></dt>
-                            <dd><?php echo $choi['Choix']['cote']; ?></dd>
-                        <?php endforeach; ?>
-                    </dl>
+                        <dl>
+                            <?php
+                            foreach ($choix as $choi):?>
+                                <dt>
+                                    <?php echo $choi['Choix']['nom']; ?></dt>
+                                <dd><?php echo $choi['Choix']['cote']; ?></dd>
+                            <?php endforeach; ?>
+                        </dl>
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,8 +57,11 @@
                 '</h3> pour miser sur ce pari.</p';
         } else {
             if ($paris['Pari']['parieur_id'] == $id_util) {
-                echo '<blockquote style="border-color:#2D6CA2; background-color:#eee;">
-                        Vous ne pouvez miser sur ce pari puisque vous êtes son créateur.
+                echo '<blockquote class="blockquote-info">';
+                ?>
+                <span class="glyphicon glyphicon-remove"></span>
+                <?php
+                        echo 'Vous ne pouvez miser sur ce pari puisque vous êtes son créateur.
                         </blockquote>';
             } else if ($dejaMise) {
                 echo '<blockquote style="border-color:#2D6CA2; background-color:#eee;">Vous avez déjà misé sur ce pari.</blockquote>';
@@ -73,14 +79,14 @@
                     $attributes = array('legend' => false, 'separator' => '<br/>');
                     echo $this->Form->radio('choix_id', $options, $attributes);
                     echo $this->Form->input('mise',
-                        array('label' => 'Mise:', 'type' => 'number'));
+                        array('label' => 'Mise:', 'type' => 'number', 'autocomplete' => 'off'));
 
                     echo $this->Form->input('pari_id', array('type' => 'hidden', 'value' => $paris['Pari']['id']));
                     echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));
 
                     echo $this->Form->submit('Miser', array(
                         'div' => false,
-                        'class' => 'btn btn-primary'
+                        'class' => 'btn btn-primary',
                     ));
 
                     ?>
@@ -91,7 +97,7 @@
     } else {
         // si le choix gagnant a été décidé on l'affiche
         if (isset($nom_choixGagnant)) {
-            echo '<blockquote style="border-color:#2D6CA2; background-color:#eee;">Ce pari est déjà terminé.';
+            echo '<blockquote  class="blockquote-info">Ce pari est déjà terminé.';
             echo '<br/><br/>';
             echo 'Le choix gagnant était <i>' . $nom_choixGagnant .'</i>.';
             echo '<br/>';
@@ -100,20 +106,26 @@
                 echo 'Vous avez misé  <i>' . $nom_choixParieur . '</i><br/><br/>';
 
                 if ($nom_choixParieur == $nom_choixGagnant) {
+                    ?>
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    <?php
                     echo 'Félicitations, vous aviez la bonne réponse !';
                 } else {
+                    ?>
+                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                    <?php
                     echo 'Dommage, vous vous êtes trompé. Meilleure chance la prochaine fois !';
                 }
             }
             echo '</blockquote>';
             // le choix n'a pas encore été fait
         } else {
-            echo '<blockquote style="border-color:#2D6CA2; background-color:#eee;">Le pari est terminé. Le résultat n\'a pas encore été déterminé.</blockquote>';
+            echo '<blockquote class="blockquote-info">Le pari est terminé. Le résultat n\'a pas encore été déterminé.</blockquote>';
         }
     }
     ?>
 
 </div>
-
-<?php echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-primary')); ?>
+<div class="clearfix"></div>
+<?php echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default')); ?>
 

@@ -50,8 +50,6 @@
 
     unset($pari); ?>
 </table>
-
-
 <?php
 echo $this->Paginator->pagination(array(
     'ul' => 'pagination'

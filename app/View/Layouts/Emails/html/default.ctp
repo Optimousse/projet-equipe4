@@ -24,6 +24,6 @@
 <body>
 <?php echo $this->fetch('content'); ?>
 
-<p>This email was sent using the <a href="http://cakephp.org">CakePHP Framework</a></p>
+<p>Veuillez ne pas répondre à ce courriel. Il a été envoyé de manière automatique.</p>
 </body>
 </html>

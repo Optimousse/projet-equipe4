@@ -13,8 +13,9 @@
     <?php
     echo $this->Html->css("bootstrap", null, array("inline" => false));
     echo $this->Html->css("bootstrap-theme", null, array("inline" => false));
-    echo $this->Html->script('jquery');
+    echo $this->Html->css("datepicker3", null, array("inline" => false));
     echo $this->Html->script('bootstrap.min');
+    echo $this->Html->script('bootstrap-datepicker');
     ?>
     <style>
         body {
@@ -50,22 +51,26 @@
                 "action" => "setTousMessagesLus"
             )); ?>';
 
-            if($("#txtConnecte").val() === '1'){
+            if ($("#txtConnecte").val() === '1') {
                 getMessages(true, true);
 
                 setInterval(function () {
                     getMessages(false);
                 }, 5000);
             }
+            jQuery.noConflict();
+            $('#myModal').on('shown.bs.modal', function (e) {
+                $("#divMessages").animate({ scrollTop: $('#divMessages')[0].scrollHeight}, 500);
+            })
 
             $("#liMessagerie").click(function () {
                 _messagesLus = true;
                 setMessagesLus();
             });
-            $("#divMessagerie").click(function(){
+            $("#divMessagerie").click(function () {
                 setMessagesLus();
             });
-            $("#divMessages").click(function(){
+            $("#divMessages").click(function () {
                 setMessagesLus();
             });
 
@@ -74,7 +79,7 @@
                     type: "POST",
                     url: urlAjouter,
                     data: $("#frmMessages").serialize(),
-                    success: function(data){
+                    success: function (data) {
                         $("#txtMessage").val('');
                         getMessages(true)
                     }
@@ -82,11 +87,11 @@
                 e.preventDefault();
             });
 
-            function setMessagesLus(){
+            function setMessagesLus() {
                 _nbMessagesLus = 0;
                 $.ajax({
                     url: urlTousMessagesLus,
-                    success: function(){
+                    success: function () {
                         $("#badgeNouveauMessage").css('display', 'none');
                     }
                 });
@@ -94,9 +99,9 @@
 
             //Va chercher les derniers messages qui n'ont pas été lus
             function getMessages(estAjout, estPageLoad) {
-                if(estAjout == undefined)
+                if (estAjout == undefined)
                     estAjout = false;
-                if(estPageLoad === undefined)
+                if (estPageLoad === undefined)
                     estPageLoad = false;
                 $.ajax({
                     type: "POST",
@@ -109,7 +114,7 @@
                             //On n'affiche le badge que si l'utilisateur a utilisé la messagerie
                             //(Pour ne pas l'importuner) et si le nouveau message en question n'est pas celui
                             //qu'il vient d'écrire
-                            if(estAjout === false && _messagesLus){
+                            if (estAjout === false && _messagesLus) {
                                 _nbMessagesLus += data.length;
                                 $("#badgeNouveauMessage").empty();
                                 $("#badgeNouveauMessage").append(_nbMessagesLus);
@@ -142,146 +147,147 @@
 <body>
 
 <div class="container">
-<div class="row clearfix">
-<div class="col-md-12 column">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
 
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
-                class="icon-bar"></span><span class="icon-bar"></span>
-        </button> <?php echo $this->Html->link('Paris, pas la ville', array(
-            'controller' => 'paris',
-            'action' => 'accueil'
-        ), array('class' => 'navbar-brand')); ?>
-    </div>
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
+                            class="icon-bar"></span><span class="icon-bar"></span>
+                    </button> <?php echo $this->Html->link('Paris, pas la ville', array(
+                        'controller' => 'divers',
+                        'action' => 'accueil'
+                    ), array('class' => 'navbar-brand')); ?>
+                </div>
 
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
 
-            <li><?php echo $this->Html->link('Catalogue', array('controller' => 'paris',
-                    'action' => 'index'
-                )); ?></li>
-
-            <li><?php echo $this->Html->link('Lots', array('controller' => 'lots',
-                    'action' => 'index'
-                )); ?></li>
-
-            <?php
-            if (!AuthComponent::user()) {
-                ?>
-                <li><?php echo $this->Html->link('Connexion', array('controller' => 'parieurs',
-                        'action' => 'connexion'
-                    )); ?></li>
-                <li><?php echo $this->Html->link('Inscription', array('controller' => 'parieurs',
-                        'action' => 'inscription'
-                    )); ?></li>
-            <?php
-            }
-            else{
-                ?>
-                <input type="hidden" id="txtConnecte" value="1"/>
-                <li><?php echo $this->Html->link('Créer un pari', array('controller' => 'paris',
-                        'action' => 'ajouter'
-                    )); ?></li>
-
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mon compte<strong class="caret"></strong></a>
-
-                    <ul class="dropdown-menu">
-                        <li><?php echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
-                                'action' => 'mon_compte'
+                        <li><?php echo $this->Html->link('Catalogue', array('controller' => 'paris',
+                                'action' => 'index'
                             )); ?></li>
-                        <li><?php echo $this->Html->link('Mes paris', array('controller' => 'paris',
-                                'action' => 'mes_paris'
+
+                        <li><?php echo $this->Html->link('Lots', array('controller' => 'lots',
+                                'action' => 'index'
                             )); ?></li>
-                        <li><?php echo $this->Html->link('Mes mises', array('controller' => 'parieurs_paris',
-                                'action' => 'mes_mises'
-                            )); ?></li>
-                        <li><?php echo $this->Html->link('Acheter des jetons', array('controller' => 'parieurs',
-                                'action' => 'acheter_jetons'
-                            )); ?></li>
+
+                        <?php
+                        if (!AuthComponent::user()) {
+                            ?>
+                            <li><?php echo $this->Html->link('Connexion', array('controller' => 'parieurs',
+                                    'action' => 'connexion'
+                                )); ?></li>
+                            <li><?php echo $this->Html->link('Inscription', array('controller' => 'parieurs',
+                                    'action' => 'inscription'
+                                )); ?></li>
+                        <?php
+                        } else {
+                            ?>
+                            <input type="hidden" id="txtConnecte" value="1"/>
+                            <li><?php echo $this->Html->link('Créer un pari', array('controller' => 'paris',
+                                    'action' => 'ajouter'
+                                )); ?></li>
+
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mon compte<strong
+                                        class="caret"></strong></a>
+
+                                <ul class="dropdown-menu">
+                                    <li><?php echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
+                                            'action' => 'mon_compte'
+                                        )); ?></li>
+                                    <li><?php echo $this->Html->link('Mes paris', array('controller' => 'paris',
+                                            'action' => 'mes_paris'
+                                        )); ?></li>
+                                    <li><?php echo $this->Html->link('Mes mises', array('controller' => 'parieurs_paris',
+                                            'action' => 'mes_mises'
+                                        )); ?></li>
+                                    <li><?php echo $this->Html->link('Acheter des jetons', array('controller' => 'parieurs',
+                                            'action' => 'acheter_jetons'
+                                        )); ?></li>
+                                </ul>
+                            </li>
+                            <li><?php echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
+                                    'action' => 'logout'
+                                )); ?></li>
+                            <li id="liMessagerie" class="dropdown">
+                                <a id="modal-473524" href="#myModal" role="button" class="btn" data-toggle="modal">
+                                    <span id="badgeNouveauMessage" style="display:none;"
+                                          class="badge badge-important pull-right">1</span>
+                                    <?php echo $this->Html->image('glyphicons_010_envelope.png'); ?>
+                                    &nbsp;&nbsp;<strong class="caret"></strong>&nbsp;
+                                </a>
+                            </li>
+                        <?php
+                        }
+                        ?>
                     </ul>
-                </li>
-                <li><?php echo $this->Html->link('|', array('controller' => 'null',
-                        'action' => 'null'
-                    )); ?></li>
-                <li id="liMessagerie" class="dropdown">
-                    <a id="modal-473524" href="#modal-Mesagerie" role="button" class="btn" data-toggle="modal">
-                        <span id="badgeNouveauMessage" style="display:none;" class="badge badge-important pull-right">1</span>
-                        Messagerie&nbsp;<strong class="caret"></strong>&nbsp;
-                    </a>
-                </li>
-                <li><?php echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
-                        'action' => 'logout'
-                    )); ?></li>
+                </div>
+            </nav>
+
             <?php
-            }
+            echo $this->Session->flash();
+            echo $this->Session->flash('auth');
+
+            echo $this->fetch('content');
             ?>
-        </ul>
-    </div>
+            <div class="modal fade" style="margin-top:22px;" id="myModal" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                Derniers messages
+                            </h4>
+                        </div>
 
-</nav>
+                        <ul id="divMessages" style="list-style-type: none; max-height: 400px; overflow-y: scroll;"></ul>
+                        <?php
+                        echo $this->Form->create('Message', array(
+                            'inputDefaults' => array(
+                                'div' => 'form-group',
+                                'label' => false,
+                                'wrapInput' => false,
+                                'class' => 'form-control'
+                            ),
+                            'id' => 'frmMessages'
+                        ));
+                        ?>
 
-<?php
-echo $this->Session->flash();
-echo $this->Session->flash('auth');
+                        <div id="divMessagerie" class="modal-body">
+                            <?php
+                            echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => AuthComponent::user('id')));
 
-echo $this->fetch('content');
-?>
-<div class="modal fade" style="margin-top:22px;" id="modal-Mesagerie" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">
-                    Derniers messages
-                </h4>
-            </div>
-
-            <ul id="divMessages" style="list-style-type: none; max-height: 400px; overflow-y: scroll;"></ul>
-            <?php
-            echo $this->Form->create('Message', array(
-                'inputDefaults' => array(
-                    'div' => 'form-group',
-                    'label' => false,
-                    'wrapInput' => false,
-                    'class' => 'form-control'
-                ),
-                'id' => 'frmMessages'
-            ));
-            ?>
-
-            <div id="divMessagerie" class="modal-body">
-                <?php
-                echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => AuthComponent::user('id')));
-
-                echo $this->Form->input('message', array(
-                    'label' => false, 'id'=> 'txtMessage', 'div'=>false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
-                ));?>
-                    <br/>
-                        <div class="input-group">
+                            echo $this->Form->input('message', array(
+                                'label' => false, 'id' => 'txtMessage', 'div' => false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
+                            ));?>
                             <br/>
+
+                            <div class="input-group">
+                                <br/>
                             <span class="input-group-btn">
                                 <button id="btnSoumettre" class="btn btn-primary" type="button">Envoyer</button>
-                                <button id="btnSoumettre" class="btn" type="button">Fermer</button>
+                                <button class="btn btn-default" contenteditable="true" data-dismiss="modal"
+                                        type="button">Fermer
+                                </button>
                               </span>
+                            </div>
                         </div>
+                        <?php
+                        echo $this->Form->end();
+                        ?>
+                    </div>
                 </div>
             </div>
-            </div>
-            <?php
-            echo $this->Form->end();
-            ?>
+
         </div>
 
     </div>
-
-    </div>
-    </div>
-    </div>
-    </div>
+</div>
 <!-- /container -->
 
 <!-- Le javascript
