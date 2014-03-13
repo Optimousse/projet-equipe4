@@ -27,11 +27,17 @@ class AchatsController extends AppController
         // on teste si le parieur possède assez de jetons pour parier le montant désiré
         if ($montant > $jetonPossede) {
 
+            // calcule le nonbre de jetons manquant pour se procurer le lot => pour affichage du message d'erreur
+            $sommeManquante = $montant - $jetonPossede;
+
             $lien = Router::url(array('controller' => 'parieurs', 'action' => 'acheter_jetons', 'lots'), false);
             // explication de l'erreur
-            $this->messageAvertissement('Vous n\'avez pas assez de jetons pour acheter ce lot.
-                                                 <a href="' . $lien . '">Vous pouvez en racheter ici.</a>');
-            return;
+            $this->messageAvertissement('Vous n\'avez pas assez de jetons pour acheter ce lot. Vous disposez de '.
+                                       $jetonPossede.' jetons et le lot en coûte '.$montant.'.<br>Il vous manque '
+                                      .$sommeManquante.' jetons.'.'<a href="' . $lien . '"><br><br>Vous pouvez en racheter ici.</a>');
+
+            // on renvoie sur la page des lots
+            return $this->redirect(array('action' => 'index', 'controller' => 'Lots'));
         }
 
         if ($this->request->is(array('post', 'put'))) {
