@@ -207,4 +207,6 @@
     </div>
 </div>
 
+<? echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default btn-separation')); ?>
+
 
