@@ -48,9 +48,15 @@
     <?php
     }
 
-    unset($pari); ?>
+    unset($pari);
+    ?>
 </table>
 <?php
 echo $this->Paginator->pagination(array(
     'ul' => 'pagination'
-)); ?>
+));
+
+echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default btn-separation'));
+?>
+
+
