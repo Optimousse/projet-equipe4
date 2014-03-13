@@ -50,7 +50,12 @@
                 }
                 ?>
                 <div class="<?php echo $class;?>" style="max-width:1200px; height:400px; overflow:hidden;">
-                    <?php echo $this->Html->image($pari['Pari']['image'], array('width'=>'1200px')); ?>
+                    <?php echo $this->Html->image($pari['Pari']['image'], array(
+                        'width'=>'1200px',
+                        "alt" => $pari['Pari']['image'],
+                        'url' => array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id'])
+
+                    )); ?>
                     <div class="carousel-caption">
                         <h4>
                             <?php echo $pari['Pari']['nom'];?>

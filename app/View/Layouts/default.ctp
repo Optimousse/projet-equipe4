@@ -288,7 +288,7 @@
                                 <button class="btn btn-default btn-separation" contenteditable="true" data-dismiss="modal"
                                         type="button">Fermer
                                 </button>
-                             
+
                             </div>
                         </div>
                         <?php
