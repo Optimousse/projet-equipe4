@@ -10,7 +10,12 @@ class Choix extends AppModel {
     public $useTable = 'choix';
 
     /* Le lien entre la table Choix et la table Pari */
-    public $belongsTo = 'Pari';
+    public $belongsTo = array(
+        'Pari' => array(
+            'className' => 'Pari',
+            'limit' => '1'
+        )
+    );
 
     //Validation des choix
     public $validate = array(

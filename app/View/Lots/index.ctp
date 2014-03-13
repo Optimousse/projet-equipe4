@@ -1,11 +1,11 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-        var max = 0, jThumbnails = $("div.thumbnail");
-        jThumbnails .each(function(index, elt){
-            max = Math.max(max, $(elt).height());
+        var maxHeight = 0;
+        $("div.caption").each(function(){
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
         });
-        jThumbnails.css('height', max);
+        $("div.caption").height(maxHeight + 15);
     });
 </script>
 
@@ -18,6 +18,7 @@
     <div class="clearfix"></div>
     <ul class="pagination" style="margin-top: 0;">
         <li><?php echo $this->Paginator->sort('nom'); ?></li>
+        <li><?php echo $this->Paginator->sort('prix'); ?></li>
     </ul>
     <br/>
     <?php
@@ -33,7 +34,7 @@
     foreach ($lots as $lot){?>
         <div class="col-md-4">
             <div class="thumbnail" >
-                <div style="max-height:100px; overflow:hidden; ">
+                <div style="max-height:150px; overflow:hidden; ">
                     <img style="width:100%; " src="<?php echo $lot['Lot']['image']; ?>"/>
                 </div>
 

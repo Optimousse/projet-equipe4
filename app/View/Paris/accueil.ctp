@@ -1,11 +1,12 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-        var max = 0, jThumbnails = $("div.thumbnail");
-        jThumbnails .each(function(index, elt){
-            max = Math.max(max, $(elt).height());
+        //Hauteur maximale pour les thumbnails, pour qu'ils soient tous égaux
+        var maxHeight = 0;
+        $("div.caption").each(function(){
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
         });
-        jThumbnails.css('height', max);
+        $("div.caption").height(maxHeight + 10);
     });
 </script>
 
@@ -17,16 +18,22 @@
 
     <div class="carousel slide" id="carousel-15074">
         <ol class="carousel-indicators">
+
+            <li class="active" data-slide-to="0" data-target="#carousel-15074">
+            </li>
             <?php
             $nbParis = count($paris);
 
-            for($i = 0 ; $i < $nbParis; $i++){
+            for($i = 1 ; $i < $nbParis - 1; $i++){
                 ?>
                 <li data-slide-to="<?php echo $i;?>" data-target="#carousel-15074">
                 </li>
             <?php
             }
             ?>
+
+            <li data-slide-to="0" data-target="#carousel-15074">
+            </li>
         </ol>
         <div class="carousel-inner">
             <?php
@@ -41,7 +48,7 @@
                     $class = "item";
                 }
                 ?>
-                <div class="<?php echo $class;?>" style="max-width:1200px; max-height:400px;">
+                <div class="<?php echo $class;?>" style="max-width:1200px; height:400px;">
                     <img style="width:1200px; overflow:hidden;" alt="" src="<?php echo $pari['Pari']['image'];?>"/>
 
                     <div class="carousel-caption">
@@ -89,7 +96,7 @@
     <div class="col-md-4">
         <div id="thmb2" class="thumbnail">
             <div style="overflow:hidden;">
-                <img style="height:150px;" src="http://orionschoolwear.co.uk/image/cache/data/Smaller%20banner/about-1-1200x300.jpg"/>
+                <img src="http://lorempixel.com/400/150/people/9"/>
             </div>
 
             <div class="caption">
@@ -106,7 +113,7 @@
     <div class="col-md-4">
         <div id="thmb3" class="thumbnail">
             <div style="max-height:150px; overflow:hidden; ">
-                <img src="http://lorempixel.com/400/150/people/9"/>
+                <img style="height:150px;" src="http://orionschoolwear.co.uk/image/cache/data/Smaller%20banner/about-1-1200x300.jpg"/>
             </div>
 
             <div class="caption">

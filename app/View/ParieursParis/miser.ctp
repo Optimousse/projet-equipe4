@@ -73,7 +73,7 @@
                     $attributes = array('legend' => false, 'separator' => '<br/>');
                     echo $this->Form->radio('choix_id', $options, $attributes);
                     echo $this->Form->input('mise',
-                        array('label' => 'Mise:', 'type' => 'number'));
+                        array('label' => 'Mise:', 'type' => 'number', 'autocomplete' => 'off'));
 
                     echo $this->Form->input('pari_id', array('type' => 'hidden', 'value' => $paris['Pari']['id']));
                     echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));
@@ -114,6 +114,6 @@
     ?>
 
 </div>
-
-<?php echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-primary')); ?>
+<div class="clearfix"></div>
+<?php echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default')); ?>
 

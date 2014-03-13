@@ -13,7 +13,6 @@
     <?php
     echo $this->Html->css("bootstrap", null, array("inline" => false));
     echo $this->Html->css("bootstrap-theme", null, array("inline" => false));
-    echo $this->Html->script('jquery');
     echo $this->Html->script('bootstrap.min');
     ?>
     <style>
@@ -57,6 +56,10 @@
                     getMessages(false);
                 }, 5000);
             }
+
+            $("#aFauxLien").click(function (e) {
+                e.preventDefault();
+            });
 
             $("#liMessagerie").click(function () {
                 _messagesLus = true;
@@ -204,9 +207,7 @@
                             )); ?></li>
                     </ul>
                 </li>
-                <li><?php echo $this->Html->link('|', array('controller' => 'null',
-                        'action' => 'null'
-                    )); ?></li>
+                <li><a id="aFauxLien" href="#">|</a></li>
                 <li id="liMessagerie" class="dropdown">
                     <a id="modal-473524" href="#modal-Mesagerie" role="button" class="btn" data-toggle="modal">
                         <span id="badgeNouveauMessage" style="display:none;" class="badge badge-important pull-right">1</span>
@@ -265,7 +266,7 @@ echo $this->fetch('content');
                             <br/>
                             <span class="input-group-btn">
                                 <button id="btnSoumettre" class="btn btn-primary" type="button">Envoyer</button>
-                                <button id="btnSoumettre" class="btn" type="button">Fermer</button>
+                                <button class="btn btn-default" contenteditable="true" data-dismiss="modal" type="button">Fermer</button>
                               </span>
                         </div>
                 </div>
