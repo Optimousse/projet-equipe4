@@ -67,8 +67,6 @@
                                                                         href="#carousel-15074" data-slide="next"><span
                 class="glyphicon glyphicon-chevron-right"></span></a>
     </div>
-
-    <p></p>
 </div>
 
 <div class="row">

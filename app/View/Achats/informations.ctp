@@ -24,7 +24,8 @@
             'div' => false,
             'class' => 'btn btn-primary'
         ));
-        ?>
+
+        echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default')); ?>
     </fieldset>
     <?php echo $this->Form->end(); ?>
 </div>

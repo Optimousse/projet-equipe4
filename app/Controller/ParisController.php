@@ -193,7 +193,12 @@ class ParisController extends AppController
         $Email->template('gagneMise');
         $Email->subject('Félicitations, vous avez remporté votre mise !');
         $Email->emailFormat('both');
-        $Email->send('Hello');
+
+        try{
+            $Email->send('Gagnant');
+        }
+        catch(Exception $e){
+        }
     }
 
     //Envoie un courriel d'information à un utilisateur qui a perdu une mise sur un pari
@@ -209,7 +214,12 @@ class ParisController extends AppController
         $Email->template('perduMise');
         $Email->subject('Vous avez perdu votre mise.');
         $Email->emailFormat('both');
-        $Email->send('Hello');
+
+        try{
+            $Email->send('Perdant');
+        }
+        catch(Exception $e){
+        }
     }
 
     //Upload une image lors de la création d'un pari

@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: administrateur
- * Date: 14-03-07
- * Time: 08:34
- */
+App::uses('CakeEmail', 'Network/Email');
 class AchatsController extends AppController
 {
     // Informations pour l'achat
@@ -50,11 +45,11 @@ class AchatsController extends AppController
             $this->Achat->create();
 
             if ($this->Achat->save($this->request->data, true, array('adresse', 'code_postal', 'ville','parieur_id', 'lot_id'))) {
-                $this->messageSucces('Votre compte commande a été passée.');
+                $this->messageSucces('Votre commande a bien été passée.');
                 $this->envoyerCourrielAcheteur($parieur['Parieur']['courriel'], $leLot['Lot']['nom']);
                 return $this->redirect(array('action' => 'index', 'controller' => 'Lots'));
             } else {
-                $this->messageErreur('Une erreur est survenue lors de la création de votre compte.');
+                $this->messageErreur('Une erreur est survenue lors de l\'achat du lot.');
             }
         }
 
@@ -66,11 +61,9 @@ class AchatsController extends AppController
 
     private function sauvegarderNouveauxJetons($id_usager, $nombre_jetons){
 
-        var_dump($nombre_jetons);
         $this->Parieur->id = $id_usager;
         $parieur = $this->Parieur->findById($id_usager);
         $nbJetons = $parieur['Parieur']['nombre_jetons'] - $nombre_jetons;
-        var_dump($nbJetons);
         return $this->Parieur->saveField('nombre_jetons', $nbJetons);
     }
 
@@ -87,6 +80,11 @@ class AchatsController extends AppController
         $Email->template('acheteLot');
         $Email->subject('Votre commande a été passée.');
         $Email->emailFormat('both');
-        $Email->send('Hello');
+
+        try{
+            $Email->send('Achat');
+        }
+        catch(Exception $e){
+        }
     }
 }
