@@ -23,6 +23,7 @@ class ParieursController extends AppController
     //Connexion au site
     public function connexion()
     {
+        $this->set('title_for_layout', 'Connexion');
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
                 $this->messageSucces('Vous êtes maintenant connecté.');
@@ -44,6 +45,7 @@ class ParieursController extends AppController
     //Inscription au site
     public function inscription()
     {
+        $this->set('title_for_layout', 'Inscription');
         if ($this->request->is(array('post', 'put'))) {
 
             if($this->MotsPasseIdentiques($this->request->data['Parieur']['mot_passe'], $this->request->data['Parieur']['mot_passe_confirmation'])){
@@ -65,6 +67,7 @@ class ParieursController extends AppController
     //Affiche la page "Mon compte"
     public function mon_compte()
     {
+        $this->set('title_for_layout', 'Mon compte');
         //Afin que les champs soient déjà remplis
         if (!$this->request->data) {
             $this->request->data = $this->Parieur->find('first', array(
@@ -113,8 +116,10 @@ class ParieursController extends AppController
     }
 
     //Fonction pour acheter des jetons avec le plugin Stripe
-    public function acheter_jetons()
+    //Param: $ref = page qui nous a appelé
+    public function acheter_jetons($ref = null)
     {
+        $this->set('title_for_layout', 'Acheter des jetons');
         $parieur = $this->Parieur->findById($this->Auth->user('id'));
         $this->set('nombre_jetons', $parieur['Parieur']['nombre_jetons']);
 
@@ -143,7 +148,11 @@ class ParieursController extends AppController
                 if ($this->Parieur->save()) {
 
                     $this->messageSucces($nombre_jetons_achetes . ' jetons ont été ajoutés à votre compte.');
-                    return $this->redirect(array('controller' => 'parieurs', 'action' => 'mon_compte'));
+
+                    if($ref == 'lots')
+                        return $this->redirect(array('controller' => 'lots', 'action' => 'index'));
+                    else
+                        return $this->redirect(array('controller' => 'parieurs', 'action' => 'mon_compte'));
                 }
             }
 
@@ -151,7 +160,11 @@ class ParieursController extends AppController
         }
     }
 
-    public function MotsPasseIdentiques($mp, $mp_confirmation){
+    /*
+     * Fonctions privées
+     */
+
+    private function MotsPasseIdentiques($mp, $mp_confirmation){
         return $mp == $mp_confirmation;
     }
 }

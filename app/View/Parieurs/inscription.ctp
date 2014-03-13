@@ -1,13 +1,13 @@
 <!-- app/View/Users/add.ctp -->
 <h1>Inscription</h1>
 
-<p>
+<blockquote class="blockquote-info">
     L'inscription est simple, rapide et gratuite ! Une fois votre compte créé, vous vous verrez attribuer 100
     jetons en guise de cadeau de bienvenue.
 
     <?php echo $this->Html->link('Vous possédez déjà un compte ?',
         array('controller' => 'parieurs', 'action' => 'connexion')); ?>
-</p>
+</blockquote>
 
 <div class="users form">
     <?php echo $this->Form->create('Parieur', array(

@@ -1,11 +1,12 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-        var max = 0, jThumbnails = $("div.thumbnail");
-        jThumbnails .each(function(index, elt){
-            max = Math.max(max, $(elt).height());
+
+        maxHeight = 0;
+        $("div.description").each(function(){
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
         });
-        jThumbnails.css('height', max + 10);
+        $("div.description").height(maxHeight + 10);
     });
 </script>
 
@@ -34,31 +35,34 @@
     foreach ($paris as $pari){?>
         <div class="col-md-4">
         <div class="thumbnail" >
-            <div style="max-height:150px; overflow:hidden; ">
+            <div style="height:150px; overflow:hidden; ">
                 <?php echo $this->Html->image($pari['Pari']['image'], array(
-                    "alt" => "Brownies",
-                    'style' => 'width:100%;',
+                    "alt" => $pari['Pari']['image'],
+                    'style' => 'height:150px; width:100%',
                     'url' => array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id'])
                 ));
                 ?>
             </div>
 
             <div class="caption">
-                <h3>
-                    <?php echo $pari['Pari']['nom']; ?>
-                </h3>
-                <p>
+                <div class="description">
+                    <h3 class="text-center">
+                        <?php echo $pari['Pari']['nom']; ?>
+                    </h3>
+                    <p style="color: #595959;">
+                        <?php
+                        $desc = $pari['Pari']['description'];
+                        if(strlen($desc) > 150)
+                            echo substr($desc, 0, 150) . '[...]';
+                        else
+                            echo $desc;
+                        ?>
+                    </p>
+                </div>
+                <p class="text-center">
                     <?php
-                    $desc = $pari['Pari']['description'];
-                    if(strlen($desc) > 150)
-                        echo substr($desc, 0, 150) . '[...]';
-                    else
-                        echo $desc;
-                    ?>
-                </p>
-                <?php
                 $nomLien = 'Consulter';
-                if(date("Y-m-d") < $pari['Pari']['date_fin'])
+                    if(date("Y-m-d") < $pari['Pari']['date_fin'])
                     $nomLien = 'Miser';
                 echo $this->Html->link($nomLien, array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id']), array('class' => 'btn btn-primary')); ?>
             </div>

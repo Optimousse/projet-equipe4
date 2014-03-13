@@ -1,5 +1,18 @@
 <script type="text/javascript">
     $(document).ready(function () {
+        var today = new Date();
+        today.setDate(today.getDate() + 1)
+        jQuery.noConflict();
+        $('#txtDate').datepicker({
+            startDate: today,
+            language: "fr"
+        });
+
+        if($('#txtDate').val() !== ""){
+            var $tDate = $('#txtDate').val().split(' ');
+            var sDate = $tDate[1] + '/' + $tDate[0] + '/' + $tDate[2];
+            $('#txtDate').val(sDate);
+        }
 
         if ($("#txtChoix3").val() !== "" || $("#txtCote3").val() !== "")
             AjouterChoix();
@@ -24,6 +37,12 @@
             $("#liTroisiemeChoix").css('display', 'none');
             $("#dNouveauChoix").append('Ajouter un troisième choix.');
         }
+
+        $("#txtDate").tooltip();
+        $("#txtImage").tooltip();
+        $("#txtCote1").tooltip();
+        $("#txtCote2").tooltip();
+        $("#txtCote3").tooltip();
     });
 </script>
 
@@ -36,28 +55,45 @@
             'wrapInput' => false,
             'class' => 'form-control'
         ),
-        'role' => 'form')); ?>
+        'role' => 'form', 'enctype'=>"multipart/form-data")); ?>
     <fieldset>
         <?php
         echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_util));
-        echo $this->Form->input('nom', array(
-            'label' => 'Nom du pari:'));
-        echo $this->Form->input('description', array(
-                'label' => 'Description:',
-                'type' => 'textarea')
-        );
-        echo $this->Form->input('image', array(
-            'label' => 'Image:'));
 
-        //Date par défaut pour l'input: dans une semaine
-        $dateactuelle = date_add(new DateTime('now'), new DateInterval('P7D'));
-        $sDate = $dateactuelle->format('Y-m-d');
-        echo $this->Form->input('date_fin', array(
-            'label' => 'Se termine le:',
-            'type' => 'date',
-            'selected' => $sDate,
-            'class' => 'form-control'
-        ));
+        ?>
+        <div class="form-group">
+            <?php echo $this->Form->input('nom', array(
+                'label' => 'Nom:'));?>
+        </div>
+        <div class="form-group">
+            <?php echo $this->Form->input('date_fin', array(
+                'label' => 'Se termine le:',
+                'type' => 'text',
+                'class' => 'form-control',
+                'id' => 'txtDate',
+                'data-toggle'=>"tooltip",
+                'data-placement'=>"top",
+                'title'=>"Doit être supérieure à la date actuelle"
+            ));
+            ?>
+        </div>
+        <div class="form-group">
+            <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+            <?php
+            echo $this->Form->input('image', array(
+                'label' => 'Url de l\'image:',
+                'type' => 'file',
+                'id' => 'txtImage',
+                'class' =>'',
+                'data-toggle'=>"tooltip",
+                'data-placement'=>"top",
+                'title'=>"Doit être dans l'un des formats suivants: jpg, jpeg, png, gif, bmp. Taille maximale: 2 Mo"
+            )); ?>
+        </div>
+        <?php
+        echo $this->Form->input('description', array(
+            'label' => 'Description:',
+            'type' => 'textarea'));
         ?>
 
         <h3>Choix possibles</h3>
@@ -68,7 +104,7 @@
 
         <ol class="list-unstyled">
             <li>
-                <blockquote style="border-color:#2D6CA2; padding-bottom:1px; background-color:#eee;">
+                <blockquote class="blockquote-info">
                     <div class="form-horizontal">
                         <div class="form-group">
                             <strong>Choix #1</strong>
@@ -88,8 +124,19 @@
 
                             <div class="col-sm-11">
                                 <?php echo $this->Form->input('Choix.0.cote', array(
-                                    'label' => false, 'placeholder' => 'Cote (Obligatoire)',
-                                    'type' => 'number', 'class' => 'form-control', 'div' => false, 'required' => 'required'
+                                    'label' => false,
+                                    'placeholder' => 'Cote (Obligatoire)',
+                                    'type' => 'number',
+                                    'step' =>'0.1',
+                                    'min' => '1.1',
+                                    'max' => '5',
+                                    'class' => 'form-control',
+                                    'div' => false,
+                                    'required' => 'required',
+                                    'data-toggle'=>"tooltip",
+                                    'data-placement'=>"top",
+                                    'title'=>"Doit être comprise entre 1.1 et 5",
+                                    'id' => 'txtCote1'
                                 ));
                                 ?>
                             </div>
@@ -99,7 +146,7 @@
             </li>
 
             <li>
-                <blockquote style="border-color:#2D6CA2; padding-bottom:1px; background-color:#eee;">
+                <blockquote class="blockquote-info">
                     <div class="form-horizontal">
                         <div class="form-group">
                             <strong>Choix #2</strong>
@@ -120,7 +167,14 @@
                             <div class="col-sm-11">
                                 <?php echo $this->Form->input('Choix.1.cote', array(
                                     'label' => false, 'placeholder' => 'Cote (Obligatoire)',
-                                    'type' => 'number', 'class' => 'form-control', 'div' => false, 'required' => 'required'
+                                    'type' => 'number', 'class' => 'form-control', 'div' => false, 'required' => 'required',
+                                    'data-toggle'=>"tooltip",
+                                    'data-placement'=>"top",
+                                    'title'=>"Doit être comprise entre 1.1 et 5",
+                                    'id' => 'txtCote2',
+                                    'step' =>'0.1',
+                                    'min' => '1.1',
+                                    'max' => '5',
                                 ));
                                 ?>
                             </div>
@@ -130,7 +184,7 @@
             </li>
 
             <li id="liTroisiemeChoix" style="display:none;">
-                <blockquote style="border-color:#2D6CA2; padding-bottom:1px; background-color:#eee;">
+                <blockquote class="blockquote-info">
                     <div class="form-horizontal">
                         <div class="form-group">
                             <strong>Choix #3</strong>
@@ -153,7 +207,13 @@
                                 <?php echo $this->Form->input('Choix.2.cote', array(
                                     'label' => false, 'placeholder' => 'Cote',
                                     'type' => 'number', 'class' => 'form-control', 'div' => false,
-                                    'id' => 'txtCote3'
+                                    'id' => 'txtCote3',
+                                    'data-toggle'=>"tooltip",
+                                    'data-placement'=>"top",
+                                    'title'=>"Doit être comprise entre 1.1 et 5",
+                                    'step' =>'0.1',
+                                    'min' => '1.1',
+                                    'max' => '5',
                                 ));
                                 ?>
                             </div>

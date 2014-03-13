@@ -25,13 +25,13 @@
     });
 </script>
 
-<?php echo $this->Form->create('Parieur', array('class' => 'well')); ?>
+<?php echo $this->Form->create('Parieur'); ?>
 
 <legend><?php echo __('Acheter des jetons'); ?></legend>
 
-<p>Vous possédez présentement <?php echo $nombre_jetons; ?> jetons.</p>
-
-<p>Les jetons s'achètent au coût de 5$ l'unité. Ils vous permettent de miser sur des paris.</p>
+<blockquote class="blockquote-info">
+    Vous possédez présentement <?php echo $nombre_jetons; ?> jetons.
+    Les jetons s'achètent au coût de 5$ l'unité.
 </blockquote>
 
 

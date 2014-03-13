@@ -2,7 +2,16 @@
     <small>Déterminez le choix gagnant.</small>
     </h1>
 
-    <p>Lorsque vous aurez déterminé le choix gagnant du pari, tous ceux qui avaient misé correctement recevront leurs jetons. Il sera alors trop tard pour modifier le choix gagnant.</p>
+    <blockquote class="blockquote-info">
+        Lorsque vous aurez déterminé le choix gagnant du pari,
+        tous ceux qui avaient misé correctement recevront leurs jetons.
+        Il sera alors trop tard pour modifier le choix gagnant.
+    </blockquote>
+    <blockquote class="blockquote-alert">
+        Perdu ? Consultez la
+        <?php echo $this->Html->link('Foire aux Questions', array('controller'=>'divers', 'action'=>'faq')); ?>
+        !
+    </blockquote>
 <?php
     echo $this->Form->create('Pari', array(
         'inputDefaults' => array(
@@ -13,7 +22,7 @@
     <fieldset>
         <?php
 
-        $attributes = array('legend' => false, 'separator' => '<br/>', 'required' => 'required');
+        $attributes = array('legend' => 'Choix gagnant:', 'separator' => '<br/>', 'required' => 'required');
         echo $this->Form->radio('choix_gagnant', $options, $attributes);
         ?>
         <div class="clearfix"></div>

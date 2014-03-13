@@ -41,6 +41,7 @@ class ParieursParisController extends AppController
         if (!$pari)
             return $this->redirectAccueil();
 
+        $this->set('title_for_layout', $pari['Pari']['nom']);
         $this->loadModel('Choix');
 
         //Permet d'afficher les choix disponibles pour ce pari
@@ -64,7 +65,7 @@ class ParieursParisController extends AppController
 
         if ($this->request->is(array('post', 'put'))) {
 
-            if(!$this->miseValide($dejaMise))
+            if(!$this->miseValide($dejaMise, $pari))
                 return;
 
             $this->loadModel('Parieur');
@@ -92,13 +93,14 @@ class ParieursParisController extends AppController
                 $this->messageSucces('La mise a bien été créée. Votre compte a été débité de '.$mise .' jetons.');
                 return $this->redirect(array('action' => 'mes_mises', 'controller' => 'parieurs_paris'));
             }
-            $this->messageErreur('Une erreur est survenue lors de la création de la mise. Veuillez réessayer.');
+            $this->messageErreur('Un ou plusieurs champs n\'ont pas été remplis correctement.');
         }
     }
 
     //Affiche les mises de l'usager
     public function mes_mises()
     {
+        $this->set('title_for_layout', 'Mes mises');
         $this->Paginator->settings = array(
             'conditions' => array('ParieursPari.parieur_id' => $this->Auth->user('id')),
             'limit' => 5
@@ -157,8 +159,8 @@ class ParieursParisController extends AppController
         return $this->Parieur->saveField('nombre_jetons', $nbJetons);
     }
 
-    //valide que la personne peut miser est valide
-    private function miseValide($dejaMise){
+    //valide que la personne peut miser
+    private function miseValide($dejaMise, $pari){
         $valide = true;
         if (!$this->Auth->User('id'))
             $valide = false;

@@ -1,11 +1,12 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-        var max = 0, jThumbnails = $("div.thumbnail");
-        jThumbnails .each(function(index, elt){
-            max = Math.max(max, $(elt).height());
+
+        maxHeight = 0;
+        $("p.description").each(function(){
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
         });
-        jThumbnails.css('height', max);
+        $("p.description").height(maxHeight);
     });
 </script>
 
@@ -18,6 +19,7 @@
     <div class="clearfix"></div>
     <ul class="pagination" style="margin-top: 0;">
         <li><?php echo $this->Paginator->sort('nom'); ?></li>
+        <li><?php echo $this->Paginator->sort('prix'); ?></li>
     </ul>
     <br/>
     <?php
@@ -33,7 +35,7 @@
     foreach ($lots as $lot){?>
         <div class="col-md-4">
             <div class="thumbnail" >
-                <div style="max-height:100px; overflow:hidden; ">
+                <div style="height:150px; overflow:hidden; ">
                     <img style="width:100%; " src="<?php echo $lot['Lot']['image']; ?>"/>
                 </div>
 
@@ -41,7 +43,7 @@
                     <h3>
                         <?php echo $lot['Lot']['nom']; ?>
                     </h3>
-                    <p>
+                    <p class="description">
                         <?php
                         $desc = $lot['Lot']['description'];
 
@@ -52,7 +54,7 @@
                             echo $desc;
                         }
                         echo '<br>';
-                        echo 'prix :<strong> '.$prix.'</strong> jetons';
+                        echo 'Prix :<strong> '.$prix.'</strong> jetons';
 
                         ?>
                     </p>

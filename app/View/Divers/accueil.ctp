@@ -1,11 +1,13 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-        var max = 0, jThumbnails = $("div.thumbnail");
-        jThumbnails .each(function(index, elt){
-            max = Math.max(max, $(elt).height());
+        //Hauteur maximale pour les thumbnails, pour qu'ils soient tous égaux
+        var maxHeight = 0;
+        $("p.description").each(function(){
+            if ($(this).height() > maxHeight) {
+                maxHeight = $(this).height(); }
         });
-        jThumbnails.css('height', max);
+        $("p.description").height(maxHeight);
     });
 </script>
 
@@ -17,16 +19,22 @@
 
     <div class="carousel slide" id="carousel-15074">
         <ol class="carousel-indicators">
+
+            <li class="active" data-slide-to="0" data-target="#carousel-15074">
+            </li>
             <?php
             $nbParis = count($paris);
 
-            for($i = 0 ; $i < $nbParis; $i++){
+            for($i = 1 ; $i < $nbParis - 1; $i++){
                 ?>
                 <li data-slide-to="<?php echo $i;?>" data-target="#carousel-15074">
                 </li>
             <?php
             }
             ?>
+
+            <li data-slide-to="0" data-target="#carousel-15074">
+            </li>
         </ol>
         <div class="carousel-inner">
             <?php
@@ -41,7 +49,7 @@
                     $class = "item";
                 }
                 ?>
-                <div class="<?php echo $class;?>" style="max-width:1200px; max-height:400px;">
+                <div class="<?php echo $class;?>" style="max-width:1200px; height:400px;">
                     <img style="width:1200px; overflow:hidden;" alt="" src="<?php echo $pari['Pari']['image'];?>"/>
 
                     <div class="carousel-caption">
@@ -67,9 +75,8 @@
 <div class="row">
     <div class="col-md-4">
         <div id="thmb1" class="thumbnail">
-
-            <div style="max-height:150px; overflow:hidden; ">
-                <img src="http://lorempixel.com/400/150/city/"/>
+            <div style="height:150px; overflow:hidden; ">
+                <?php echo $this->Html->image($lot['Lot']['image'], array('height'=>'150px; width:100%;')); ?>
             </div>
 
             <div class="caption">
@@ -77,36 +84,38 @@
                     Lots à gagner
                 </h3>
 
-                <p>
+                <p class="description">
                     En remportant votre mise sur des paris, vous accumulerez des jetons qui vous permettront de vous
                     acheter des lots incroyables.
-                <div class="clearfix"></div>
-                <?php echo $this->Html->link('Voir les lots', array('controller' => 'lots', 'action' => 'index'), array('class' => 'btn btn-primary')); ?>
+                    <div class="clearfix"></div>
+                    <?php echo $this->Html->link('Voir les lots', array('controller' => 'lots', 'action' => 'index'), array('class' => 'btn btn-primary')); ?>
                 </p>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div id="thmb2" class="thumbnail">
-            <div style="overflow:hidden;">
-                <img style="height:150px;" src="http://orionschoolwear.co.uk/image/cache/data/Smaller%20banner/about-1-1200x300.jpg"/>
+            <div style="height:150px; overflow:hidden; ">
+                <?php echo $this->Html->image('faq.jpg'); ?>
             </div>
 
             <div class="caption">
                 <h3>
-                    Messagerie instantanée
+                    Foire aux questions
                 </h3>
 
-                <p>
-                    Discutez et pariez avec des milliers d'utilisateurs à travers le monde entier.
+                <p class="description">
+                    Perdu ? Consultez notre foire aux questions pour bien connaître le fonctionnement du site.<div class="clearfix"></div>
+                    <div class="clearfix"></div>
+                    <?php echo $this->Html->link('Consulter la FAQ', array('controller' => 'divers', 'action' => 'faq'), array('class' => 'btn btn-primary')); ?>
                 </p>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div id="thmb3" class="thumbnail">
-            <div style="max-height:150px; overflow:hidden; ">
-                <img src="http://lorempixel.com/400/150/people/9"/>
+            <div style="height:150px; overflow:hidden; ">
+                <?php echo $this->Html->image('inscription.jpg'); ?>
             </div>
 
             <div class="caption">
@@ -114,10 +123,10 @@
                     Inscrivez-vous !
                 </h3>
 
-                <p>
-                    L'inscription est simple et rapide.
-                <div class="clearfix"></div>
-                <?php echo $this->Html->link('S\'inscrire', array('controller' => 'parieurs', 'action' => 'inscription'), array('class' => 'btn btn-primary')); ?>
+                <p class="description">
+                    L'inscription est simple et rapide. Une fois votre compte créé, vous pourrez commencer à miser en ligne et également profiter du système de messagerie.
+                    <div class="clearfix"></div>
+                    <?php echo $this->Html->link('S\'inscrire', array('controller' => 'parieurs', 'action' => 'inscription'), array('class' => 'btn btn-primary')); ?>
                 </p>
             </div>
         </div>
