@@ -22,7 +22,8 @@
 
         echo $this->Form->submit('Soumettre', array(
             'div' => false,
-            'class' => 'btn btn-primary'
+            'class' => 'btn btn-primary btn-separation'
+
         ));
 
         echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default')); ?>

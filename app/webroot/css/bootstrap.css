@@ -2241,7 +2241,7 @@ textarea.input-lg {
 
 .btn:hover,
 .btn:focus {
-  color: #333333;
+  color: rgb(255,255,255);
   text-decoration: none;
 }
 
@@ -2265,7 +2265,7 @@ fieldset[disabled] .btn {
 }
 
 .btn-default {
-  color: #333333;
+  color: rgb(255,255,255);
   background-color: #ffffff;
 }
 

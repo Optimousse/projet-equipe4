@@ -37,8 +37,7 @@
 }
 
 .btn-default {
-  text-shadow: 0 1px 0 #fff;
-  background-color: #e0e0e0;
+  background-color: rgb(126,182,206);
   background-repeat: repeat-x;
 }
 
@@ -50,6 +49,10 @@
 .btn-primary {
   background-color:#246BB2;
   background-repeat: repeat-x;
+}
+
+.btn-separation {
+    margin:12px;
 }
 
 .btn-success {
