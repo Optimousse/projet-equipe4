@@ -26,8 +26,24 @@ class ParisController extends AppController
         $this->set('title_for_layout', 'Catalogue');
         $this->Paginator->settings = $this->paginate;
 
-        $data = $this->Paginator->paginate('Pari');
-        $this->set('paris', $data);
+        //Si on a rempli le champ de recherche
+        if(isset($this->request->query['nom'])){
+
+            $data = $this->Paginator->paginate(
+                'Pari',
+                array("OR" => array(
+                    "nom LIKE" => '%'.$this->request->query['nom'].'%',
+                    "description LIKE" => '%'.$this->request->query['nom'].'%'))
+            );
+
+            $this->set('paris', $data);
+            $this->set('critereActuel', $this->request->query['nom']);
+        }
+        else{
+
+            $data = $this->Paginator->paginate('Pari');
+            $this->set('paris', $data);
+        }
     }
 
     //Permet d'ajouter un pari au site
