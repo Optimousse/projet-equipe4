@@ -69,7 +69,12 @@
                         echo 'Vous ne pouvez miser sur ce pari puisque vous êtes son créateur.
                         </blockquote>';
             } else if ($dejaMise) {
-                echo '<blockquote style="border-color:#2D6CA2; background-color:#eee;">Vous avez déjà misé sur ce pari.</blockquote>';
+                ?>
+                <blockquote style="border-color:#2D6CA2; background-color:#eee;">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    Vous avez déjà misé sur ce pari.
+                </blockquote>
+                <?php
             } else if (AuthComponent::user()) {
                 echo $this->Form->create('ParieursPari', array(
                     'inputDefaults' => array(
@@ -106,7 +111,10 @@
     } else {
         // si le choix gagnant a été décidé on l'affiche
         if (isset($nom_choixGagnant)) {
-            echo '<blockquote  class="blockquote-info">Ce pari est déjà terminé.';
+            echo '<blockquote  class="blockquote-info">
+
+                <span class="glyphicon glyphicon-remove"></span>
+                Ce pari est déjà terminé.';
             echo '<br/><br/>';
             echo 'Le choix gagnant était <i>' . $nom_choixGagnant .'</i>.';
             echo '<br/>';

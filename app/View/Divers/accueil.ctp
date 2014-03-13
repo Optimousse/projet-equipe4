@@ -49,9 +49,8 @@
                     $class = "item";
                 }
                 ?>
-                <div class="<?php echo $class;?>" style="max-width:1200px; height:400px;">
-                    <img style="width:1200px; overflow:hidden;" alt="" src="<?php echo $pari['Pari']['image'];?>"/>
-
+                <div class="<?php echo $class;?>" style="max-width:1200px; height:400px; overflow:hidden;">
+                    <?php echo $this->Html->image($pari['Pari']['image'], array('width'=>'1200px')); ?>
                     <div class="carousel-caption">
                         <h4>
                             <?php echo $pari['Pari']['nom'];?>
