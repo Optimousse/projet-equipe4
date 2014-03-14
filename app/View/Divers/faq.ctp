@@ -1,7 +1,8 @@
 <h1>Foire aux questions</h1>
 
 <blockquote class="blockquote-info">
-   Trouvez ici les réponses aux questions les plus fréquemment posées. Si vous ne parvenez pas à trouver une réponse à votre question, vous pouvez nous <a href="#">écrire un courriel</a>.
+   Trouvez ici les réponses aux questions les plus fréquemment posées. Si vous ne parvenez pas à trouver une réponse à votre question, vous pouvez
+    <?php echo $this->Html->link('nous contacter', array('controller' => 'divers', 'action' => 'contactez_nous')); ?>.
 </blockquote>
 
 <div class="panel-group" id="accordion">
@@ -16,7 +17,7 @@
         <div id="collapseOne" class="panel-collapse collapse in">
             <div class="panel-body padding-small">
                 L'inscription au site est totalement gratuite. Une fois votre compte créé, vous vous verrez automatiquement
-                donner 100 jetons en guise de cadeaux de bienvenue. Vous pourrez utiliser ces jetons pour miser sur des paris.
+                donner 100 jetons en guise de cadeau de bienvenue. Vous pourrez utiliser ces jetons pour miser sur des paris.
                 <?php echo $this->Html->link('Inscrivez-vous maintenant !', array('controller' => 'parieurs', 'action' => 'inscription')); ?>
 
             </div>
@@ -206,7 +207,7 @@
         </div>
     </div>
 </div>
-
+<? echo $this->Html->link('Contactez-nous', array('controller' => 'divers', 'action' => 'contactez_nous'), array('class' => 'btn btn-primary')); ?>
 <? echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default btn-separation')); ?>
 
 

@@ -239,7 +239,13 @@ class ParisController extends AppController
         $estValide = true;
         $extension = strrchr($image['name'], '.');
         $extensionsOK = array('.jpg', '.jpeg', '.png', '.gif', '.bmp');
-        if(!in_array($extension, $extensionsOK))
+        if(!empty($image['error'])){
+            if($image['error'] == 1){
+                $this->messageErreur('La taille maximale de l\'image est de 2 Mo.');
+                $estValide = false;
+            }
+        }
+        else if(!in_array($extension, $extensionsOK))
         {
             $this->messageErreur('L\'image doit être dans l\'un des formats suivants: jpg, jpeg, png, gif ou bmp.');
             $estValide = false;
@@ -251,6 +257,7 @@ class ParisController extends AppController
         }
         else{
             $id = String::uuid();
+
             if(!move_uploaded_file($image['tmp_name'], IMAGES.$dossier.'/'.$id.$extension)){
                 $this->messageErreur('Une erreur est survenue lors de l\'upload de l\'image.');
                 $estValide = false;
@@ -270,7 +277,7 @@ class ParisController extends AppController
         $RechercheEnCours = array();
         $RecherchePariTermine = array();
 
-        if(isset($this->request->query['nom'])){
+        if(isset($this->request->query['motCle'])){
             $RechercheNom = array("nom LIKE" => '%'.$this->request->query['motCle'].'%');
             $this->set('estRechercheParNom', array('checked' => 'checked'));
         }

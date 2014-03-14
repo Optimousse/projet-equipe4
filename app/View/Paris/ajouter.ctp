@@ -81,7 +81,7 @@
             <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
             <?php
             echo $this->Form->input('image', array(
-                'label' => 'Url de l\'image:',
+                'label' => 'Image:',
                 'type' => 'file',
                 'id' => 'txtImage',
                 'class' =>'',
