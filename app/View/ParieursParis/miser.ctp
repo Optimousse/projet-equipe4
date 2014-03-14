@@ -137,7 +137,7 @@
                     ?>
                     <span class="glyphicon glyphicon-thumbs-down"></span>
                     <?php
-                    echo 'Dommage, vous vous êtes trompé. Meilleure chance la prochaine fois !';
+                    echo 'Dommage, vous vous êtes trompé. Meilleure chance la prochaine fois ! ';
                 }
             }
             echo '</blockquote>';

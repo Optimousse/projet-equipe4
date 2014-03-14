@@ -23,13 +23,17 @@ class ParieursController extends AppController
     //Connexion au site
     public function connexion()
     {
-        $this->set('title_for_layout', 'Connexion');
-        if ($this->request->is('post')) {
-            if ($this->Auth->login()) {
-                $this->messageSucces('Vous êtes maintenant connecté.');
-                return $this->redirect($this->Auth->redirect());
+        if (!$this->Auth->user("id")) {
+            $this->set('title_for_layout', 'Connexion');
+            if ($this->request->is('post')) {
+                if ($this->Auth->login()) {
+                    $this->messageSucces('Vous êtes maintenant connecté.');
+                    return $this->redirect($this->Auth->redirect());
+                }
+                $this->messageErreur('Pseudo ou mot de passe invalide.');
             }
-            $this->messageErreur('Pseudo ou mot de passe invalide.');
+        } else {
+            return $this->redirect($this->redirectAccueil());
         }
     }
 
@@ -45,22 +49,25 @@ class ParieursController extends AppController
     //Inscription au site
     public function inscription()
     {
-        $this->set('title_for_layout', 'Inscription');
-        if ($this->request->is(array('post', 'put'))) {
+        if (!$this->Auth->user("id")) {
+            $this->set('title_for_layout', 'Inscription');
+            if ($this->request->is(array('post', 'put'))) {
 
-            if($this->MotsPasseIdentiques($this->request->data['Parieur']['mot_passe'], $this->request->data['Parieur']['mot_passe_confirmation'])){
-                $this->Parieur->create();
+                if ($this->MotsPasseIdentiques($this->request->data['Parieur']['mot_passe'], $this->request->data['Parieur']['mot_passe_confirmation'])) {
+                    $this->Parieur->create();
 
-                if ($this->Parieur->save($this->request->data, true, array('pseudo', 'mot_passe', 'courriel'))) {
-                    $this->messageSucces('Votre compte a été créé. Veuillez maintenant vous connecter.');
-                    return $this->redirect(array('action' => 'connexion'));
-                }
-                else {
-                    $this->messageErreur('Une erreur est survenue lors de la création de votre compte.');
-                }
+                    if ($this->Parieur->save($this->request->data, true, array('pseudo', 'mot_passe', 'courriel'))) {
+                        $this->messageSucces('Votre compte a été créé. Veuillez maintenant vous connecter.');
+                        return $this->redirect(array('action' => 'connexion'));
+                    } else {
+                        $this->messageErreur('Une erreur est survenue lors de la création de votre compte.');
+                    }
+                } else
+                    $this->messageErreur('Les mots de passe doivent être identiques.');
             }
-            else
-                $this->messageErreur('Les mots de passe doivent être identiques.');
+        } else {
+            $this->messageAvertissement('Vous êtes déja connecté');
+            return $this->redirect($this->redirectAccueil());
         }
     }
 
@@ -90,16 +97,14 @@ class ParieursController extends AppController
                 if ($this->Parieur->save($this->request->data, true, array('courriel'))) {
                     $sauvegardeOk = true;
                 }
-            }
-            else {
+            } else {
                 // vérification que le nouveau mdp soit égal a la confirmation
                 if ($this->MotsPasseIdentiques($mot_passe, $this->request->data['Parieur']['mot_passe_confirmation'])) {
                     // ok, on sauvegarde
                     if ($this->Parieur->save($this->request->data, true, array('courriel', 'mot_passe'))) {
                         $sauvegardeOk = true;
                     }
-                }
-                else {
+                } else {
                     // problème mdp différent
                     $this->messageErreur('Les mots de passes doivent être identiques');
                     return;
@@ -149,7 +154,7 @@ class ParieursController extends AppController
 
                     $this->messageSucces($nombre_jetons_achetes . ' jetons ont été ajoutés à votre compte.');
 
-                    if($ref == 'lots')
+                    if ($ref == 'lots')
                         return $this->redirect(array('controller' => 'lots', 'action' => 'index'));
                     else
                         return $this->redirect(array('controller' => 'parieurs', 'action' => 'mon_compte'));
@@ -164,7 +169,8 @@ class ParieursController extends AppController
      * Fonctions privées
      */
 
-    private function MotsPasseIdentiques($mp, $mp_confirmation){
+    private function MotsPasseIdentiques($mp, $mp_confirmation)
+    {
         return $mp == $mp_confirmation;
     }
 }
