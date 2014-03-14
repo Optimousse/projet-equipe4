@@ -55,9 +55,7 @@ class ParieursParisController extends AppController
         $CreateurParis = $this->Pari->find('first', array('conditions' => array('Pari.id' => $id)));
         $idCreateur = $CreateurParis['Pari']['parieur_id'];
 
-        var_dump($idCreateur);
         $lecreateur = $this->Parieur->find('first', array('conditions' => array('Parieur.id' => $idCreateur), 'fields' => array('pseudo')));
-        //var_dump($lecreateur);
         $pseudo = $lecreateur['Parieur']['pseudo'];
         $this->set('pseudo',$pseudo);
 
