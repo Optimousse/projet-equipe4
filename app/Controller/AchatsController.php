@@ -21,8 +21,17 @@ class AchatsController extends AppController
 
         // on cherche le montant du lot grace a son id
         $this->loadModel('Lot');
-        $leLot = $this->Lot->find('first', array('conditions' => array('Lot.id' => $id), 'fields' => array('prix', 'nom')));
+        $leLot = $this->Lot->find('first', array('conditions' => array('Lot.id' => $id), 'fields' => array('prix', 'nom','image','description')));
+
         $montant = $leLot['Lot']['prix'];
+        $nomLot = $leLot['Lot']['nom'];
+        $image = $leLot['Lot']['image'];
+        $description = $leLot['Lot']['description'];
+
+        $this->set('montant', $montant);
+        $this->set('nom', $nomLot);
+        $this->set('image', $image);
+        $this->set('description', $description);
 
         // on teste si le parieur possède assez de jetons pour parier le montant désiré
         if ($montant > $jetonPossede) {

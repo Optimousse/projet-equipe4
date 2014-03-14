@@ -1,6 +1,25 @@
 <!-- app/View/Users/add.ctp -->
 <h1>Vos coordonnées</h1>
 
+<!-- infos sur le paris -->
+ <div class="row">
+<div class="col-md-4">
+    <div class="thumbnail" >
+        <?php
+
+        echo '<strong>'.$nom.'</strong><br/>';
+        echo $description;
+        echo '<br/><br/>montant : '.$montant.' jetons'; ?>
+
+        <div style="height:150px; overflow:hidden; ">
+            <?php echo $this->Html->image($image, array(
+                "alt" => $image,
+                'style' => 'width:100%',
+            ));
+            ?>
+        </div>
+    </div>
+</div>
 <p>
    Veuillez saisir vos coordonnées pour que l'on puisse expédier votre cadeau
 </p>
