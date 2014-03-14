@@ -28,34 +28,13 @@ class ParisController extends AppController
 
         //Si on a rempli le champ de recherche
         if(isset($this->request->query['motCle'])){
-
-            $RechercheNom = array();
-            $RechercheDescription = array();
-
-            if(isset($this->request->query['nom'])){
-                $RechercheNom = array("nom LIKE" => '%'.$this->request->query['motCle'].'%');
-                $this->set('estRechercheParNom', array('checked' => 'checked'));
-            }
-
-            if(isset($this->request->query['description'])){
-                $RechercheNom = array("description LIKE" => '%'.$this->request->query['motCle'].'%');
-                $this->set('estRechercheParDescription', array('checked' => 'checked'));
-            }
-
-            $data = $this->Paginator->paginate(
-                'Pari',
-                array("OR" => array(
-                    $RechercheNom, $RechercheDescription))
-            );
-
-            $this->set('paris', $data);
-            $this->set('critereActuel', $this->request->query['motCle']);
+            $data = $this->rechercherParisSelonCriteres();
         }
         else{
-
             $data = $this->Paginator->paginate('Pari');
-            $this->set('paris', $data);
         }
+
+        $this->set('paris', $data);
     }
 
     //Permet d'ajouter un pari au site
@@ -281,5 +260,42 @@ class ParisController extends AppController
             $this->request->data['Pari']['image'] =$dossier.'/'.$id.$extension;
         }
         return $estValide;
+    }
+
+    //Recherche des paris selon certains critères
+    private function rechercherParisSelonCriteres(){
+
+        $RechercheNom = array();
+        $RechercheDescription = array();
+        $RechercheEnCours = array();
+        $RecherchePariTermine = array();
+
+        if(isset($this->request->query['nom'])){
+            $RechercheNom = array("nom LIKE" => '%'.$this->request->query['motCle'].'%');
+            $this->set('estRechercheParNom', array('checked' => 'checked'));
+        }
+
+        if(isset($this->request->query['description'])){
+            $RechercheDescription = array("description LIKE" => '%'.$this->request->query['motCle'].'%');
+            $this->set('estRechercheParDescription', array('checked' => 'checked'));
+        }
+
+        if(isset($this->request->query['enCours'])){
+            $RechercheEnCours = array("date_fin >" => date("Y-m-d"));
+            $this->set('estRechercheEnCours', array('checked' => 'checked'));
+        }
+
+        if(isset($this->request->query['termine'])){
+            $RecherchePariTermine = array("date_fin < " => date("Y-m-d"));
+            $this->set('estRechercheTermine', array('checked' => 'checked'));
+        }
+
+        $this->set('critereActuel', $this->request->query['motCle']);
+
+        return $this->Paginator->paginate(
+            'Pari',
+            array("OR" => array(
+                $RechercheNom, $RechercheDescription),  array( "OR" => array($RecherchePariTermine, $RechercheEnCours)))
+        );
     }
 }

@@ -9,6 +9,19 @@
         $("div.description").height(maxHeight + 10);
 
         $("#txtMotCle").tooltip();
+        jQuery.noConflict();
+        $("#aCriteresRecherche").click(function(e){
+            if($('#spanCriteresRecherche').attr('class').contains("down")){
+            $("#spanCriteresRecherche").removeClass("glyphicon-chevron-down");
+            $("#spanCriteresRecherche").addClass("glyphicon-chevron-up");
+            }
+            else
+            {
+
+                $("#spanCriteresRecherche").removeClass("glyphicon-chevron-up");
+                $("#spanCriteresRecherche").addClass("glyphicon-chevron-down");
+            }
+        });
     });
 </script>
 
@@ -19,13 +32,8 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                    Critères de recherche
-                    <?php
-                        if(isset($critereActuel)){
-                            echo '<small>Actuellement: '.$critereActuel.'</small>';
-                        }
-                    ?>
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" id="aCriteresRecherche">
+                    <span id="spanCriteresRecherche" class="glyphicon glyphicon-chevron-down">&nbsp;</span>Critères de recherche
                 </a>
             </h4>
         </div>
@@ -34,44 +42,45 @@
 
                 <?php
                 echo $this->Form->create('Pari', array('type' => 'get'));
+                if(!isset($estRechercheParDescription))
+                    $estRechercheParDescription = array();
+
+                if(!isset($estRechercheParNom))
+                    $estRechercheParNom = array();
+
+                if(!isset($estRechercheEnCours))
+                    $estRechercheEnCours = array();
+
+                if(!isset($estRechercheTermine))
+                    $estRechercheTermine = array();
                 ?>
 
                 <div class="form-inline">
-
-                    <label>Trier par:</label>
-
+                    <label>Type de pari:</label>
                     <div class="clearfix"></div>
-                    <ul class="pagination">
-                        <li><?php echo $this->Paginator->sort('nom'); ?></li>
-                        <li><?php echo $this->Paginator->sort('date_fin', 'Date de fin'); ?></li>
-                    </ul>
-                </div>
-                <div class="form-inline">
                     <div class="form-group">
-                        <label class="sr-only" for="exampleInputEmail2">Nom</label>
-                        <?php
-                        if(!isset($estRechercheParDescription))
-                            $estRechercheParDescription = array();
-
-                        if(!isset($estRechercheParNom))
-                            $estRechercheParNom = array();
-
-                        if(!isset($critereActuel))
-                            $critereActuel = "";
-                        echo $this->Form->input('motCle', array(
-                            'type' => 'search',
-                            'class' => 'form-control',
-                            'value'=> $critereActuel,
-                            'label' => false,
-                            'required' => 'required',
-                            'div' => false,
-                            'placeholder' => 'Mot-clé',
-                            'id' => 'txtMotCle',
-                            'data-toggle'=>"tooltip",
-                            'data-placement'=>"top",
-                            'title'=>"Un mot faisant partie du titre et/ou de la description d'un pari"));
-                        ?>
+                        <?php echo $this->Form->input('enCours', array(
+                            'label' => 'En cours',
+                            'class' => false,
+                            'type' => 'checkbox',
+                            $estRechercheEnCours,
+                            'hiddenField' => false
+                        )); ?>
                     </div>
+                    <div class="form-group">
+                        <?php echo $this->Form->input('termine', array(
+                            'label' => 'Terminé',
+                            'class' => false,
+                            'type' => 'checkbox',
+                            $estRechercheTermine,
+                            'hiddenField' => false
+                        )); ?>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br/>
+
+                    <label>Champs de recherche:</label>
+                    <div class="clearfix"></div>
                     <div class="form-group">
                         <?php echo $this->Form->input('nom', array(
                             'label' => 'Nom',
@@ -90,6 +99,31 @@
                             'hiddenField' => false
                         )); ?>
                     </div>
+                    <div class="clearfix"></div>
+                    <br/>
+
+                    <label for="txtMotCle" class="form-control-static">Mot-clé: </label>
+                    <div class="clearfix"></div>
+
+                    <div class="form-group">
+                        <?php
+                        if(!isset($critereActuel))
+                            $critereActuel = "";
+                        echo $this->Form->input('motCle', array(
+                            'type' => 'search',
+                            'class' => 'form-control',
+                            'value'=> $critereActuel,
+                            'label' => false,
+                            'div' => false,
+                            'placeholder' => 'Mot-clé',
+                            'id' => 'txtMotCle',
+                            'data-toggle'=>"tooltip",
+                            'data-placement'=>"top",
+                            'title'=>"Un mot faisant partie du titre et/ou de la description d'un pari"));
+                        ?>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br/>
                     <?php
                     echo $this->Form->submit('Rechercher', array(
                         'div' => false,
@@ -106,18 +140,30 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 
 
 <br/>
 <?php
 
 if(!empty($paris)){
+?>
 
-    echo $this->Paginator->pagination(array(
-        'ul' => 'pagination'
-    ));
-    ?>
+    <div class="form-inline">
+
+            <label>Trier selon:</label>
+            <div class="clear-fix"></div>
+            <ul class="pagination">
+                <li><?php echo $this->Paginator->sort('nom'); ?></li>
+                <li><?php echo $this->Paginator->sort('date_fin', 'Date de fin'); ?></li>
+            </ul>
+            <?php
+            echo $this->Paginator->pagination(array(
+            'ul' => 'pagination'
+            ));
+            ?>
+
+    </div>
     <br/>
     <div class="row">
 
