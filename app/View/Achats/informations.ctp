@@ -9,7 +9,7 @@
 
         echo '<strong>'.$nom.'</strong><br/>';
         echo $description;
-        echo '<br/><br/>montant : '.$montant.' jetons'; ?>
+        echo '<br/><br/>Montant : <strong>'.$montant.'</strong> jetons<br/>'; ?>
 
         <div style="height:150px; overflow:hidden; ">
             <?php echo $this->Html->image($image, array(
