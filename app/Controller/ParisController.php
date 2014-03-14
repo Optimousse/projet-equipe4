@@ -270,7 +270,7 @@ class ParisController extends AppController
         $RechercheEnCours = array();
         $RecherchePariTermine = array();
 
-        if(isset($this->request->query['nom'])){
+        if(isset($this->request->query['motCle'])){
             $RechercheNom = array("nom LIKE" => '%'.$this->request->query['motCle'].'%');
             $this->set('estRechercheParNom', array('checked' => 'checked'));
         }
