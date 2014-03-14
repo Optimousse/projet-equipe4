@@ -57,6 +57,7 @@
 
 <div>
     <?php
+    $peutMiser = false; // va servir pour déterminer l'affichage
     if (date("Y-m-d") < $paris['Pari']['date_fin']) {
 
         if (!AuthComponent::user()) {
@@ -105,6 +106,8 @@
                         'div' => false,
                         'class' => 'btn btn-primary',
                     ));
+                    $peutMiser = true; // pour l'affichage des boutons
+                    echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default btn-separation'));
 
                     ?>
                 </fieldset>
@@ -147,5 +150,7 @@
 
 </div>
 <div class="clearfix"></div>
-<?php echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default')); ?>
-
+<?php if($peutMiser == false) {
+ echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default'));
+}
+?>
