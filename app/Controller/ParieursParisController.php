@@ -49,6 +49,16 @@ class ParieursParisController extends AppController
         //Pour créer le groupe de radiobuttons qui montrent les choix disponibles pour le pari
         $options = $this->Choix->find('list', array('conditions' => array('Choix.pari_id' => $id), 'fields' => array('id', 'nom')));
 
+        // permet de récupérer le pseudo du créateur du paris
+        $this->loadModel('Parieur');
+        $this->loadModel('Pari');
+        $CreateurParis = $this->Pari->find('first', array('conditions' => array('Pari.id' => $id)));
+        $idCreateur = $CreateurParis['Pari']['parieur_id'];
+
+        $lecreateur = $this->Parieur->find('first', array('conditions' => array('Parieur.id' => $idCreateur), 'fields' => array('pseudo')));
+        $pseudo = $lecreateur['Parieur']['pseudo'];
+        $this->set('pseudo',$pseudo);
+
         //Pour vérifier si la personne a déjà misé sur ce pari.
         $dejaMise = false;
         if ($this->ParieursPari->find('first', array('conditions' => array('ParieursPari.pari_id' => $id, 'ParieursPari.parieur_id' => $this->Auth->user('id')))))
