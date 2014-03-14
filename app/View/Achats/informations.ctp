@@ -45,7 +45,7 @@
 
         ));
 
-        echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default btn-separation')); ?>
+        echo $this->Html->link('Retour aux lots', array('controller' => 'lots', 'action' => 'index'), array('class' => 'btn btn-default btn-separation')); ?>
     </fieldset>
     <?php echo $this->Form->end(); ?>
 </div>
