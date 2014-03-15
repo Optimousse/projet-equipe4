@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<?php echo $this->Facebook->html(); ?>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <title>
@@ -159,7 +159,11 @@
 </head>
 
 <body>
-
+<div id="fb-root"></div>
+<?php
+debug($this->Session->read());
+echo $this->Facebook->login() ?>
+<?php echo $this->Facebook->logout(array('label' => 'Logout', 'redirect' => array('controller' => 'parieurs', 'action' => 'logout'))); ?>
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
@@ -313,4 +317,5 @@
 echo $this->Js->writeBuffer();
 ?>
 </body>
+<?php echo $this->Facebook->init(); ?>
 </html>

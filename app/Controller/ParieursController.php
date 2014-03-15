@@ -40,6 +40,7 @@ class ParieursController extends AppController
     //Déconnexion
     public function logout()
     {
+        $this->Session->destroy();
         $this->messageInfo('Vous êtes maintenant déconnecté.');
         $this->Session->delete('dernierIdMessageRecupere');
         $this->Session->delete('dernierIdMessageLu');
