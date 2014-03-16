@@ -24,18 +24,12 @@
 
             </small>
             <div class="clearfix"></div>
-                <div class="fb-like" data-href="<?php echo Router::url(null, true); ?>" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
-
-                api:
                 <?php echo $this->Facebook->like(array(
                     "data-action"=>"like",
                     "data-show-faces"=>true,
-                    "data-share"=>true
+                    "data-share"=>true,
+                    "id" => 'btnFacebook'
                 )); ?>
-                api sans href:
-
-                <?php echo $this->Facebook->like(); ?>
-
         <?php
             }
         ?>
@@ -178,9 +172,4 @@
 ?>
 <div class="clearfix"></div>
 <br/>
-<div class="fb-comments" data-href="<?php echo Router::url(null, true);?>" data-numposts="5" data-colorscheme="light"></div>
-api:
-<?php echo $this->Facebook->comments(array('data-href' => Router::url(null, true))); ?>
-api sans href:
-
 <?php echo $this->Facebook->comments(); ?>
