@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<?php echo $this->Facebook->html(); ?>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <title>
@@ -159,11 +159,19 @@
 </head>
 
 <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/fr_CA/all.js#xfbml=1&appId=239751879543971";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
-
             <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -210,9 +218,16 @@
                                         class="caret"></strong></a>
 
                                 <ul class="dropdown-menu">
-                                    <li><?php echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
-                                            'action' => 'mon_compte'
-                                        )); ?></li>
+                                    <?php
+
+                                    if($this->Session->check('connexionNormale')){
+                                    ?>
+                                        <li><?php echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
+                                                'action' => 'mon_compte'
+                                            )); ?></li>
+                                    <?php
+                                    }
+                                    ?>
                                     <li><?php echo $this->Html->link('Mes paris', array('controller' => 'paris',
                                             'action' => 'mes_paris'
                                         )); ?></li>
@@ -224,9 +239,19 @@
                                         )); ?></li>
                                 </ul>
                             </li>
-                            <li><?php echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
-                                    'action' => 'logout'
-                                )); ?></li>
+                            <li><?php
+                                //Affiche un lien html normal si on est connecté via le système d'inscription normale.
+                                //Sinon, affiche un lien html qui déconnectera l'utilisateur de facebook et du site.
+                                if($this->Session->check('connexionNormale')){
+                                    echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
+                                        'action' => 'logout'
+                                    ));
+                                }
+                                else{
+                                    echo $this->Facebook->logout(array('label' => 'Déconnexion', 'redirect' => array('controller' => 'parieurs', 'action' => 'logout')));
+                                }
+
+                                ?></li>
                             <li id="liMessagerie" class="dropdown">
                                 <a id="modal-473524" href="#myModal" role="button" class="btn" data-toggle="modal">
                                     <span id="badgeNouveauMessage" style="display:none;"
@@ -246,8 +271,10 @@
             echo $this->Session->flash();
             echo $this->Session->flash('auth');
 
-            echo $this->fetch('content');
-            ?>
+            echo $this->fetch('content'); ?>
+            <div class="clearfix"></div>
+
+            <?php echo $this->Facebook->friendpile(); ?>
             <div class="modal fade" style="margin-top:22px;" id="myModal" role="dialog" aria-labelledby="myModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
@@ -302,6 +329,7 @@
 
     </div>
 </div>
+
 <!-- /container -->
 
 <!-- Le javascript
@@ -313,4 +341,5 @@
 echo $this->Js->writeBuffer();
 ?>
 </body>
+<?php echo $this->Facebook->init(); ?>
 </html>

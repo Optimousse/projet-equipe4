@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Admin
- * Date: 14-02-04
- * Time: 15:40
- */
+App::uses('FB', 'Facebook.Lib');
 class ParieursController extends AppController
 {
     public $components = array(
@@ -27,6 +22,7 @@ class ParieursController extends AppController
             $this->set('title_for_layout', 'Connexion');
             if ($this->request->is('post')) {
                 if ($this->Auth->login()) {
+                    $this->Session->write('connexionNormale', true);
                     $this->messageSucces('Vous êtes maintenant connecté.');
                     return $this->redirect($this->Auth->redirect());
                 }
@@ -37,13 +33,22 @@ class ParieursController extends AppController
         }
     }
 
-    //Déconnexion
+    //Déconnexion (Prend en charge facebook et connexion normale)
     public function logout()
     {
+        if(!$this->Session->check('connexionNormale')){
+            echo 'fb';
+            $fb = new FB();
+            $fb->api('/me');
+            $fb->destroySession();
+        }
         $this->messageInfo('Vous êtes maintenant déconnecté.');
         $this->Session->delete('dernierIdMessageRecupere');
         $this->Session->delete('dernierIdMessageLu');
-        return $this->redirect($this->Auth->logout());
+        $this->Session->destroy();
+        $this->Auth->logout();
+
+        return $this->redirectAccueil();
     }
 
     //Inscription au site
@@ -74,6 +79,10 @@ class ParieursController extends AppController
     //Affiche la page "Mon compte"
     public function mon_compte()
     {
+        //On ne peut accéder à cette page si on est connecté via Facebook
+        if(!$this->Session->check('connexionNormale')){
+            return $this->redirectAccueil();
+        }
         $this->set('title_for_layout', 'Mon compte');
         //Afin que les champs soient déjà remplis
         if (!$this->request->data) {
@@ -157,7 +166,16 @@ class ParieursController extends AppController
                     if ($ref == 'lots')
                         return $this->redirect(array('controller' => 'lots', 'action' => 'index'));
                     else
-                        return $this->redirect(array('controller' => 'parieurs', 'action' => 'mon_compte'));
+                    {
+                        //Redirige vers 'Mon compte' si on est connecté normalement. Redirige vers Catalogue si connecté via Facebook
+                        if($this->Session->check('connexionNormale')){
+                            return $this->redirect(array('controller' => 'parieurs', 'action' => 'mon_compte'));
+                        }
+                        else{
+                            return $this->redirectCatalogue();
+                        }
+                    }
+
                 }
             }
 

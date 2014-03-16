@@ -37,10 +37,12 @@ class AppController extends Controller
         'Js' => array('Jquery'),
         'Html' => array('className' => 'BoostCake.BoostCakeHtml'),
         'Form' => array('className' => 'BoostCake.BoostCakeForm'),
-        'Paginator' => array('className' => 'BoostCake.BoostCakePaginator')
+        'Paginator' => array('className' => 'BoostCake.BoostCakePaginator'),
+        'Facebook.Facebook'
     );
     public $components = array(
         'Session',
+        'Facebook.Connect' => array('model' => 'Parieur'),
         "RequestHandler",
         //Paramètres qui définissent la connexion. NE PAS MODIFIER LA SECTION "AUTHENTICATE"
         'Auth' => array(
@@ -125,5 +127,11 @@ class AppController extends Controller
     public function redirectCatalogue(){
 
         return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
+    }
+
+    //Enregistre le courriel dans la base de données lorsque l'on se connecte pour la première fois avec Facebook
+    public function beforeFacebookSave() {
+        $this->Connect->authUser['Parieur']['courriel'] = $this->Connect->user('email');
+        return true; //Must return true or will not save.
     }
 }

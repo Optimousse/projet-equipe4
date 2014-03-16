@@ -27,7 +27,7 @@ class Choix extends AppModel {
                 'allowEmpty' => true
             ),
             'rule2' => array(
-                'rule'    => array('comparison', '<', 5),
+                'rule'    => array('comparison', '<=', 5),
                 'message' => 'La cote doit être un chiffre compris entre 1.1 et 5',
                 'allowEmpty' => true
             ),

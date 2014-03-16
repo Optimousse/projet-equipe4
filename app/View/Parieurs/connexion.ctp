@@ -1,5 +1,4 @@
 <h1>Connexion</h1>
-
 <div class="users form">
     <?php echo $this->Form->create('Parieur',  array(
         'inputDefaults' => array(
@@ -19,10 +18,15 @@
         <?php
 
         echo $this->Form->submit('Soumettre', array(
-            'div' => false,
             'class' => 'btn btn-primary'
         ));
         ?>
+        <br/>
+        <?php
+        echo $this->Facebook->login(array('label' => 'Se connecter avec Facebook', 'redirect' => array('controller' => 'paris', 'action' => 'index', 'perms' => 'email'), 'img' => 'connectwithfacebook.gif')); ?>
+
     </fieldset>
-    <?php echo $this->Form->end(); ?>
+    <?php echo $this->Form->end();
+    ?>
 </div>
+

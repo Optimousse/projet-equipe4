@@ -109,6 +109,7 @@ Configure::write('Stripe.TestSecret', 'sk_test_Y5w1Y4k2d9TFlsoJ3cL14lo9');
 Configure::write('Stripe.LiveSecret', 'sk_live_YUHXzimHFqYPCCii9YxNQ1ww');
 CakePlugin::load('Stripe');
 CakePlugin::load('BoostCake');
+CakePlugin::load('Facebook');
 
 
 

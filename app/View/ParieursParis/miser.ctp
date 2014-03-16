@@ -22,6 +22,7 @@
                     echo 'Ce pari se termine dans ' . '<h2 style="display:inline-block; color:#2D6CA2;"><abbr title=' . $paris['Pari']['date_fin'] .'>' . $jours . '</abbr></h2> ' . $accordJour;
                 ?>
             </small>
+                <?php echo $this->Facebook->like(); ?>
         <?php
             }
         ?>
@@ -36,14 +37,22 @@
                     <span class="btn btn-danger" style="width:100%;">Détails</span>
                     <div style="padding:15px;">
                         <p><?php echo '<strong>'.$paris['Pari']['description'].'</strong>'; ?></p>
-                        <p><?php echo 'Créateur du paris : '.$pseudo; ?></p>
-                        <br/>
-                        <span style="margin:0;">Choix et cotes</span>
+                        <p>
+                            Créé par
+                            <?php
+                            if($createur['facebook_id'] != 0){
+                                echo $this->Facebook->picture($createur['facebook_id']);
+                            }
+                            else{
+                                echo '<i>'.$createur['pseudo'].'</i>';
+                            }?>
+                        </p>
                         <dl>
+                            <span style="margin:0; display:block;"><strong>Choix et cotes</strong></span>
                             <?php
                             foreach ($choix as $choi):?>
 
-                                    <?php echo '<strong>'.$choi['Choix']['nom'].'</strong>'; ?>
+                                    <?php echo $choi['Choix']['nom']; ?>
                                      <span class ="glyphicon glyphicon-chevron-right"></span>
                                     <?php echo $choi['Choix']['cote']; ?> <br/>
                             <?php endforeach; ?>
@@ -154,3 +163,6 @@
  echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default'));
 }
 ?>
+<div class="clearfix"></div>
+<br/>
+<?php echo $this->Facebook->comments(); ?>

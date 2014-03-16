@@ -55,9 +55,8 @@ class ParieursParisController extends AppController
         $CreateurParis = $this->Pari->find('first', array('conditions' => array('Pari.id' => $id)));
         $idCreateur = $CreateurParis['Pari']['parieur_id'];
 
-        $lecreateur = $this->Parieur->find('first', array('conditions' => array('Parieur.id' => $idCreateur), 'fields' => array('pseudo')));
-        $pseudo = $lecreateur['Parieur']['pseudo'];
-        $this->set('pseudo',$pseudo);
+        $lecreateur = $this->Parieur->find('first', array('conditions' => array('Parieur.id' => $idCreateur), 'fields' => array('pseudo', 'facebook_id')));
+        $this->set('createur',$lecreateur['Parieur']);
 
         //Pour vérifier si la personne a déjà misé sur ce pari.
         $dejaMise = false;
