@@ -159,6 +159,7 @@
 </head>
 
 <body>
+<?php echo $this->Facebook->init(); ?>
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
@@ -331,5 +332,4 @@
 echo $this->Js->writeBuffer();
 ?>
 </body>
-<?php echo $this->Facebook->init(); ?>
 </html>
