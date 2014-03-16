@@ -160,10 +160,18 @@
 
 <body>
 <div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/fr_CA/all.js#xfbml=1&appId=239751879543971";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
-
             <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -263,8 +271,10 @@
             echo $this->Session->flash();
             echo $this->Session->flash('auth');
 
-            echo $this->fetch('content');
-            ?>
+            echo $this->fetch('content'); ?>
+            <div class="clearfix"></div>
+
+            <?php echo $this->Facebook->friendpile(); ?>
             <div class="modal fade" style="margin-top:22px;" id="myModal" role="dialog" aria-labelledby="myModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
@@ -319,6 +329,7 @@
 
     </div>
 </div>
+
 <!-- /container -->
 
 <!-- Le javascript
