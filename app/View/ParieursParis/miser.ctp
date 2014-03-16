@@ -23,7 +23,13 @@
                 ?>
 
             </small>
-                <?php echo $this->Facebook->like(); ?>
+            <div class="clearfix"></div>
+            <?php echo $this->Facebook->like(array(
+                    "data-action"=>"like",
+                    "data-show-faces"=>true,
+                    "data-share"=>true
+                )); ?>
+                
         <?php
             }
         ?>
@@ -166,4 +172,4 @@
 ?>
 <div class="clearfix"></div>
 <br/>
-<?php echo $this->Facebook->comments(); ?>
+<div class="fb-comments" data-href="<?php echo Router::url(null, true); ?>" data-numposts="5" data-colorscheme="light"></div>
