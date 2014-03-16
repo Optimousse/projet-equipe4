@@ -23,7 +23,7 @@
         ?>
         <br/>
         <?php
-        echo $this->Facebook->login(array('label' => 'Se connecter avec Facebook', 'perms' => 'email,publish_actions,user_likes', 'redirect' => array('controller' => 'paris', 'action' => 'index'), 'img' => 'connectwithfacebook.gif')); ?>
+        echo $this->Facebook->login(array('label' => 'Se connecter avec Facebook', 'perms' => 'email,publish_actions', 'redirect' => array('controller' => 'paris', 'action' => 'index'), 'img' => 'connectwithfacebook.gif')); ?>
 
     </fieldset>
     <?php echo $this->Form->end();
