@@ -1,6 +1,7 @@
 <h1>Modifier mon compte</h1>
 
-<?php echo $this->Form->create('Parieur', array(
+<?php
+echo $this->Form->create('Parieur', array(
     'inputDefaults' => array(
         'div' => 'form-group',
         'wrapInput' => false,

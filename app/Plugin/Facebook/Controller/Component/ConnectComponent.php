@@ -84,7 +84,7 @@ class ConnectComponent extends Component {
 		$this->FB = new FB();
 		$this->uid = $this->FB->getUser();
 	}
-	
+
 	/**
 	* Sync the connected Facebook user with your application.
 	*
@@ -185,6 +185,8 @@ class ConnectComponent extends Component {
 			return true;
 		}
 	}
+
+
 	
 	/**
 	* Read the logged in user

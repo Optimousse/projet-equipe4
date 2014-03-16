@@ -160,10 +160,6 @@
 
 <body>
 <div id="fb-root"></div>
-<?php
-debug($this->Session->read());
-echo $this->Facebook->login() ?>
-<?php echo $this->Facebook->logout(array('label' => 'Logout', 'redirect' => array('controller' => 'parieurs', 'action' => 'logout'))); ?>
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
@@ -214,9 +210,16 @@ echo $this->Facebook->login() ?>
                                         class="caret"></strong></a>
 
                                 <ul class="dropdown-menu">
-                                    <li><?php echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
-                                            'action' => 'mon_compte'
-                                        )); ?></li>
+                                    <?php
+
+                                    if($this->Session->check('connexionNormale')){
+                                    ?>
+                                        <li><?php echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
+                                                'action' => 'mon_compte'
+                                            )); ?></li>
+                                    <?php
+                                    }
+                                    ?>
                                     <li><?php echo $this->Html->link('Mes paris', array('controller' => 'paris',
                                             'action' => 'mes_paris'
                                         )); ?></li>
@@ -228,9 +231,19 @@ echo $this->Facebook->login() ?>
                                         )); ?></li>
                                 </ul>
                             </li>
-                            <li><?php echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
-                                    'action' => 'logout'
-                                )); ?></li>
+                            <li><?php
+                                //Affiche un lien html normal si on est connecté via le système d'inscription normale.
+                                //Sinon, affiche un lien html qui déconnectera l'utilisateur de facebook et du site.
+                                if($this->Session->check('connexionNormale')){
+                                    echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
+                                        'action' => 'logout'
+                                    ));
+                                }
+                                else{
+                                    echo $this->Facebook->logout(array('label' => 'Déconnexion', 'redirect' => array('controller' => 'parieurs', 'action' => 'logout')));
+                                }
+
+                                ?></li>
                             <li id="liMessagerie" class="dropdown">
                                 <a id="modal-473524" href="#myModal" role="button" class="btn" data-toggle="modal">
                                     <span id="badgeNouveauMessage" style="display:none;"
