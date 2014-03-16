@@ -265,7 +265,6 @@ class ParisController extends AppController
 
             unset($this->request->data['Pari']['image']);
             $this->request->data['Pari']['image'] =$dossier.'/'.$id.$extension;
-            var_dump($this->request->data);
         }
         return $estValide;
     }

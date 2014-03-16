@@ -134,8 +134,4 @@ class AppController extends Controller
         $this->Connect->authUser['Parieur']['courriel'] = $this->Connect->user('email');
         return true; //Must return true or will not save.
     }
-
-    public function getFacebookId(){
-        return $this->Session->read('Auth')['User']['facebook_id'];
-    }
 }
