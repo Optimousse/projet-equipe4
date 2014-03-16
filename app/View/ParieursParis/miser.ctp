@@ -22,7 +22,7 @@
                     echo 'Ce pari se termine dans ' . '<h2 style="display:inline-block; color:#2D6CA2;"><abbr title=' . $paris['Pari']['date_fin'] .'>' . $jours . '</abbr></h2> ' . $accordJour;
                 ?>
             </small>
-                <?php echo $this->Facebook->like(); ?>
+                <div class="fb-like-box" data-href="<?php echo Router::url( $this->here, true ); ?> " data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true"></div>
         <?php
             }
         ?>
