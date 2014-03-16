@@ -9,7 +9,7 @@
 
         echo '<strong>'.$nom.'</strong><br/>';
         echo $description;
-        echo '<br/><br/>Montant : <strong>'.$montant.'</strong> jetons<br/><br/>'; ?>
+        echo '<br/><br/>Prix : <strong>'.$montant.'</strong> jetons<br/><br/>'; ?>
 
         <div style="height:150px; overflow:hidden; ">
             <?php echo $this->Html->image($image, array(
@@ -21,7 +21,7 @@
     </div>
 </div>
 <p>
-   Veuillez saisir vos coordonnées pour que l'on puisse expédier votre cadeau
+   Veuillez saisir vos coordonnées afin que nous puissions vous expédier votre achat.
 </p>
 
 <div class="users form">
@@ -45,7 +45,7 @@
 
         ));
 
-        echo $this->Html->link('Retour aux lots', array('controller' => 'lots', 'action' => 'index'), array('class' => 'btn btn-default btn-separation')); ?>
+        echo $this->Html->link('Annuler', array('controller' => 'lots', 'action' => 'index'), array('class' => 'btn btn-default btn-separation')); ?>
     </fieldset>
     <?php echo $this->Form->end(); ?>
 </div>

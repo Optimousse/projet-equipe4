@@ -172,4 +172,4 @@
 ?>
 <div class="clearfix"></div>
 <br/>
-<?php echo $this->Facebook->comments(); ?>
+<?php echo $this->Facebook->comments(array('data-href' => Router::url(null, true))); ?>
