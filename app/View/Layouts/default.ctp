@@ -206,17 +206,15 @@
                                     'action' => 'ajouter'
                                 )); ?></li>
 
-
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <?php
                                     if($nbParisTermines > 0){
-
                                         if($nbParisTermines == 1){
                                             $msg = 'Un pari attend que vous déterminiez le choix gagnant.';
                                         }
                                         else{
-                                            $msg = $nbParisTermins.' paris attendent que vous déterminiez le choix gagnant.';
+                                            $msg = $nbParisTermines.' paris attendent que vous déterminiez le choix gagnant.';
                                         }
                                         ?>
                                         <span id="badgeParisTermines" class="badge badge-important"
@@ -230,7 +228,6 @@
 
                                 <ul class="dropdown-menu">
                                     <?php
-
                                     if($this->Session->check('connexionNormale')){
                                     ?>
                                         <li>

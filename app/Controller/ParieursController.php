@@ -116,7 +116,7 @@ class ParieursController extends AppController
                     }
                 } else {
                     // problème mdp différent
-                    $this->_messageErreur('Les mots de passes doivent être identiques');
+                    $this->_messageErreur('Les mots de passe doivent être identiques');
                     return;
                 }
             }
