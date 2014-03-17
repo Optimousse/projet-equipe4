@@ -23,14 +23,16 @@ class ParieursPari extends AppModel {
 
     public $validate = array(
         'mise' => array(
-            'rule'    => 'naturalNumber',
-            'message' => 'La mise doit être un nombre entier supérieur à 1.',
+            'rule1' => array(
+                'rule'    => 'naturalNumber',
+                'message' => 'La mise doit être un nombre entier supérieur à 1.',
+                'allowEmpty' => false
+            )
+        ),
+        'choix_id' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'La mise est obligatoire',
-            'rule'    => '/^[0-9]*$/',
-            'message' => 'La mise doit être un nombre entier supérieur à 1.'
-            )
-        )
+                'message' => 'Le choix est obligatoire.'
+            ))
     );
 }

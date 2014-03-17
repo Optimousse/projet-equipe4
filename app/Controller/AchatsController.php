@@ -24,26 +24,18 @@ class AchatsController extends AppController
         $leLot = $this->Lot->find('first', array('conditions' => array('Lot.id' => $id), 'fields' => array('prix', 'nom','image','description')));
 
         $montant = $leLot['Lot']['prix'];
-        $nomLot = $leLot['Lot']['nom'];
-        $image = $leLot['Lot']['image'];
-        $description = $leLot['Lot']['description'];
-
-        $this->set('montant', $montant);
-        $this->set('nom', $nomLot);
-        $this->set('image', $image);
-        $this->set('description', $description);
+        $this->set('lot', $leLot['Lot']);
 
         // on teste si le parieur possède assez de jetons pour parier le montant désiré
-        if ($montant > $jetonPossede) {
+        if ($leLot['Lot']['prix'] > $jetonPossede) {
 
             // calcule le nonbre de jetons manquant pour se procurer le lot => pour affichage du message d'erreur
             $sommeManquante = $montant - $jetonPossede;
 
             $lien = Router::url(array('controller' => 'parieurs', 'action' => 'acheter_jetons', 'lots'), false);
             // explication de l'erreur
-            $this->messageAvertissement('Vous n\'avez pas assez de jetons pour acheter ce lot. Vous disposez de '.
-                                       $jetonPossede.' jetons et le lot en coûte '.$montant.'.<br>Il vous manque '
-                                      .$sommeManquante.' jetons.'.'<a href="' . $lien . '"><br><br>Vous pouvez en racheter ici.</a>');
+            $this->_messageAvertissement('Il vous manque '.$sommeManquante.' jetons pour acheter ce lot.'.
+                '<a href="' . $lien . '"><br/>Vous pouvez en racheter ici.</a>');
 
             // on renvoie sur la page des lots
             return $this->redirect(array('action' => 'index', 'controller' => 'Lots'));
@@ -51,23 +43,18 @@ class AchatsController extends AppController
 
         if ($this->request->is(array('post', 'put'))) {
 
-            $this->Achat->create();
             if ($this->sauvegarderNouveauxJetons($id_usager, $montant)) {
+                $this->Achat->create();
 
-                $this->messageSucces('La mise a bien été créée. Votre compte a été débité de '.$montant .' jetons.');
-            }
-
-            $this->Achat->create();
-
-            if ($this->Achat->save($this->request->data, true, array('adresse', 'code_postal', 'ville','parieur_id', 'lot_id'))) {
-                $this->messageSucces('Votre commande a bien été passée.');
-                $this->envoyerCourrielAcheteur($parieur['Parieur']['courriel'], $leLot['Lot']['nom'], $montant);
-                return $this->redirect(array('action' => 'index', 'controller' => 'Lots'));
-            } else {
-                $this->messageErreur('Une erreur est survenue lors de l\'achat du lot.');
+                if ($this->Achat->save($this->request->data, true, array('adresse', 'code_postal', 'ville','parieur_id', 'lot_id'))) {
+                    $this->_messageSucces('Votre commande a bien été passée.');
+                    $this->envoyerCourrielAcheteur($parieur['Parieur']['courriel'], $leLot['Lot']['nom'], $montant);
+                    return $this->redirect(array('action' => 'index', 'controller' => 'Lots'));
+                } else {
+                    $this->_messageErreur('Une erreur est survenue lors de l\'achat du lot.');
+                }
             }
         }
-
     }
 
     /*
@@ -87,19 +74,20 @@ class AchatsController extends AppController
 
         $Email = new CakeEmail();
         $Email->config('gmail');
-
         $Email->from('parispaslaville@gmail.com', 'Paris, pas la ville');
-        $Email->to($courriel);
+
+        try{
+            $Email->to($courriel);
+        }
+        catch(Exception $e){
+            $this->_loguerErreur($this->params['controller'], $this->action, $courriel. ' n\'est pas un courriel valide. Le courriel n\'a pas été envoyé.');
+            return;
+        }
 
         $Email->viewVars(array('nomLot' => $nomLot, 'nbJetons' => $montant));
         $Email->template('acheteLot');
         $Email->subject('Votre commande a été passée.');
         $Email->emailFormat('both');
-
-        try{
-            $Email->send('Achat');
-        }
-        catch(Exception $e){
-        }
+        $Email->send('Acheteur');
     }
 }

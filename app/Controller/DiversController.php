@@ -8,7 +8,7 @@ class DiversController extends AppController
     {
         parent::beforeFilter();
         //Pages accessibles lorsque le parieur n'est pas connecté
-        $this->Auth->allow('faq', 'accueil');
+        $this->Auth->allow('faq', 'accueil', 'contactez_nous');
     }
 
     //Page d'accueil
@@ -29,47 +29,44 @@ class DiversController extends AppController
 
     }
 
+    //Formulaire permettant à un utilisateur de nous envoyer un courriel
     public function contactez_nous(){
 
         if($this->request->is('post')){
-
-            if($this->envoyerCourrielPerdant()){
-                $this->messageSucces('Votre message nous a bien été envoyé. Merci de votre intérêt pour <i>Paris, pas la ville </i> !');
-            }
-            else{
-                $this->messageSucces('Une erreur est survenue lors de l\'envoi de votre message.');
-            }
+            $this->envoyerCourriel();
         }
     }
 
     /*
-     * Fonctions prives
+     * Fonctions privées
      */
 
     //Un utilisateur nous envoie un courriel
-    private function envoyerCourrielPerdant(){
+    private function envoyerCourriel(){
+
+        $Email = new CakeEmail();
+        $Email->config('gmail');
+        $Email->from('parispaslaville@gmail.com', 'Paris, pas la ville');
 
         $courriel = $this->request->data['Contact']['courriel'];
         $message = $this->request->data['Contact']['message'];
         $titre = $this->request->data['Contact']['titre'];
 
-        $Email = new CakeEmail();
-        $Email->config('gmail');
-
-        $Email->from($courriel, $courriel);
-        $Email->to('parispaslaville@gmail.com');
-
+        try{
+            $Email->to($courriel);
+        }
+        catch(Exception $e){
+            $this->_messageErreur('Cette adresse courriel est invalide.');
+            return;
+        }
         $Email->viewVars(array('message' => $message));
         $Email->template('contactezNous');
         $Email->subject($titre);
         $Email->emailFormat('both');
+        $Email->send('ContactezNous');
 
-        try{
-            $Email->send('ContactezNous');
-            return true;
-        }
-        catch(Exception $e){
-            return false;
-        }
+        $this->_messageSucces('Votre message nous a bien été envoyé. Merci de votre intérêt pour <i>Paris, pas la ville </i> !');
+        unset($this->request->data);
+        return;
     }
 }

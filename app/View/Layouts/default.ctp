@@ -159,9 +159,8 @@
 </head>
 
 <body>
-<?php echo $this->Facebook->init(); ?>
+<?php echo $this->Facebook->init();?>
 <div class="container">
-    <div class="row clearfix">
         <div class="col-md-12 column">
             <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
                 <div class="navbar-header">
@@ -264,8 +263,9 @@
 
             echo $this->fetch('content'); ?>
             <div class="clearfix"></div>
-            <?php echo $this->Facebook->friendpile(); ?>
+            <?php echo $this->Facebook->friendpile();
 
+            if (AuthComponent::user()) { ?>
             <div class="modal fade" style="margin-top:22px;" id="myModal" role="dialog" aria-labelledby="myModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
@@ -292,7 +292,7 @@
 
                         <div id="divMessagerie" class="modal-body">
                             <?php
-                            echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => AuthComponent::user('id')));
+                            echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $this->Session->read('Auth')['User']['id']));
 
                             echo $this->Form->input('message', array(
                                 'label' => false, 'id' => 'txtMessage', 'div' => false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
@@ -315,6 +315,7 @@
                     </div>
                 </div>
             </div>
+            <?php } ?>
 
         </div>
 

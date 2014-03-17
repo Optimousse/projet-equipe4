@@ -23,16 +23,17 @@
                 ?>
 
             </small>
-            <div class="clearfix"></div>
-                <?php echo $this->Facebook->like(array(
-                    "data-action"=>"like",
-                    "data-show-faces"=>true,
-                    "data-share"=>true,
-                    "id" => 'btnFacebook'
-                )); ?>
         <?php
             }
         ?>
+
+        <div class="clearfix"></div>
+        <?php echo $this->Facebook->like(array(
+            "data-action"=>"like",
+            "data-show-faces"=>true,
+            "data-share"=>true,
+            "id" => 'btnFacebook'
+        )); ?>
     </h1>
     <div class="row">
         <div class="col-xs-12 col-md-8">

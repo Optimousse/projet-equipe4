@@ -81,7 +81,7 @@ class AppController extends Controller
         $this->Auth->loginRedirect = array('controller' => 'paris', 'action' => 'index');
     }
 
-    public function messageSucces($message)
+    public function _messageSucces($message)
     {
         $this->Session->setFlash(
             __($message), 'alert', array(
@@ -90,7 +90,7 @@ class AppController extends Controller
         ));
     }
 
-    public function messageErreur($message)
+    public function _messageErreur($message)
     {
         $this->Session->setFlash(
             __($message), 'alert', array(
@@ -99,8 +99,7 @@ class AppController extends Controller
         ));
     }
 
-
-    public function messageInfo($message)
+    public function _messageInfo($message)
     {
         $this->Session->setFlash(
             __($message), 'alert', array(
@@ -109,7 +108,7 @@ class AppController extends Controller
         ));
     }
 
-    public function messageAvertissement($message){
+    public function _messageAvertissement($message){
 
         $this->Session->setFlash(
             __($message), 'alert', array(
@@ -118,13 +117,13 @@ class AppController extends Controller
         ));
     }
 
-    public function redirectAccueil(){
+    public function _redirectAccueil(){
 
         return $this->redirect(array('action' => 'accueil', 'controller' => 'divers'));
     }
 
 
-    public function redirectCatalogue(){
+    public function _redirectCatalogue(){
 
         return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
     }
@@ -134,5 +133,16 @@ class AppController extends Controller
         $this->Connect->authUser['Parieur']['courriel'] = $this->Connect->user('email');
         $this->Connect->authUser['Parieur']['pseudo'] = $this->Connect->user('username');
         return true; //Must return true or will not save.
+    }
+
+    public function _loguerErreur($controller, $action, $message){
+        $this->loadModel('Erreur');
+        $this->Erreur->create();
+        $erreur = array(
+            'message' => $message,
+            'controller' => $controller,
+            'action' => $action
+        );
+        $this->Erreur->save($erreur);
     }
 }

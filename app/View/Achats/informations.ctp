@@ -7,13 +7,14 @@
     <div class="thumbnail" >
         <?php
 
-        echo '<strong>'.$nom.'</strong><br/>';
-        echo $description;
-        echo '<br/><br/>Prix : <strong>'.$montant.'</strong> jetons<br/><br/>'; ?>
+        echo '<strong>'.$lot['nom'].'</strong><br/>';
+        echo $lot['description'];
+        echo '<br/>Prix : <strong>'.$lot['prix'].'</strong> jetons<br/><br/>'; ?>
 
         <div style="height:150px; overflow:hidden; ">
-            <?php echo $this->Html->image($image, array(
-                "alt" => $image,
+            <?php
+            echo $this->Html->image($lot['image'], array(
+                "alt" => $lot['image'],
                 'style' => 'width:100%',
             ));
             ?>

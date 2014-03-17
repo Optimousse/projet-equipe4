@@ -35,11 +35,11 @@ class ParieursParisController extends AppController
         $id_usager = $this->Auth->user('id');
         $this->set('id_util', $id_usager);
         if (!$id)
-            return $this->redirectAccueil();
+            return $this->_redirectAccueil();
 
         $pari = $this->Pari->findById($id);
         if (!$pari)
-            return $this->redirectAccueil();
+            return $this->_redirectAccueil();
 
         $this->set('title_for_layout', $pari['Pari']['nom']);
         $this->loadModel('Choix');
@@ -86,23 +86,22 @@ class ParieursParisController extends AppController
             $mise = $this->request->data["ParieursPari"]["mise"];
 
             // on teste si le parieur possède assez de jetons pour parier le montant désiré
-            if ($mise > $jetonPossede) {
+            if (is_numeric($mise) && $mise > $jetonPossede) {
 
                 $lien = Router::url(array('controller' => 'parieurs', 'action' => 'acheter_jetons'), false);
                 // explication de l'erreur
-                $this->messageAvertissement('Vous n\'avez pas assez de jetons pour parier ce montant.
+                $this->_messageAvertissement('Vous n\'avez pas assez de jetons pour parier ce montant.
                                                  <a href="' . $lien . '">Vous pouvez en racheter ici.</a>');
                 return;
             }
 
             $this->ParieursPari->create();
+            if ($this->ParieursPari->save($this->request->data) && $this->sauvegarderNouveauxJetons($id_usager, $mise)) {
 
-            if ($this->sauvegarderNouveauxJetons($id_usager, $mise) && $this->ParieursPari->save($this->request->data)) {
-
-                $this->messageSucces('La mise a bien été créée. Votre compte a été débité de '.$mise .' jetons.');
+                $this->_messageSucces('La mise a bien été créée. Votre compte a été débité de '.$mise .' jetons.');
                 return $this->redirect(array('action' => 'mes_mises', 'controller' => 'parieurs_paris'));
             }
-            $this->messageErreur('Un ou plusieurs champs n\'ont pas été remplis correctement.');
+            $this->_messageErreur('Un ou plusieurs champs n\'ont pas été remplis correctement.');
         }
     }
 
