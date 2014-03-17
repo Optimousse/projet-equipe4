@@ -114,16 +114,18 @@
                     data: {'estPageLoad': estPageLoad, 'estAjout': estAjout},
                     dataType: "json",
                     success: function (data) {
-
+                        console.log(data);
                         if (data.length > 0) {
                             //On n'affiche le badge que si l'utilisateur a utilisé la messagerie
                             //(Pour ne pas l'importuner) et si le nouveau message en question n'est pas celui
                             //qu'il vient d'écrire
-                            if (estAjout === false && _messagesLus) {
-                                _nbMessagesLus += data.length;
-                                $("#badgeNouveauMessage").empty();
-                                $("#badgeNouveauMessage").append(_nbMessagesLus);
-                                $("#badgeNouveauMessage").css('display', 'inline-block');
+                            if (estAjout === false) {
+                                _nbMessagesLus = data[0].nbMessagesNonLus;
+                                if(_nbMessagesLus > 0){
+                                    $("#badgeNouveauMessage").empty();
+                                    $("#badgeNouveauMessage").append(_nbMessagesLus);
+                                    $("#badgeNouveauMessage").css('display', 'inline-block');
+                                }
                             }
                             remplirConversation(data);
                         }
@@ -137,8 +139,10 @@
                 var str = "";
                 $.each(data, function () {
                     if (this.parieurs != undefined) {
-                        str += '<li><blockquote> <b>' + this.parieurs.pseudo + '</b> dit:<br/>';
-                        str += this.Message.message + '</blockquote></li><hr>';
+                        str += '<li><blockquote>' +
+                             this.Message.message +
+                            '<small><b>'+ this.parieurs.pseudo + '</b>, ' + this.Message.created + '</small>' +
+                            '</blockquote></li><hr>';
                     }
                 });
 
