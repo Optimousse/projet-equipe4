@@ -79,6 +79,10 @@ class AppController extends Controller
         //Pages accessibles sans être connecté (Les actions accessibles pour tous les contrôleurs)
         $this->Auth->allow('index');
         $this->Auth->loginRedirect = array('controller' => 'paris', 'action' => 'index');
+
+        if($this->Auth->user('id')){
+            $this->setNombreParisEnAttente();
+        }
     }
 
     public function _messageSucces($message)
@@ -144,5 +148,21 @@ class AppController extends Controller
             'action' => $action
         );
         $this->Erreur->save($erreur);
+    }
+
+    /*
+     * Fonctions privées
+     */
+
+    //Nombre de paris de l'utilisateur en attente de se voir déterminer un choix gagnant
+    private function setNombreParisEnAttente(){
+        $this->loadModel('Pari');
+        $nbParisTermines = $this->Pari->find('count', array(
+            'conditions'=>array(
+                'date_fin <=' => date('Y-m-d'),
+                'choix_gagnant' => NULL,
+                'parieur_id' => $this->Session->read('Auth')['User']['id']
+            )));
+        $this->set('nbParisTermines', $nbParisTermines);
     }
 }

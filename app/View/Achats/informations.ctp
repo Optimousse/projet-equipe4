@@ -1,5 +1,5 @@
 <!-- app/View/Users/add.ctp -->
-<h1>Vos coordonnées</h1>
+<h1>Acheter un lot</h1>
 
 <!-- infos sur le paris -->
  <div class="row">
@@ -15,7 +15,7 @@
             <?php
             echo $this->Html->image($lot['image'], array(
                 "alt" => $lot['image'],
-                'style' => 'width:100%',
+                'class' => 'width-100'
             ));
             ?>
         </div>

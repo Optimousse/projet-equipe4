@@ -12,12 +12,11 @@
         jQuery.noConflict();
         $("#aCriteresRecherche").click(function(e){
             if($('#spanCriteresRecherche').attr('class').contains("down")){
-            $("#spanCriteresRecherche").removeClass("glyphicon-chevron-down");
-            $("#spanCriteresRecherche").addClass("glyphicon-chevron-up");
+                $("#spanCriteresRecherche").removeClass("glyphicon-chevron-down");
+                $("#spanCriteresRecherche").addClass("glyphicon-chevron-up");
             }
             else
             {
-
                 $("#spanCriteresRecherche").removeClass("glyphicon-chevron-up");
                 $("#spanCriteresRecherche").addClass("glyphicon-chevron-down");
             }
@@ -172,10 +171,10 @@ if(!empty($paris)){
         foreach ($paris as $pari){?>
             <div class="col-md-4">
                 <div class="thumbnail" >
-                    <div style="height:150px; overflow:hidden; ">
+                    <div class="thumbnail-div-medium">
                         <?php echo $this->Html->image($pari['Pari']['image'], array(
                             "alt" => $pari['Pari']['image'],
-                            'style' => 'width:100%',
+                            'class' => 'thumbnail-img-medium',
                             'url' => array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id'])
                         ));
                         ?>
@@ -186,7 +185,7 @@ if(!empty($paris)){
                             <h3 class="text-center">
                                 <?php echo $pari['Pari']['nom']; ?>
                             </h3>
-                            <p style="color: #595959;">
+                            <p class="color-medium-gris">
                                 <?php
                                 $desc = $pari['Pari']['description'];
                                 if(strlen($desc) > 150)

@@ -14,6 +14,7 @@
     echo $this->Html->css("bootstrap", null, array("inline" => false));
     echo $this->Html->css("bootstrap-theme", null, array("inline" => false));
     echo $this->Html->css("datepicker3", null, array("inline" => false));
+    echo $this->Html->css("notreCss", null, array("inline" => false));
     echo $this->Html->script('bootstrap.min');
     echo $this->Html->script('bootstrap-datepicker');
     ?>
@@ -51,6 +52,10 @@
                 "action" => "setTousMessagesLus"
             )); ?>';
 
+            jQuery.noConflict();
+            $("#badgeParisTermines").tooltip();
+            $("#badgeNouveauMessage").tooltip();
+
             if ($("#txtConnecte").val() === '1') {
                 getMessages(false, true);
 
@@ -66,7 +71,6 @@
                 }
             });
 
-            jQuery.noConflict();
             $('#myModal').on('shown.bs.modal', function (e) {
                 $("#divMessages").animate({ scrollTop: $('#divMessages')[0].scrollHeight}, 500);
                 $("#txtMessage").focus();
@@ -204,15 +208,34 @@
 
 
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mon compte<strong
-                                        class="caret"></strong></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <?php
+                                    if($nbParisTermines > 0){
+
+                                        if($nbParisTermines == 1){
+                                            $msg = 'Un pari attend que vous déterminiez le choix gagnant.';
+                                        }
+                                        else{
+                                            $msg = $nbParisTermins.' paris attendent que vous déterminiez le choix gagnant.';
+                                        }
+                                        ?>
+                                        <span id="badgeParisTermines" class="badge badge-important"
+                                            data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="<?php echo $msg;?>"
+                                            ><?php echo $nbParisTermines;?></span>
+                                    <?php } ?>
+                                    Mon compte <strong class="caret"></strong>
+                                </a>
 
                                 <ul class="dropdown-menu">
                                     <?php
 
                                     if($this->Session->check('connexionNormale')){
                                     ?>
-                                        <li><?php echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
+                                        <li>
+                                            <?php
+                                            echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
                                                 'action' => 'mon_compte'
                                             )); ?></li>
                                     <?php
@@ -245,7 +268,10 @@
                             <li id="liMessagerie" class="dropdown">
                                 <a id="modal-473524" href="#myModal" role="button" class="btn" data-toggle="modal">
                                     <span id="badgeNouveauMessage" style="display:none;"
-                                          class="badge badge-important">1</span>
+                                          class="badge badge-important"
+                                          data-toggle="tooltip"
+                                          data-placement="bottom"
+                                          title="Un ou plusieurs message(s) non lu(s).">1</span>
                                     <?php echo $this->Html->image('glyphicons_010_envelope.png'); ?>
                                     &nbsp;&nbsp;<strong class="caret"></strong>
                                 </a>
@@ -260,7 +286,6 @@
             <?php
             echo $this->Session->flash();
             echo $this->Session->flash('auth');
-
             echo $this->fetch('content'); ?>
             <div class="clearfix"></div>
             <?php echo $this->Facebook->friendpile();

@@ -37,13 +37,13 @@
     </h1>
     <div class="row">
         <div class="col-xs-12 col-md-8">
-            <?php echo $this->Html->image($paris['Pari']['image'], array('class'=>'img-rounded', 'style'=>'max-width:100%')); ?>
+            <?php echo $this->Html->image($paris['Pari']['image'], array('class'=>'img-rounded width-100')); ?>
         </div>
         <div class="col-xs-6 col-md-4">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <span class="btn btn-danger" style="width:100%;">Détails</span>
-                    <div style="padding:15px;">
+                    <div class="padding-medium">
                         <p><?php echo '<strong>'.$paris['Pari']['description'].'</strong>'; ?></p>
                         <p>
                             Créé par
@@ -56,7 +56,7 @@
                             }?>
                         </p>
                         <dl>
-                            <span style="margin:0; display:block;"><strong>Choix et cotes</strong></span>
+                            <span class="display-block"><strong>Choix et cotes</strong></span>
                             <?php
                             foreach ($choix as $choi):?>
 
@@ -91,7 +91,7 @@
                         </blockquote>';
             } else if ($dejaMise) {
                 ?>
-                <blockquote style="border-color:#2D6CA2; background-color:#eee;">
+                <blockquote class="blockquote-info">
                     <span class="glyphicon glyphicon-remove"></span>
                     Vous avez déjà misé sur ce pari.
                 </blockquote>
