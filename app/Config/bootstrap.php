@@ -110,6 +110,7 @@ Configure::write('Stripe.LiveSecret', 'sk_live_YUHXzimHFqYPCCii9YxNQ1ww');
 CakePlugin::load('Stripe');
 CakePlugin::load('BoostCake');
 CakePlugin::load('Facebook');
+date_default_timezone_set('America/Montreal');
 
 
 

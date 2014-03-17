@@ -23,13 +23,13 @@ class ParieursController extends AppController
             if ($this->request->is('post')) {
                 if ($this->Auth->login()) {
                     $this->Session->write('connexionNormale', true);
-                    $this->messageSucces('Vous êtes maintenant connecté.');
+                    $this->_messageSucces('Vous êtes maintenant connecté.');
                     return $this->redirect($this->Auth->redirect());
                 }
-                $this->messageErreur('Pseudo ou mot de passe invalide.');
+                $this->_messageErreur('Pseudo ou mot de passe invalide.');
             }
         } else {
-            return $this->redirect($this->redirectAccueil());
+            return $this->redirect($this->_redirectAccueil());
         }
     }
 
@@ -42,13 +42,13 @@ class ParieursController extends AppController
             $fb->api('/me');
             $fb->destroySession();
         }
-        $this->messageInfo('Vous êtes maintenant déconnecté.');
+        $this->_messageInfo('Vous êtes maintenant déconnecté.');
         $this->Session->delete('dernierIdMessageRecupere');
         $this->Session->delete('dernierIdMessageLu');
         $this->Session->destroy();
         $this->Auth->logout();
 
-        return $this->redirectAccueil();
+        return $this->_redirectAccueil();
     }
 
     //Inscription au site
@@ -62,17 +62,18 @@ class ParieursController extends AppController
                     $this->Parieur->create();
 
                     if ($this->Parieur->save($this->request->data, true, array('pseudo', 'mot_passe', 'courriel'))) {
-                        $this->messageSucces('Votre compte a été créé. Veuillez maintenant vous connecter.');
-                        return $this->redirect(array('action' => 'connexion'));
+                        $this->_messageSucces('Votre compte a été créé avec succès. Vous avez maintenant accès à toutes les fonctionnalités du site.');
+                        $this->Auth->login($this->request->data);
+                        return $this->redirect(array('controller' => 'paris', 'action' => 'index'));
                     } else {
-                        $this->messageErreur('Une erreur est survenue lors de la création de votre compte.');
+                        $this->_messageErreur('Une erreur est survenue lors de la création de votre compte.');
                     }
                 } else
-                    $this->messageErreur('Les mots de passe doivent être identiques.');
+                    $this->_messageErreur('Les mots de passe doivent être identiques.');
             }
         } else {
-            $this->messageAvertissement('Vous êtes déja connecté');
-            return $this->redirect($this->redirectAccueil());
+            $this->_messageAvertissement('Vous êtes déja connecté');
+            return $this->redirect($this->_redirectAccueil());
         }
     }
 
@@ -81,7 +82,7 @@ class ParieursController extends AppController
     {
         //On ne peut accéder à cette page si on est connecté via Facebook
         if(!$this->Session->check('connexionNormale')){
-            return $this->redirectAccueil();
+            return $this->_redirectAccueil();
         }
         $this->set('title_for_layout', 'Mon compte');
         //Afin que les champs soient déjà remplis
@@ -115,16 +116,16 @@ class ParieursController extends AppController
                     }
                 } else {
                     // problème mdp différent
-                    $this->messageErreur('Les mots de passes doivent être identiques');
+                    $this->_messageErreur('Les mots de passe doivent être identiques');
                     return;
                 }
             }
 
             if ($sauvegardeOk) {
-                $this->messageSucces('Votre compte a bien été modifié.');
+                $this->_messageSucces('Votre compte a bien été modifié.');
 
             } else {
-                $this->messageErreur('Votre compte n\'a pas pu être modifié.');
+                $this->_messageErreur('Votre compte n\'a pas pu être modifié.');
             }
         }
     }
@@ -161,7 +162,7 @@ class ParieursController extends AppController
 
                 if ($this->Parieur->save()) {
 
-                    $this->messageSucces($nombre_jetons_achetes . ' jetons ont été ajoutés à votre compte.');
+                    $this->_messageSucces($nombre_jetons_achetes . ' jetons ont été ajoutés à votre compte.');
 
                     if ($ref == 'lots')
                         return $this->redirect(array('controller' => 'lots', 'action' => 'index'));
@@ -172,14 +173,14 @@ class ParieursController extends AppController
                             return $this->redirect(array('controller' => 'parieurs', 'action' => 'mon_compte'));
                         }
                         else{
-                            return $this->redirectCatalogue();
+                            return $this->_redirectCatalogue();
                         }
                     }
 
                 }
             }
 
-            $this->messageErreur('Les jetons n\'ont pas pu être ajoutés à votre compte.');
+            $this->_messageErreur('Les jetons n\'ont pas pu être ajoutés à votre compte.');
         }
     }
 

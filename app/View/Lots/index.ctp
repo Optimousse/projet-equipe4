@@ -17,7 +17,7 @@
     <label>Trier par:</label>
 
     <div class="clearfix"></div>
-    <ul class="pagination" style="margin-top: 0;">
+    <ul class="pagination">
         <li><?php echo $this->Paginator->sort('nom'); ?></li>
         <li><?php echo $this->Paginator->sort('prix'); ?></li>
     </ul>
@@ -35,8 +35,8 @@
     foreach ($lots as $lot){?>
         <div class="col-md-4">
             <div class="thumbnail" >
-                <div style="height:150px; overflow:hidden; ">
-                    <img style="width:100%; " src="<?php echo $lot['Lot']['image']; ?>"/>
+                <div class="thumbnail-div-medium">
+                    <img class="thumbnail-img-medium" src="<?php echo $lot['Lot']['image']; ?>"/>
                 </div>
 
                 <div class="caption">
@@ -59,8 +59,7 @@
                         ?>
                     </p>
                     <?php
-                    $nomLien = 'Acheter';
-                    echo $this->Html->link($nomLien, array('controller' => 'achats', 'action' => 'informations', $lot['Lot']['id']), array('class' => 'btn btn-primary')); ?>
+                    echo $this->Html->link('Acheter', array('controller' => 'achats', 'action' => 'informations', $lot['Lot']['id']), array('class' => 'btn btn-primary')); ?>
                 </div>
             </div>
         </div>
@@ -77,7 +76,5 @@
 echo $this->Paginator->pagination(array(
     'ul' => 'pagination'
 ));
-
-echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default btn-separation'));
 ?>
 

@@ -79,9 +79,13 @@ class AppController extends Controller
         //Pages accessibles sans être connecté (Les actions accessibles pour tous les contrôleurs)
         $this->Auth->allow('index');
         $this->Auth->loginRedirect = array('controller' => 'paris', 'action' => 'index');
+
+        if($this->Auth->user('id')){
+            $this->setNombreParisEnAttente();
+        }
     }
 
-    public function messageSucces($message)
+    public function _messageSucces($message)
     {
         $this->Session->setFlash(
             __($message), 'alert', array(
@@ -90,7 +94,7 @@ class AppController extends Controller
         ));
     }
 
-    public function messageErreur($message)
+    public function _messageErreur($message)
     {
         $this->Session->setFlash(
             __($message), 'alert', array(
@@ -99,8 +103,7 @@ class AppController extends Controller
         ));
     }
 
-
-    public function messageInfo($message)
+    public function _messageInfo($message)
     {
         $this->Session->setFlash(
             __($message), 'alert', array(
@@ -109,7 +112,7 @@ class AppController extends Controller
         ));
     }
 
-    public function messageAvertissement($message){
+    public function _messageAvertissement($message){
 
         $this->Session->setFlash(
             __($message), 'alert', array(
@@ -118,13 +121,13 @@ class AppController extends Controller
         ));
     }
 
-    public function redirectAccueil(){
+    public function _redirectAccueil(){
 
         return $this->redirect(array('action' => 'accueil', 'controller' => 'divers'));
     }
 
 
-    public function redirectCatalogue(){
+    public function _redirectCatalogue(){
 
         return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
     }
@@ -134,5 +137,32 @@ class AppController extends Controller
         $this->Connect->authUser['Parieur']['courriel'] = $this->Connect->user('email');
         $this->Connect->authUser['Parieur']['pseudo'] = $this->Connect->user('username');
         return true; //Must return true or will not save.
+    }
+
+    public function _loguerErreur($controller, $action, $message){
+        $this->loadModel('Erreur');
+        $this->Erreur->create();
+        $erreur = array(
+            'message' => $message,
+            'controller' => $controller,
+            'action' => $action
+        );
+        $this->Erreur->save($erreur);
+    }
+
+    /*
+     * Fonctions privées
+     */
+
+    //Nombre de paris de l'utilisateur en attente de se voir déterminer un choix gagnant
+    private function setNombreParisEnAttente(){
+        $this->loadModel('Pari');
+        $nbParisTermines = $this->Pari->find('count', array(
+            'conditions'=>array(
+                'date_fin <=' => date('Y-m-d'),
+                'choix_gagnant' => NULL,
+                'parieur_id' => $this->Session->read('Auth')['User']['id']
+            )));
+        $this->set('nbParisTermines', $nbParisTermines);
     }
 }

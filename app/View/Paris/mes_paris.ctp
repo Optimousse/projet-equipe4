@@ -31,9 +31,10 @@
                     echo 'Pari en cours.';
                 else{
                     echo 'Pari terminé.';
-                    if(!isset($pari['Pari']['choix_gagnant']))
+                    if(!isset($pari['Pari']['choix_gagnant'])){
                         echo $this->Html->link(' Déterminez le choix gagnant.',
                             array('controller' => 'paris', 'action' => 'determiner_gagnant', $pari['Pari']['id']));
+                    }
                 }
                 ?>
             </td>
