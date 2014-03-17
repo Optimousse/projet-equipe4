@@ -129,9 +129,10 @@ class AppController extends Controller
         return $this->redirect(array('action' => 'index', 'controller' => 'paris'));
     }
 
-    //Enregistre le courriel dans la base de données lorsque l'on se connecte pour la première fois avec Facebook
+    //Enregistre le courriel et le pseudo dans la base de données lorsque l'on se connecte pour la première fois avec Facebook
     public function beforeFacebookSave() {
         $this->Connect->authUser['Parieur']['courriel'] = $this->Connect->user('email');
+        $this->Connect->authUser['Parieur']['pseudo'] = $this->Connect->user('username');
         return true; //Must return true or will not save.
     }
 }
