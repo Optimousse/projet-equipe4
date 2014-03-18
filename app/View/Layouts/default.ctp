@@ -317,7 +317,8 @@
                         ?>
 
                         <div id="divMessagerie" class="modal-body">
-                            <?php                            echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_utilisateur));
+
+                            <?php echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_utilisateur));
 
                             echo $this->Form->input('message', array(
                                 'label' => false, 'id' => 'txtMessage', 'div' => false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
@@ -325,8 +326,6 @@
                             <br/>
 
                             <div class="input-group">
-                                <br/>
-
                                 <button id="btnSoumettre" class="btn btn-primary" type="button">Envoyer</button>
                                 <button class="btn btn-default btn-separation" contenteditable="true" data-dismiss="modal"
                                         type="button">Fermer

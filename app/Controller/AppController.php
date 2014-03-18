@@ -162,7 +162,7 @@ class AppController extends Controller
             'conditions'=>array(
                 'date_fin <=' => date('Y-m-d'),
                 'choix_gagnant' => NULL,
-                'parieur_id' => $this->Session->read('Auth')['User']['id']
+                'parieur_id' => $this->Auth->user('id')
             )));
         $this->set('nbParisTermines', $nbParisTermines);
     }
