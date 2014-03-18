@@ -34,3 +34,9 @@
 .display-block{
     display:block;
 }
+
+#divMessages{
+    list-style-type: none;
+    max-height: 400px;
+    overflow-y: scroll;
+}
