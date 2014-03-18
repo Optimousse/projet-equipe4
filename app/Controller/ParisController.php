@@ -67,15 +67,12 @@ class ParisController extends AppController
                 return;
             }
 
-            if($this->uploadImage()){
-
-                if ($this->Pari->saveAll($this->request->data)) {
-                    $this->messageSucces('Le pari a été créé avec succès.');
-                    return $this->redirect(array('action' => 'miser', 'controller' => 'ParieursParis', $this->Pari->id));
-                }
-
-                $this->messageErreur('Vérifiez que tous les champs ont été correctement remplis.');
+            if ($this->Pari->saveAll($this->request->data)) {
+                $this->messageSucces('Le pari a été créé avec succès.');
+                return $this->redirect(array('action' => 'miser', 'controller' => 'ParieursParis', $this->Pari->id));
             }
+
+            $this->messageErreur('Vérifiez que tous les champs ont été correctement remplis.');
         }
     }
 
@@ -121,13 +118,6 @@ class ParisController extends AppController
 
         $data = $this->Paginator->paginate('Pari');
         $this->set('paris', $data);
-    }
-
-    //Page d'accueil
-    public function accueil(){
-        $this->set('title_for_layout', 'Paris, pas la ville');
-        $paris = $this->Pari->find('all', array('limit' => 5, 'order' => 'id DESC', 'fields' => array('nom', 'image', 'description', 'date_fin')));
-        $this->set('paris', $paris);
     }
 
     /*
@@ -227,46 +217,6 @@ class ParisController extends AppController
         }
         catch(Exception $e){
         }
-    }
-
-    //Upload une image lors de la création d'un pari
-    private function uploadImage(){
-        $dossier = 'uploads';
-
-        $image = $this->request->data['Pari']['image'];
-        $taillemax = 2097152;
-        $taille = filesize($image['tmp_name']);
-        $estValide = true;
-        $extension = strrchr($image['name'], '.');
-        $extensionsOK = array('.jpg', '.jpeg', '.png', '.gif', '.bmp');
-        if(!empty($image['error'])){
-            if($image['error'] == 1){
-                $this->messageErreur('La taille maximale de l\'image est de 2 Mo.');
-                $estValide = false;
-            }
-        }
-        else if(!in_array($extension, $extensionsOK))
-        {
-            $this->messageErreur('L\'image doit être dans l\'un des formats suivants: jpg, jpeg, png, gif ou bmp.');
-            $estValide = false;
-        }
-        else if($taille > $taillemax){
-
-            $this->messageErreur('Le fichier est trop volumineux. La taille maximale est de 2 Mo.');
-            $estValide = false;
-        }
-        else{
-            $id = String::uuid();
-
-            if(!move_uploaded_file($image['tmp_name'], IMAGES.$dossier.'/'.$id.$extension)){
-                $this->messageErreur('Une erreur est survenue lors de l\'upload de l\'image.');
-                $estValide = false;
-            }
-
-            unset($this->request->data['Pari']['image']);
-            $this->request->data['Pari']['image'] =$dossier.'/'.$id.$extension;
-        }
-        return $estValide;
     }
 
     //Recherche des paris selon certains critères

@@ -173,7 +173,7 @@ if(!empty($paris)){
             <div class="col-md-4">
                 <div class="thumbnail" >
                     <div style="height:150px; overflow:hidden; ">
-                        <?php echo $this->Html->image($pari['Pari']['image'], array(
+                        <?php echo $this->Html->image('uploads/thumbs/'.$pari['Pari']['image'], array(
                             "alt" => $pari['Pari']['image'],
                             'style' => 'width:100%',
                             'url' => array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id'])

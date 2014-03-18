@@ -35,6 +35,36 @@ class Pari extends AppModel {
         )
     );
 
+    public $actsAs = array('ImageUpload' => array(
+        'image' => array(
+            'required'               => true,
+            'directory'           => 'img/uploads/',
+            'allowed_mime'        => array('image/jpeg', 'image/pjpeg', 'image/gif', 'image/png'),
+            'allowed_extension'   => array('.jpg', '.jpeg', '.png', '.gif'),
+            'allowed_size'        => 2097152,
+            'random_filename'     => true,
+            'resize' => array(
+                'thumb' => array(
+                    'directory' => 'img/uploads/thumbs/',
+                    'phpThumb' => array(
+                        'far' => 1,
+                        'bg'  => 'FFFFFF',
+                        'zc' => 0
+                    ),
+                    'height' => 150
+                ),
+                'max' => array(
+                    'directory' => 'img/uploads/thumbs/',
+                    'phpThumb' => array(
+                        'zc' => 0
+                    ),
+                    'height' => 300
+                )
+            )
+        )
+    )
+    );
+
     public function validationDate($date) {
 
         return $date['date_fin'] > date("Y-m-d");
