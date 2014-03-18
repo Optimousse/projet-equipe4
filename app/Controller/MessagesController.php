@@ -1,14 +1,8 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Admin
- * Date: 14-02-04
- * Time: 18:31
- */
 class MessagesController extends AppController
 {
-    public $components = array('Paginator', 'RequestHandler');
+    public $components = array('RequestHandler');
 
     //Ajouter un message dans la bd
     public function ajouter(){
@@ -28,15 +22,14 @@ class MessagesController extends AppController
         $this->autoRender = false;
         $this->layout = 'ajax';
 
-        $estAjout = $this->request->data['estAjout'] == 'true';
-
         //Si on ne vient pas tout juste de charger la page,
         //on va chercher l'ID du dernier message récupéré
         //pour aller lire les nouveaux (plus récents que cet id)
-
-        $idRef = $this->getDernierMessageRecupere();
         if($this->request->data['estPageLoad'] == 'true'){
             $idRef = $this->getDernierMessageDataBase();
+        }
+        else{
+            $idRef = $this->getDernierMessageRecupere();
         }
 
         $messages = $this->Message->find('all', array(
@@ -47,12 +40,16 @@ class MessagesController extends AppController
                                 'alias' => 'parieurs',
                                 'type' => 'inner',
                                 'conditions'=> array('parieurs.id = Message.parieur_id'))),
-            'fields' => array('parieurs.pseudo', 'Message.id', 'message'), 'order' => 'Message.id DESC'));
+            'fields' => array('parieurs.pseudo', 'Message.id', 'message', 'created'), 'order' => 'Message.id DESC'));
 
-        if(count($messages) > 0)
+        $nbNouveauxMessages = count($messages);
+        if($nbNouveauxMessages > 0){
+
+            if($this->request->data['estPageLoad'] == 'false' && $this->aLuMinimumUnMessage()){
+                $this->setNombreMessagesNonLus($this->getNombreMessagesNonLus() + $nbNouveauxMessages);
+            }
+            array_push($messages, array('nbMessagesNonLus' => $this->getNombreMessagesNonLus()));
             $this->setDernierMessageRecupere($messages[0]['Message']['id']);
-        if($estAjout){
-            $this->setDernierMessageLu($this->Message->getInsertID());
         }
 
         return json_encode(array_reverse($messages));
@@ -67,7 +64,7 @@ class MessagesController extends AppController
         $idDernierEnvoye = -1;
         if($this->Session->check('dernierIdMessageRecupere'))
             $idDernierEnvoye = $this->Session->read('dernierIdMessageRecupere');
-        $this->setDernierMessageLu($idDernierEnvoye);
+        $this->setNombreMessagesNonLus(0);
     }
 
     private function getDernierMessageRecupere(){
@@ -83,10 +80,6 @@ class MessagesController extends AppController
         $this->Session->write('dernierIdMessageRecupere', $id);
     }
 
-    private function setDernierMessageLu($valeur){
-        $this->Session->write('dernierIdMessageLu', $valeur);
-    }
-
     //Aller chercher le 15e ID inséré à partir de la fin (pour afficher l'historique de la conversation)
     private function getDernierMessageDataBase(){
 
@@ -96,5 +89,24 @@ class MessagesController extends AppController
             return $dernierId['Message']['id'];
         }
         return -1;
+    }
+
+    private function getNombreMessagesNonLus(){
+        $nb = -1;
+        if($this->Session->check('nombreMessagesNonLus'))
+            $nb = $this->Session->read('nombreMessagesNonLus');
+        return $nb;
+    }
+
+    private function setNombreMessagesNonLus($nb){
+
+        if($this->request->data['estAjout'] == 'true'){
+            $nb--;
+        }
+        $this->Session->write('nombreMessagesNonLus', $nb);
+    }
+
+    private function aLuMinimumUnMessage(){
+        return $this->getNombreMessagesNonLus() > -1;
     }
 }

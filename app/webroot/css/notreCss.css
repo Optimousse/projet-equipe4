@@ -1,0 +1,36 @@
+.carousel-grand{
+    max-width:1200px;
+    height:400px;
+    overflow:hidden;
+}
+
+.image-carousel-grand{
+    width:1200px;
+}
+
+.thumbnail-div-medium{
+    height:150px;
+    overflow:hidden;
+}
+
+.color-medium-gris{
+    color: #595959;
+}
+
+.width-1{
+    width:1%;
+}
+.width-100{
+    width:100%;
+}
+
+.padding-small{
+    padding:5px;
+}
+.padding-medium{
+    padding:15px;
+}
+
+.display-block{
+    display:block;
+}

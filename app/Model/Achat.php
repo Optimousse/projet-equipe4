@@ -6,7 +6,7 @@ class Achat extends AppModel {
         'adresse' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'L\'adresse est obligatoire'
+                'message' => 'L\'adresse est obligatoire.'
             ),
         ),
         'code_postal' => array(
@@ -20,7 +20,7 @@ class Achat extends AppModel {
         'ville' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'La ville est obligatoire',
+                'message' => 'La ville est obligatoire.',
                 'on' => 'create'
             ),
         )

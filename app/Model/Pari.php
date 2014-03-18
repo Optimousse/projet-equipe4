@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Admin
- * Date: 14-02-04
- * Time: 18:31
- */
-class Pari extends AppModel {
 
+class Pari extends AppModel
+{
     /* Lien entre la table Pari et la table Choix */
     public $hasMany = array(
         'Choix' => array(
@@ -30,12 +25,43 @@ class Pari extends AppModel {
             )
         ),
         'date_fin' => array(
-            'rule'    => array('validationDate'),
+            'rule' => array('validationDate'),
             'message' => 'La date de fin ne doit pas être antérieure à la date actuelle.'
         )
     );
 
-    public function validationDate($date) {
+    public $actsAs = array('ImageUpload' => array(
+        'image' => array(
+            'required' => true,
+            'directory' => 'img/uploads/',
+            'allowed_mime' => array('image/jpeg', 'image/pjpeg', 'image/gif', 'image/png'),
+            'allowed_extension' => array('.jpg', '.jpeg', '.png', '.gif'),
+            'allowed_size' => 2097152,
+            'random_filename' => true,
+            'resize' => array(
+                'thumb' => array(
+                    'directory' => 'img/uploads/thumbs/',
+                    'phpThumb' => array(
+                        'far' => 1,
+                        'bg' => 'FFFFFF',
+                        'zc' => 0
+                    ),
+                    'height' => 300
+                ),
+                'max' => array(
+                    'directory' => 'img/uploads/',
+                    'phpThumb' => array(
+                        'zc' => 0
+                    ),
+                    'width' => 1200
+                )
+            )
+        )
+    )
+    );
+
+    public function validationDate($date)
+    {
 
         return $date['date_fin'] > date("Y-m-d");
     }
