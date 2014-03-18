@@ -26,24 +26,40 @@
             }
         ?>
     </h1>
+
+    <div class="clearfix"></div>
+    <?php echo $this->Facebook->like(array(
+        "data-action"=>"like",
+        "data-show-faces"=>true,
+        "data-share"=>true,
+        "id" => 'btnFacebook'
+    )); ?>
     <div class="row">
         <div class="col-xs-12 col-md-8">
-            <?php echo $this->Html->image('uploads/'.$paris['Pari']['image'], array('class'=>'img-rounded', 'style'=>'max-width:100%')); ?>
+            <?php echo $this->Html->image('uploads/'.$paris['Pari']['image'], array('class'=>'img-rounded width-100')); ?>
         </div>
         <div class="col-xs-6 col-md-4">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <span class="btn btn-danger" style="width:100%;">Détails</span>
-                    <div style="padding:15px;">
+                    <div class="padding-medium">
                         <p><?php echo '<strong>'.$paris['Pari']['description'].'</strong>'; ?></p>
-                        <p><?php echo 'Créateur du paris : '.$pseudo; ?></p>
-                        <br/>
-                        <span style="margin:0;">Choix et cotes</span>
+                        <p>
+                            Créé par
+                            <?php
+                            if($createur['facebook_id'] != 0){
+                                echo $this->Facebook->picture($createur['facebook_id']);
+                            }
+                            else{
+                                echo '<i>'.$createur['pseudo'].'</i>';
+                            }?>
+                        </p>
                         <dl>
+                            <span class="display-block"><strong>Choix et cotes</strong></span>
                             <?php
                             foreach ($choix as $choi):?>
 
-                                    <?php echo '<strong>'.$choi['Choix']['nom'].'</strong>'; ?>
+                                    <?php echo $choi['Choix']['nom']; ?>
                                      <span class ="glyphicon glyphicon-chevron-right"></span>
                                     <?php echo $choi['Choix']['cote']; ?> <br/>
                             <?php endforeach; ?>
@@ -74,7 +90,7 @@
                         </blockquote>';
             } else if ($dejaMise) {
                 ?>
-                <blockquote style="border-color:#2D6CA2; background-color:#eee;">
+                <blockquote class="blockquote-info">
                     <span class="glyphicon glyphicon-remove"></span>
                     Vous avez déjà misé sur ce pari.
                 </blockquote>
@@ -154,3 +170,6 @@
  echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default'));
 }
 ?>
+<div class="clearfix"></div>
+<br/>
+<?php echo $this->Facebook->comments(); ?>

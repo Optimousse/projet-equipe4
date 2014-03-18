@@ -1,5 +1,5 @@
 <!-- app/View/Users/add.ctp -->
-<h1>Vos coordonnées</h1>
+<h1>Acheter un lot</h1>
 
 <!-- infos sur le paris -->
  <div class="row">
@@ -7,21 +7,22 @@
     <div class="thumbnail" >
         <?php
 
-        echo '<strong>'.$nom.'</strong><br/>';
-        echo $description;
-        echo '<br/><br/>Montant : <strong>'.$montant.'</strong> jetons<br/><br/>'; ?>
+        echo '<strong>'.$lot['nom'].'</strong><br/>';
+        echo $lot['description'];
+        echo '<br/>Prix : <strong>'.$lot['prix'].'</strong> jetons<br/><br/>'; ?>
 
         <div style="height:150px; overflow:hidden; ">
-            <?php echo $this->Html->image($image, array(
-                "alt" => $image,
-                'style' => 'width:100%',
+            <?php
+            echo $this->Html->image($lot['image'], array(
+                "alt" => $lot['image'],
+                'class' => 'width-100'
             ));
             ?>
         </div>
     </div>
 </div>
 <p>
-   Veuillez saisir vos coordonnées pour que l'on puisse expédier votre cadeau
+   Veuillez saisir vos coordonnées afin que nous puissions vous expédier votre achat.
 </p>
 
 <div class="users form">
@@ -45,7 +46,7 @@
 
         ));
 
-        echo $this->Html->link('Retour aux lots', array('controller' => 'lots', 'action' => 'index'), array('class' => 'btn btn-default btn-separation')); ?>
+        echo $this->Html->link('Annuler', array('controller' => 'lots', 'action' => 'index'), array('class' => 'btn btn-default btn-separation')); ?>
     </fieldset>
     <?php echo $this->Form->end(); ?>
 </div>

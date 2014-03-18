@@ -19,22 +19,18 @@
 
     <div class="carousel slide" id="carousel-15074">
         <ol class="carousel-indicators">
-
-            <li class="active" data-slide-to="0" data-target="#carousel-15074">
-            </li>
+            <li class="active" data-slide-to="0" data-target="#carousel-15074"></li>
             <?php
             $nbParis = count($paris);
 
             for($i = 1 ; $i < $nbParis - 1; $i++){
                 ?>
-                <li data-slide-to="<?php echo $i;?>" data-target="#carousel-15074">
-                </li>
+                <li data-slide-to="<?php echo $i;?>" data-target="#carousel-15074"></li>
             <?php
             }
             ?>
 
-            <li data-slide-to="0" data-target="#carousel-15074">
-            </li>
+            <li data-slide-to="0" data-target="#carousel-15074"></li>
         </ol>
         <div class="carousel-inner">
             <?php
@@ -49,9 +45,9 @@
                     $class = "item";
                 }
                 ?>
-                <div class="<?php echo $class;?>" style="max-width:1200px; height:400px; overflow:hidden;">
+                <div class="<?php echo $class;?> carousel-grand">
                     <?php echo $this->Html->image('uploads/'.$pari['Pari']['image'], array(
-                        'width'=>'1200px',
+                        'class'=>'image-carousel-grand',
                         "alt" => $pari['Pari']['image'],
                         'url' => array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id'])
 
@@ -77,8 +73,8 @@
 <div class="row">
     <div class="col-md-4">
         <div id="thmb1" class="thumbnail">
-            <div style="height:150px; overflow:hidden; ">
-                <?php echo $this->Html->image($lot['Lot']['image'], array('height'=>'150px; width:100%;')); ?>
+            <div class="thumbnail-div-medium">
+                <?php echo $this->Html->image($lot['Lot']['image'], array('class' => 'thumbnail-img-medium')); ?>
             </div>
 
             <div class="caption">
@@ -97,7 +93,7 @@
     </div>
     <div class="col-md-4">
         <div id="thmb2" class="thumbnail">
-            <div style="height:150px; overflow:hidden; ">
+            <div class="thumbnail-div-medium">
                 <?php echo $this->Html->image('faq.jpg'); ?>
             </div>
 
@@ -116,7 +112,7 @@
     </div>
     <div class="col-md-4">
         <div id="thmb3" class="thumbnail">
-            <div style="height:150px; overflow:hidden; ">
+            <div class="thumbnail-div-medium">
                 <?php echo $this->Html->image('inscription.jpg'); ?>
             </div>
 

@@ -207,7 +207,8 @@
         </div>
     </div>
 </div>
-<? echo $this->Html->link('Contactez-nous', array('controller' => 'divers', 'action' => 'contactez_nous'), array('class' => 'btn btn-primary')); ?>
-<? echo $this->Html->link('Retour au catalogue', array('controller' => 'paris', 'action' => 'index'), array('class' => 'btn btn-default btn-separation')); ?>
+<?php
+echo $this->Html->link('Contactez-nous', array('controller' => 'divers', 'action' => 'contactez_nous'), array('class' => 'btn btn-primary'));
+echo $this->Html->link('Retour à l\'accueil', array('controller' => 'divers', 'action' => 'accueil'), array('class' => 'btn btn-default btn-separation')); ?>
 
 

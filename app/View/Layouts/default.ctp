@@ -14,6 +14,7 @@
     echo $this->Html->css("bootstrap", null, array("inline" => false));
     echo $this->Html->css("bootstrap-theme", null, array("inline" => false));
     echo $this->Html->css("datepicker3", null, array("inline" => false));
+    echo $this->Html->css("notreCss", null, array("inline" => false));
     echo $this->Html->script('bootstrap.min');
     echo $this->Html->script('bootstrap-datepicker');
     ?>
@@ -51,6 +52,10 @@
                 "action" => "setTousMessagesLus"
             )); ?>';
 
+            jQuery.noConflict();
+            $("#badgeParisTermines").tooltip();
+            $("#badgeNouveauMessage").tooltip();
+
             if ($("#txtConnecte").val() === '1') {
                 getMessages(false, true);
 
@@ -66,7 +71,6 @@
                 }
             });
 
-            jQuery.noConflict();
             $('#myModal').on('shown.bs.modal', function (e) {
                 $("#divMessages").animate({ scrollTop: $('#divMessages')[0].scrollHeight}, 500);
                 $("#txtMessage").focus();
@@ -110,16 +114,18 @@
                     data: {'estPageLoad': estPageLoad, 'estAjout': estAjout},
                     dataType: "json",
                     success: function (data) {
-
+                        console.log(data);
                         if (data.length > 0) {
                             //On n'affiche le badge que si l'utilisateur a utilisé la messagerie
                             //(Pour ne pas l'importuner) et si le nouveau message en question n'est pas celui
                             //qu'il vient d'écrire
-                            if (estAjout === false && _messagesLus) {
-                                _nbMessagesLus += data.length;
-                                $("#badgeNouveauMessage").empty();
-                                $("#badgeNouveauMessage").append(_nbMessagesLus);
-                                $("#badgeNouveauMessage").css('display', 'inline-block');
+                            if (estAjout === false) {
+                                _nbMessagesLus = data[0].nbMessagesNonLus;
+                                if(_nbMessagesLus > 0){
+                                    $("#badgeNouveauMessage").empty();
+                                    $("#badgeNouveauMessage").append(_nbMessagesLus);
+                                    $("#badgeNouveauMessage").css('display', 'inline-block');
+                                }
                             }
                             remplirConversation(data);
                         }
@@ -133,8 +139,10 @@
                 var str = "";
                 $.each(data, function () {
                     if (this.parieurs != undefined) {
-                        str += '<li><blockquote> <b>' + this.parieurs.pseudo + '</b> dit:<br/>';
-                        str += this.Message.message + '</blockquote></li><hr>';
+                        str += '<li><blockquote>' +
+                             this.Message.message +
+                            '<small><b>'+ this.parieurs.pseudo + '</b>, ' + this.Message.created + '</small>' +
+                            '</blockquote></li><hr>';
                     }
                 });
 
@@ -159,11 +167,9 @@
 </head>
 
 <body>
-<div id="fb-root"></div>
+<?php echo $this->Facebook->init();?>
 <div class="container">
-    <div class="row clearfix">
         <div class="col-md-12 column">
-
             <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -204,17 +210,33 @@
                                     'action' => 'ajouter'
                                 )); ?></li>
 
-
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mon compte<strong
-                                        class="caret"></strong></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <?php
+                                    if($nbParisTermines > 0){
+                                        if($nbParisTermines == 1){
+                                            $msg = 'Un pari attend que vous déterminiez le choix gagnant.';
+                                        }
+                                        else{
+                                            $msg = $nbParisTermines.' paris attendent que vous déterminiez le choix gagnant.';
+                                        }
+                                        ?>
+                                        <span id="badgeParisTermines" class="badge badge-important"
+                                            data-toggle="tooltip"
+                                            data-placement="bottom"
+                                            title="<?php echo $msg;?>"
+                                            ><?php echo $nbParisTermines;?></span>
+                                    <?php } ?>
+                                    Mon compte <strong class="caret"></strong>
+                                </a>
 
                                 <ul class="dropdown-menu">
                                     <?php
-
                                     if($this->Session->check('connexionNormale')){
                                     ?>
-                                        <li><?php echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
+                                        <li>
+                                            <?php
+                                            echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
                                                 'action' => 'mon_compte'
                                             )); ?></li>
                                     <?php
@@ -247,7 +269,10 @@
                             <li id="liMessagerie" class="dropdown">
                                 <a id="modal-473524" href="#myModal" role="button" class="btn" data-toggle="modal">
                                     <span id="badgeNouveauMessage" style="display:none;"
-                                          class="badge badge-important">1</span>
+                                          class="badge badge-important"
+                                          data-toggle="tooltip"
+                                          data-placement="bottom"
+                                          title="Un ou plusieurs message(s) non lu(s).">1</span>
                                     <?php echo $this->Html->image('glyphicons_010_envelope.png'); ?>
                                     &nbsp;&nbsp;<strong class="caret"></strong>
                                 </a>
@@ -262,9 +287,11 @@
             <?php
             echo $this->Session->flash();
             echo $this->Session->flash('auth');
+            echo $this->fetch('content'); ?>
+            <div class="clearfix"></div>
+            <?php echo $this->Facebook->friendpile();
 
-            echo $this->fetch('content');
-            ?>
+            if (AuthComponent::user()) { ?>
             <div class="modal fade" style="margin-top:22px;" id="myModal" role="dialog" aria-labelledby="myModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
@@ -291,7 +318,7 @@
 
                         <div id="divMessagerie" class="modal-body">
                             <?php
-                            echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => AuthComponent::user('id')));
+                            echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $this->Session->read('Auth')['User']['id']));
 
                             echo $this->Form->input('message', array(
                                 'label' => false, 'id' => 'txtMessage', 'div' => false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
@@ -314,11 +341,13 @@
                     </div>
                 </div>
             </div>
+            <?php } ?>
 
         </div>
 
     </div>
 </div>
+
 <!-- /container -->
 
 <!-- Le javascript
@@ -330,5 +359,4 @@
 echo $this->Js->writeBuffer();
 ?>
 </body>
-<?php echo $this->Facebook->init(); ?>
 </html>

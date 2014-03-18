@@ -59,11 +59,11 @@ class ParisController extends AppController
                 unset($this->request->data['Choix']['2']);
             }
             else if (empty($choix3['cote'])) {
-                $this->messageErreur('La cote est obligatoire si vous ajoutez un troisième choix.');
+                $this->_messageErreur('La cote est obligatoire si vous ajoutez un troisième choix.');
                 return;
             }
             else if (empty($choix3['nom'])) {
-                $this->messageErreur('Le nom est obligatoire si vous ajoutez un troisième choix.');
+                $this->_messageErreur('Le nom est obligatoire si vous ajoutez un troisième choix.');
                 return;
             }
 
@@ -85,7 +85,7 @@ class ParisController extends AppController
         $pari = $this->Pari->findById($id);
 
         if(!$this->validerDroitsChoixGagnant($pari))
-            return $this->redirectAccueil();
+            return $this->_redirectAccueil();
 
         $this->loadModel('Choix');
 
@@ -103,7 +103,7 @@ class ParisController extends AppController
                 $this->majJetonsGagnants($pari);
                 return $this->redirect(array('action' => 'mes_paris', 'controller' => 'paris'));
             }
-            $this->messageErreur('Une erreur est survenue lors de la fermeture du pari. Veuillez réessayer.');
+            $this->_messageErreur('Une erreur est survenue lors de la fermeture du pari. Veuillez réessayer.');
         }
     }
 
@@ -174,7 +174,7 @@ class ParisController extends AppController
             $this->envoyerCourrielPerdant($parieur['Parieur']['courriel'], $pari);
         }
 
-        $this->messageSucces('Le pari a été correctement fermé. Les vainqueurs ont reçu leurs jetons.');
+        $this->_messageSucces('Le pari a été correctement fermé. Les vainqueurs ont reçu leurs jetons.');
     }
 
     //Envoie un courriel de félicitations à un utilisateur qui a remporté une mise sur un pari
@@ -184,18 +184,20 @@ class ParisController extends AppController
         $Email->config('gmail');
 
         $Email->from('parispaslaville@gmail.com', 'Paris, pas la ville');
-        $Email->to($courriel);
+
+        try{
+            $Email->to($courriel);
+        }
+        catch(Exception $e){
+            $this->_loguerErreur($this->params['controller'], $this->action, $courriel. ' n\'est pas un courriel valide. Le courriel n\'a pas été envoyé.');
+            return;
+        }
 
         $Email->viewVars(array('nbJetons' => $nbJetons, 'pari' => $pari));
         $Email->template('gagneMise');
         $Email->subject('Félicitations, vous avez remporté votre mise !');
         $Email->emailFormat('both');
-
-        try{
-            $Email->send('Gagnant');
-        }
-        catch(Exception $e){
-        }
+        $Email->send('Gagnant');
     }
 
     //Envoie un courriel d'information à un utilisateur qui a perdu une mise sur un pari
@@ -203,20 +205,21 @@ class ParisController extends AppController
 
         $Email = new CakeEmail();
         $Email->config('gmail');
-
         $Email->from('parispaslaville@gmail.com', 'Paris, pas la ville');
-        $Email->to($courriel);
 
+        try{
+            $Email->to($courriel);
+        }
+        catch(Exception $e){
+            $this->_loguerErreur($this->params['controller'], $this->action, $courriel. ' n\'est pas un courriel valide. Le courriel n\'a pas été envoyé.');
+            return;
+        }
+        
         $Email->viewVars(array('pari' => $pari));
         $Email->template('perduMise');
         $Email->subject('Vous avez perdu votre mise.');
         $Email->emailFormat('both');
-
-        try{
-            $Email->send('Perdant');
-        }
-        catch(Exception $e){
-        }
+        $Email->send('Perdant');
     }
 
     //Recherche des paris selon certains critères
