@@ -291,7 +291,7 @@
             <div class="clearfix"></div>
             <?php echo $this->Facebook->friendpile();
 
-            if (AuthComponent::user()) { ?>
+            if (isset($id_utilisateur)) { ?>
             <div class="modal fade" style="margin-top:22px;" id="myModal" role="dialog" aria-labelledby="myModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
