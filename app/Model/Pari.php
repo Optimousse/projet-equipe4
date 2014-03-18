@@ -42,8 +42,6 @@ class Pari extends AppModel
                 'thumb' => array(
                     'directory' => 'img/uploads/thumbs/',
                     'phpThumb' => array(
-                        'far' => 1,
-                        'bg' => 'FFFFFF',
                         'zc' => 0
                     ),
                     'height' => 300
@@ -53,7 +51,8 @@ class Pari extends AppModel
                     'phpThumb' => array(
                         'zc' => 0
                     ),
-                    'width' => 1200
+                    'width' => 1200,
+                    'height' => 600
                 )
             )
         )
