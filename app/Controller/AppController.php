@@ -80,8 +80,9 @@ class AppController extends Controller
         $this->Auth->allow('index');
         $this->Auth->loginRedirect = array('controller' => 'paris', 'action' => 'index');
 
-        if($this->Auth->user('id')){
+        if(AuthComponent::user('id')){
             $this->setNombreParisEnAttente();
+            $this->set('id_utilisateur', AuthComponent::user('id'));
         }
     }
 
@@ -161,7 +162,7 @@ class AppController extends Controller
             'conditions'=>array(
                 'date_fin <=' => date('Y-m-d'),
                 'choix_gagnant' => NULL,
-                'parieur_id' => $this->Session->read('Auth')['User']['id']
+                'parieur_id' => AuthComponent::user('id')
             )));
         $this->set('nbParisTermines', $nbParisTermines);
     }

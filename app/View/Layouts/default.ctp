@@ -114,7 +114,6 @@
                     data: {'estPageLoad': estPageLoad, 'estAjout': estAjout},
                     dataType: "json",
                     success: function (data) {
-                        console.log(data);
                         if (data.length > 0) {
                             //On n'affiche le badge que si l'utilisateur a utilisé la messagerie
                             //(Pour ne pas l'importuner) et si le nouveau message en question n'est pas celui
@@ -167,7 +166,9 @@
 </head>
 
 <body>
-<?php echo $this->Facebook->init();?>
+<?php echo $this->Facebook->init();
+
+?>
 <div class="container">
         <div class="col-md-12 column">
             <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
@@ -213,7 +214,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <?php
-                                    if($nbParisTermines > 0){
+                                    if(isset($nbParisTermines) && $nbParisTermines > 0){
                                         if($nbParisTermines == 1){
                                             $msg = 'Un pari attend que vous déterminiez le choix gagnant.';
                                         }

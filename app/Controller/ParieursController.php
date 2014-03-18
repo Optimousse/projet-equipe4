@@ -37,7 +37,6 @@ class ParieursController extends AppController
     public function logout()
     {
         if(!$this->Session->check('connexionNormale')){
-            echo 'fb';
             $fb = new FB();
             $fb->api('/me');
             $fb->destroySession();
