@@ -36,7 +36,7 @@
         <div class="col-md-4">
             <div class="thumbnail" >
                 <div class="thumbnail-div-medium">
-                    <img class="thumbnail-img-medium" src="<?php echo $lot['Lot']['image']; ?>"/>
+                    <img class="width-100" src="<?php echo $lot['Lot']['image']; ?>"/>
                 </div>
 
                 <div class="caption">

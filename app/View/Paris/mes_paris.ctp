@@ -22,7 +22,10 @@
 
     <?php foreach ($paris as $pari): ?>
         <tr>
-            <td><?php echo $this->Html->image('uploads/thumbs/'.$pari['Pari']['image'], array('class'=>'img-rounded', 'style'=>'max-width:150px')); ?></td>
+            <td class="width-1"><?php echo $this->Html->image('uploads/thumbs/'.$pari['Pari']['image'], array(
+                    'class'=>'img-rounded',
+                    'url' => array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id']),
+                )); ?></td>
             <td><?php echo $pari['Pari']['nom']; ?></td>
             <td><?php echo $pari['Pari']['description']; ?></td>
             <td>

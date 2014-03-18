@@ -174,7 +174,7 @@ if(!empty($paris)){
                     <div class="thumbnail-div-medium">
                         <?php echo $this->Html->image('uploads/thumbs/'.$pari['Pari']['image'], array(
                             "alt" => $pari['Pari']['image'],
-                            'class' => 'thumbnail-img-medium',
+                            'class' => 'width-100',
                             'url' => array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id'])
                         ));
                         ?>

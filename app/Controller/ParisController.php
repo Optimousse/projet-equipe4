@@ -68,11 +68,11 @@ class ParisController extends AppController
             }
 
             if ($this->Pari->saveAll($this->request->data)) {
-                $this->messageSucces('Le pari a été créé avec succès.');
+                $this->_messageSucces('Le pari a été créé avec succès.');
                 return $this->redirect(array('action' => 'miser', 'controller' => 'ParieursParis', $this->Pari->id));
             }
 
-            $this->messageErreur('Vérifiez que tous les champs ont été correctement remplis.');
+            $this->_messageErreur('Vérifiez que tous les champs ont été correctement remplis.');
         }
     }
 

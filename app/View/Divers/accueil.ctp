@@ -74,7 +74,7 @@
     <div class="col-md-4">
         <div id="thmb1" class="thumbnail">
             <div class="thumbnail-div-medium">
-                <?php echo $this->Html->image($lot['Lot']['image'], array('class' => 'thumbnail-img-medium')); ?>
+                <?php echo $this->Html->image($lot['Lot']['image'], array('class' => 'width-100')); ?>
             </div>
 
             <div class="caption">

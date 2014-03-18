@@ -13,18 +13,16 @@
     overflow:hidden;
 }
 
-.thumbnail-img-medium{
-    width:100%;
-}
-
 .color-medium-gris{
     color: #595959;
 }
 
+.width-1{
+    width:1%;
+}
 .width-100{
     width:100%;
 }
-
 
 .padding-small{
     padding:5px;
