@@ -303,7 +303,7 @@
                             </h4>
                         </div>
 
-                        <ul id="divMessages" style="list-style-type: none; max-height: 400px; overflow-y: scroll;"></ul>
+                        <ul id="divMessages"></ul>
                         <?php
                         echo $this->Form->create('Message', array(
                             'inputDefaults' => array(
@@ -317,8 +317,7 @@
                         ?>
 
                         <div id="divMessagerie" class="modal-body">
-                            <?php
-                            echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $this->Session->read('Auth')['User']['id']));
+                            <?php                            echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $this->Session->read('Auth')['User']['id']));
 
                             echo $this->Form->input('message', array(
                                 'label' => false, 'id' => 'txtMessage', 'div' => false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
