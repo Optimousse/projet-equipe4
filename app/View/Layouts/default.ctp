@@ -317,7 +317,7 @@
                         ?>
 
                         <div id="divMessagerie" class="modal-body">
-                            <?php                            echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $this->Session->read('Auth')['User']['id']));
+                            <?php                            echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_utilisateur));
 
                             echo $this->Form->input('message', array(
                                 'label' => false, 'id' => 'txtMessage', 'div' => false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'

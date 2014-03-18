@@ -82,6 +82,7 @@ class AppController extends Controller
 
         if($this->Auth->user('id')){
             $this->setNombreParisEnAttente();
+            $this->set('id_utilisateur', $this->Auth->user('id'));
         }
     }
 
