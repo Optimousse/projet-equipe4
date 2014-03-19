@@ -251,11 +251,13 @@ class ParisController extends AppController
         }
 
         $this->set('critereActuel', $this->request->query['motCle']);
-
-        return $this->Paginator->paginate(
+        $this->request->params['named']['page']  = 1;
+        $data = $this->Paginator->paginate(
             'Pari',
             array("OR" => array(
                 $RechercheNom, $RechercheDescription),  array( "OR" => array($RecherchePariTermine, $RechercheEnCours)))
         );
+
+        return $data;
     }
 }
