@@ -24,7 +24,6 @@
     });
 </script>
 
-
 <h1>Offres de paris</h1>
 
 <div class="panel-group" id="accordion">

@@ -23,14 +23,12 @@
             <?php
             $nbParis = count($paris);
 
-            for($i = 1 ; $i < $nbParis - 1; $i++){
+            for($i = 1 ; $i < $nbParis; $i++){
                 ?>
                 <li data-slide-to="<?php echo $i;?>" data-target="#carousel-15074"></li>
             <?php
             }
             ?>
-
-            <li data-slide-to="0" data-target="#carousel-15074"></li>
         </ol>
         <div class="carousel-inner">
             <?php
