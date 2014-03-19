@@ -40,3 +40,9 @@
     max-height: 400px;
     overflow-y: scroll;
 }
+
+#divMessages{
+    list-style-type: none;
+    max-height: 400px;
+    overflow-y: scroll;
+}
