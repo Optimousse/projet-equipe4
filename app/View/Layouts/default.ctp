@@ -114,7 +114,6 @@
                     data: {'estPageLoad': estPageLoad, 'estAjout': estAjout},
                     dataType: "json",
                     success: function (data) {
-                        console.log(data);
                         if (data.length > 0) {
                             //On n'affiche le badge que si l'utilisateur a utilisé la messagerie
                             //(Pour ne pas l'importuner) et si le nouveau message en question n'est pas celui
@@ -213,7 +212,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <?php
-                                    if($nbParisTermines > 0){
+                                    if(isset($nbParisTermines) && $nbParisTermines > 0){
                                         if($nbParisTermines == 1){
                                             $msg = 'Un pari attend que vous déterminiez le choix gagnant.';
                                         }
@@ -291,7 +290,7 @@
             <div class="clearfix"></div>
             <?php echo $this->Facebook->friendpile();
 
-            if (isset($id_utilisateur)) { ?>
+            if (AuthComponent::user()) { ?>
             <div class="modal fade" style="margin-top:22px;" id="myModal" role="dialog" aria-labelledby="myModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
@@ -318,9 +317,7 @@
 
                         <div id="divMessagerie" class="modal-body">
 
-                            <?php echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_utilisateur));
-
-                            <?php echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => $id_utilisateur));
+                            <?php echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => AuthComponent::user('id')));
 
                             echo $this->Form->input('message', array(
                                 'label' => false, 'id' => 'txtMessage', 'div' => false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
