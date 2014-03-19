@@ -100,7 +100,7 @@ class MessagesController extends AppController
 
     private function setNombreMessagesNonLus($nb){
 
-        if($this->request->data['estAjout'] == 'true'){
+        if(isset($this->request->data['estAjout']) && $this->request->data['estAjout'] == 'true'){
             $nb--;
         }
         $this->Session->write('nombreMessagesNonLus', $nb);
