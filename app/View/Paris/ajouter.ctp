@@ -88,7 +88,7 @@
                 'required' => 'required',
                 'data-toggle'=>"tooltip",
                 'data-placement'=>"top",
-                'title'=>"Doit être dans l'un des formats suivants: jpg, jpeg, png, gif, bmp. Taille maximale: 2 Mo"
+                'title'=>"Doit être dans l'un des formats suivants: jpg, png, gif. Taille maximale: 2 Mo"
             )); ?>
         </div>
         <?php
