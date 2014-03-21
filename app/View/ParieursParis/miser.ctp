@@ -11,6 +11,7 @@
             //Affiche le nombre de jours avant la fin du pari
             if (date("Y-m-d") < $paris['Pari']['date_fin']) {
                 ?>
+            <div class="clearfix"></div>
             <small>
                 <?php
                     $aujourdhui = strtotime(date("Y-m-d"));
@@ -34,6 +35,8 @@
         "data-share"=>true,
         "id" => 'btnFacebook'
     )); ?>
+    <div class="clearfix"></div>
+    <br/>
     <div class="row">
         <div class="col-xs-12 col-md-8">
             <?php echo $this->Html->image('uploads/'.$paris['Pari']['image'], array('class'=>'img-rounded width-100')); ?>
@@ -41,7 +44,7 @@
         <div class="col-xs-6 col-md-4">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <span class="btn btn-danger" style="width:100%;">Détails</span>
+                    <span class="btn btn-danger width-100">Détails</span>
                     <div class="padding-medium">
                         <p><?php echo '<strong>'.$paris['Pari']['description'].'</strong>'; ?></p>
                         <p>
@@ -172,4 +175,5 @@
 ?>
 <div class="clearfix"></div>
 <br/>
-<?php echo $this->Facebook->comments(); ?>
+<div class="fb-comments" data-href="<?php echo Router::url($this->here, true); ?>" data-numposts="5" data-colorscheme="light"></div>
+

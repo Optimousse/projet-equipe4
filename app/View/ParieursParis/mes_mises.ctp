@@ -21,7 +21,7 @@
     <?php foreach ($mises as $mise): ?>
         <tr>
             <td class="width-1"><?php echo $this->Html->image('uploads/thumbs/'.$mise['Pari']['image'], array(
-                    'class'=>'img-rounded',
+                    'class'=>'img-rounded img-table',
                     'url' => array('controller' => 'parieurs_paris', 'action' => 'miser', $mise['Pari']['id']),
                 )); ?></td>
             <td><?php echo $this->Html->link($mise['Pari']['nom'], array('controller' => 'parieurs_paris', 'action' => 'miser', $mise['Pari']['id']));?></td>
