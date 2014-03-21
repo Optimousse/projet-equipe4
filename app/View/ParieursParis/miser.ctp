@@ -175,5 +175,5 @@
 ?>
 <div class="clearfix"></div>
 <br/>
-<div class="fb-comments" data-href="<?php echo Router::url($this->here, true); ?>" data-numposts="5" data-colorscheme="light"></div>
+<div class="fb-comments" data-href="<?php echo Router::url(null, true); ?>" data-numposts="5" data-colorscheme="light"></div>
 
