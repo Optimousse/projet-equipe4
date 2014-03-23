@@ -46,3 +46,7 @@
     max-height: 400px;
     overflow-y: scroll;
 }
+
+.img-table{
+    width:150px;
+}
