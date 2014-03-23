@@ -36,7 +36,6 @@
         "id" => 'btnFacebook'
     )); ?>
     <div class="clearfix"></div>
-    <br/>
     <div class="row">
         <div class="col-xs-12 col-md-8">
             <?php echo $this->Html->image('uploads/'.$paris['Pari']['image'], array('class'=>'img-rounded width-100')); ?>
