@@ -166,10 +166,7 @@
 </head>
 
 <body>
-<?php echo $this->Facebook->init();
-var_dump(AuthComponent::user());
-var_dump(($this->Session->read()['Auth']));
-?>
+<?php echo $this->Facebook->init();?>
 <div class="container">
         <div class="col-md-12 column">
             <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
