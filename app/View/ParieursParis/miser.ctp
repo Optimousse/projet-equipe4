@@ -36,7 +36,6 @@
         "id" => 'btnFacebook'
     )); ?>
     <div class="clearfix"></div>
-    <br/>
     <div class="row">
         <div class="col-xs-12 col-md-8">
             <?php echo $this->Html->image('uploads/'.$paris['Pari']['image'], array('class'=>'img-rounded width-100')); ?>
@@ -175,5 +174,6 @@
 ?>
 <div class="clearfix"></div>
 <br/>
-<div class="fb-comments" data-href="<?php echo Router::url(null, true); ?>" data-numposts="5" data-colorscheme="light"></div>
+<?php echo $this->Facebook->comments(); ?>
+
 
