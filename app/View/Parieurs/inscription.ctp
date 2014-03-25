@@ -5,9 +5,16 @@
     L'inscription est simple, rapide et gratuite ! Une fois votre compte créé, vous vous verrez attribuer 100
     jetons en guise de cadeau de bienvenue.
 
+
     <?php echo $this->Html->link('Vous possédez déjà un compte ?',
         array('controller' => 'parieurs', 'action' => 'connexion')); ?>
 </blockquote>
+
+<blockquote class="blockquote-info">
+   Vous n'avez pas envie de créer un compte ? Connectez-vous avec votre profil Facebook ! <br/>
+    <?php echo $this->Facebook->login(array('perms' => 'email,publish_actions', 'redirect' => array('controller' => 'paris', 'action' => 'index'), 'img' => 'connectwithfacebook.gif')); ?>
+</blockquote>
+
 
 <div class="users form">
     <?php echo $this->Form->create('Parieur', array(
