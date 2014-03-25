@@ -72,7 +72,10 @@
     <div class="col-md-4">
         <div id="thmb1" class="thumbnail">
             <div class="thumbnail-div-medium">
-                <?php echo $this->Html->image($lot['Lot']['image'], array('class' => 'width-100')); ?>
+                <?php echo $this->Html->image($lot['Lot']['image'], array(
+                    'class' => 'width-100',
+                    'url' => array('controller' => 'lots', 'action' => 'index')
+                )); ?>
             </div>
 
             <div class="caption">
@@ -92,7 +95,9 @@
     <div class="col-md-4">
         <div id="thmb2" class="thumbnail">
             <div class="thumbnail-div-medium">
-                <?php echo $this->Html->image('faq.jpg'); ?>
+                <?php echo $this->Html->image('faq.jpg', array(
+                    'url' => array('controller' => 'divers', 'action' => 'faq')
+                )); ?>
             </div>
 
             <div class="caption">
@@ -111,7 +116,9 @@
     <div class="col-md-4">
         <div id="thmb3" class="thumbnail">
             <div class="thumbnail-div-medium">
-                <?php echo $this->Html->image('inscription.jpg'); ?>
+                <?php echo $this->Html->image('inscription.jpg', array(
+                    'url' => array('controller' => 'parieurs', 'action' => 'inscription')
+                )); ?> ?>
             </div>
 
             <div class="caption">
