@@ -63,7 +63,7 @@ class ParieursController extends AppController
 
                     if ($this->Parieur->save($this->request->data, true, array('pseudo', 'mot_passe', 'courriel'))) {
                         $this->_messageSucces('Votre compte a été créé avec succès. Vous avez maintenant accès à toutes les fonctionnalités du site.');
-                        $this->Auth->login($this->request->data);
+                        $this->Auth->login();
                         return $this->redirect(array('controller' => 'paris', 'action' => 'index'));
                     } else {
                         $this->_messageErreur('Une erreur est survenue lors de la création de votre compte.');
