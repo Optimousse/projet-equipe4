@@ -6,17 +6,16 @@
  * Time: 10:32
  */
 
-
 class Sexe extends AppModel {
 
     /* Lien entre la table Pari et la table ParieurParis */
-    public $belongsTo = 'Parieur';
+    public $hasMany = 'Parieur';
 
     public $validate = array(
-        'nom' => array(
+        'id' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'Le sexe est obligatoire.'
-            ))
+                'message' => 'Le sexe est obligatoire.',
+                'on' => 'create'))
     );
 }

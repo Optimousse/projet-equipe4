@@ -50,3 +50,7 @@
 .img-table{
     width:150px;
 }
+
+.input-required{
+    color:red;
+}

@@ -16,6 +16,8 @@ class Parieur extends AppModel
         )
     );
 
+    public $belongsTo = 'Sexe';
+
     public $validate = array(
         'pseudo' => array(
             'required' => array(
@@ -48,39 +50,57 @@ class Parieur extends AppModel
                 'rule' => array('email', false),
                 'message' => 'L\'adresse courriel doit avoir une forme valide.'
             )
+        ),
+        'sexe_id' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Le sexe est obligatoire.'
+            )
         )
     );
 
-    public $actsAs = array('ImageUpload' => array(
-        'avatar' => array(
-            'required' => true,
-            'allowed_mime' => array('image/jpeg', 'image/pjpeg', 'image/gif', 'image/png'),
-            'allowed_extension' => array('.jpg', '.jpeg', '.png', '.gif'),
-            'allowed_size' => 2097152,
-            'random_filename' => true,
-            'resize' => array(
-                'thumb' => array(
-                    'directory' => 'img/avatars/',
-                    'phpThumb' => array(
-                        'far' => 1,
-                        'bg'  => 'FFFFFF'
-                    ),
-                    'height' => 300,
-                    'width' => 200
+    public $actsAs = array(
+        'ImageUpload' => array(
+            'avatar' => array(
+                'allowed_mime' => array('image/jpeg', 'image/pjpeg', 'image/gif', 'image/png'),
+                'allowed_extension' => array('.jpg', '.jpeg', '.png', '.gif'),
+                'allowed_size' => 2097152,
+                'random_filename' => true,
+                'resize' => array(
+                    'thumb' => array(
+                        'directory' => 'img/avatars/',
+                        'phpThumb' => array(
+                            'far' => 1,
+                            'bg'  => 'FFFFFF'
+                        ),
+                        'height' => 300,
+                        'width' => 200
+                    )
                 )
             )
         )
-    )
     );
 
     public function beforeSave($options = array())
     {
-        if (isset($this->data[$this->alias]['mot_passe'])) {
+        $mot_passe = $this->data[$this->alias]['mot_passe'];
+        $sexe = $this->data[$this->alias]['sexe_id'];
+        if (isset($mot_passe)) {
             $passwordHasher = new SimplePasswordHasher();
             $this->data[$this->alias]['mot_passe'] = $passwordHasher->hash(
-                $this->data[$this->alias]['mot_passe']
+                $mot_passe
             );
         }
+
+        if(!isset($this->data[$this->alias]['avatar'])){
+            if($sexe == 1){
+                $this->data[$this->alias]['avatar'] = 'masculin.png';
+            }
+            else{
+                $this->data[$this->alias]['avatar'] = 'feminin.png';
+            }
+        }
+
         return true;
     }
 }

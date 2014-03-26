@@ -32,7 +32,10 @@
         'role' => 'form', 'enctype'=>"multipart/form-data")); ?>
     <fieldset>
         <?php
-        echo $this->Form->input('pseudo', array('label'=>'Pseudo:', 'autoCapitalize' => 'off'));
+        echo $this->Form->input('pseudo', array(
+            'before' => '<span class="input-required">*</span> ',
+            'label'=>'Pseudo:',
+            'autoCapitalize' => 'off'));
         echo $this->Form->input('sexe_id', array(
                                     'options' => $ddlSexe,
                                     'empty' => '(Choisissez un sexe)'
@@ -40,7 +43,6 @@
         echo $this->Form->input('mot_passe', array('type' => 'password', 'label'=>'Mot de passe:'));
         echo $this->Form->input('mot_passe_confirmation', array('label'=>'Confirmation du mot de passe:', 'type' =>'password'));
         echo $this->Form->input('courriel', array('type' => 'email', 'label'=>'Adresse courriel:'));
-
         ?>
 
         <div class="form-group">
@@ -51,7 +53,6 @@
                 'type' => 'file',
                 'id' => 'txtAvatar',
                 'class' =>'',
-                'required' => 'required',
                 'data-toggle'=>"tooltip",
                 'data-placement'=>"top",
                 'title'=>"Doit être dans l'un des formats suivants: jpg, png, gif. Taille maximale: 2 Mo"

@@ -183,34 +183,37 @@ class ImageUploadBehavior extends ModelBehavior {
                     continue;
                 }
             } else {
-                if(is_array($options['required'])) {
-                    foreach ($options['required'] as $action => $required) {
-                        $empty = false;
+                if(isset($options['required']))
+                {
+                    if(is_array($options['required'])) {
+                        foreach ($options['required'] as $action => $required) {
+                            $empty = false;
 
-                        switch ($action){
-                            case 'add':
-                                if($required == true && empty($model->data[$model->name]['id'])){
-                                    $empty = true;
-                                    continue;
-                                }
-                                break;
+                            switch ($action){
+                                case 'add':
+                                    if($required == true && empty($model->data[$model->name]['id'])){
+                                        $empty = true;
+                                        continue;
+                                    }
+                                    break;
 
-                            case 'edit':
-                                if($required == true && !empty($model->data[$model->name]['id'])){
-                                    $empty = true;
-                                    continue;
-                                }
-                                break;
+                                case 'edit':
+                                    if($required == true && !empty($model->data[$model->name]['id'])){
+                                        $empty = true;
+                                        continue;
+                                    }
+                                    break;
+                            }
+
+                            if ($empty){
+                                $model->invalidate($field, __('Le champ %s est obligatoire.', Inflector::humanize($field)));
+                                continue;
+                            }
                         }
-
-                        if ($empty){
-                            $model->invalidate($field, __('Le champ %s est obligatoire.', Inflector::humanize($field)));
-                            continue;
-                        }
+                    } elseif ($options['required'] == true) {
+                        $model->invalidate($field, sprintf(__('Le champ %s est obligatoire.'), Inflector::humanize($field)));
+                        continue;
                     }
-                } elseif ($options['required'] == true) {
-                    $model->invalidate($field, sprintf(__('Le champ %s est obligatoire.'), Inflector::humanize($field)));
-                    continue;
                 }
             }
         }

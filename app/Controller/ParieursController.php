@@ -63,6 +63,7 @@ class ParieursController extends AppController
             if ($this->request->is(array('post', 'put'))) {
 
                 if ($this->MotsPasseIdentiques($this->request->data['Parieur']['mot_passe'], $this->request->data['Parieur']['mot_passe_confirmation'])) {
+
                     $this->Parieur->create();
                     if ($this->Parieur->save($this->request->data, true, array('pseudo', 'sexe_id', 'mot_passe', 'courriel', 'avatar'))) {
 
