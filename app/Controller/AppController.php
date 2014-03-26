@@ -135,8 +135,26 @@ class AppController extends Controller
 
     //Enregistre le courriel et le pseudo dans la base de données lorsque l'on se connecte pour la première fois avec Facebook
     public function beforeFacebookSave() {
+
+        $pseudo = $this->Connect->user('username');
         $this->Connect->authUser['Parieur']['courriel'] = $this->Connect->user('email');
-        $this->Connect->authUser['Parieur']['pseudo'] = $this->Connect->user('username');
+        $this->Connect->authUser['Parieur']['pseudo'] = $pseudo;
+
+        $gender = 1;
+        if($this->Connect->user('gender') == 'female'){
+            $gender = 2;
+        }
+        $this->Connect->authUser['Parieur']['sexe_id'] = $gender;
+
+        $id = $this->Connect->user('id');
+        $uniqId = uniqid();
+        $img = file_get_contents('https://graph.facebook.com/'.$id.'/picture?height=300');
+        $file = WWW_ROOT.'img\avatars\\'.$uniqId.'.png';
+
+        file_put_contents($file, $img);
+
+        $this->Connect->authUser['Parieur']['avatar'] = $uniqId.'.png';
+
         return true; //Must return true or will not save.
     }
 

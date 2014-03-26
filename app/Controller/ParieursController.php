@@ -37,7 +37,6 @@ class ParieursController extends AppController
     public function logout()
     {
         if(!$this->Session->check('connexionNormale')){
-            echo 'fb';
             $fb = new FB();
             $fb->api('/me');
             $fb->destroySession();
@@ -56,12 +55,17 @@ class ParieursController extends AppController
     {
         if (!$this->Auth->user("id")) {
             $this->set('title_for_layout', 'Inscription');
+
+            $this->loadModel('Sexe');
+            $ddlSexe = $this->Sexe->find('list', array('fields' => 'nom'));
+            $this->set('ddlSexe', $ddlSexe);
+
             if ($this->request->is(array('post', 'put'))) {
 
                 if ($this->MotsPasseIdentiques($this->request->data['Parieur']['mot_passe'], $this->request->data['Parieur']['mot_passe_confirmation'])) {
                     $this->Parieur->create();
+                    if ($this->Parieur->save($this->request->data, true, array('pseudo', 'sexe_id', 'mot_passe', 'courriel', 'avatar'))) {
 
-                    if ($this->Parieur->save($this->request->data, true, array('pseudo', 'mot_passe', 'courriel'))) {
                         $this->_messageSucces('Votre compte a été créé avec succès. Vous avez maintenant accès à toutes les fonctionnalités du site.');
                         $this->Auth->login();
                         return $this->redirect(array('controller' => 'paris', 'action' => 'index'));

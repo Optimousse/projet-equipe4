@@ -56,8 +56,11 @@ class ImageUploadBehavior extends ModelBehavior {
                 continue;
             }
 
-            if(substr($options['directory'], -1) != '/'){
-                $options['directory'] = $options['directory'] . DS;
+            if(isset($options['directory'])){
+
+                if(substr($options['directory'], -1) != '/'){
+                    $options['directory'] = $options['directory'] . DS;
+                }
             }
 
             $config_temp[$field] = $options;
@@ -186,14 +189,14 @@ class ImageUploadBehavior extends ModelBehavior {
 
                         switch ($action){
                             case 'add':
-                                if($required == true && empty($mode->data[$model->name]['id'])){
+                                if($required == true && empty($model->data[$model->name]['id'])){
                                     $empty = true;
                                     continue;
                                 }
                                 break;
 
                             case 'edit':
-                                if($required == true && !empty($mode->data[$model->name]['id'])){
+                                if($required == true && !empty($model->data[$model->name]['id'])){
                                     $empty = true;
                                     continue;
                                 }

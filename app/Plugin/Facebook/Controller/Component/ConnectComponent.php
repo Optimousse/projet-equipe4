@@ -146,9 +146,7 @@ class ConnectComponent extends Component {
 		if($Auth->user('id')){
 			$this->hasAccount = true;
 			$this->User->id = $Auth->user($this->User->primaryKey);
-			if (!$this->User->field('facebook_id')) {
-				$this->User->saveField('facebook_id', $this->uid);
-			}
+
 			return true;
 		} 
 		else {
