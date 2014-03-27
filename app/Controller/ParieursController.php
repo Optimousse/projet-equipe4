@@ -56,9 +56,7 @@ class ParieursController extends AppController
         if (!$this->Auth->user("id")) {
             $this->set('title_for_layout', 'Inscription');
 
-            $this->loadModel('Sexe');
-            $ddlSexe = $this->Sexe->find('list', array('fields' => 'nom'));
-            $this->set('ddlSexe', $ddlSexe);
+            $this->setSexe();
 
             if ($this->request->is(array('post', 'put'))) {
 
@@ -69,6 +67,7 @@ class ParieursController extends AppController
 
                         $this->_messageSucces('Votre compte a été créé avec succès. Vous avez maintenant accès à toutes les fonctionnalités du site.');
                         $this->Auth->login();
+                        $this->Session->write('connexionNormale', true);
                         return $this->redirect(array('controller' => 'paris', 'action' => 'index'));
                     } else {
                         $this->_messageErreur('Une erreur est survenue lors de la création de votre compte.');
@@ -90,13 +89,6 @@ class ParieursController extends AppController
             return $this->_redirectAccueil();
         }
         $this->set('title_for_layout', 'Mon compte');
-        //Afin que les champs soient déjà remplis
-        if (!$this->request->data) {
-            $this->request->data = $this->Parieur->find('first', array(
-                    'fields' => array('pseudo', 'courriel', 'id', 'nombre_jetons'),
-                    'conditions' => array("id" => $this->Auth->user('id')))
-            );
-        }
 
         if ($this->request->is(array('post', 'put'))) {
 
@@ -105,34 +97,53 @@ class ParieursController extends AppController
             $id = $this->request->data['Parieur']['id'];
             $this->Parieur->id = $id;
 
-            $sauvegardeOk = false; // par défaut
+            // vérification que le nouveau mdp soit égal a la confirmation
+            if ($this->MotsPasseIdentiques($mot_passe, $this->request->data['Parieur']['mot_passe_confirmation'])) {
+                // ok, on sauvegarde
 
-            if (empty($mot_passe)) {
-                // juste un nouveau courriel va être enregistré
-                if ($this->Parieur->save($this->request->data, true, array('courriel'))) {
-                    $sauvegardeOk = true;
+                if(isset($this->request->data['avatar']) && $this->request->data['avatar']['delete'] == '1'){
+                   $this->supprimerAvatar();
+                }
+
+                $parieur = $this->Parieur->find('first', array(
+                        'fields' => array('avatar'),
+                        'conditions' => array("Parieur.id" => $this->Auth->user('id')))
+                );
+
+                //On ne doit pas supprimer les images 'masculin.png' et 'feminin.png' si c'est celle utilisée par l'utilisateur
+                if(!$this->usagerPossedeAvatarPersonnalise($parieur['Parieur']['avatar'])){
+                    $this->request->data['Parieur']['doitSupprimer'] = false;
+                }
+                $champs_a_sauvegarder = array('courriel', 'avatar', 'sexe_id');
+                if(!empty($this->request->data['Parieur']['mot_passe'])){
+                    array_push($champs_a_sauvegarder, 'mot_passe');
+                }
+
+                if ($this->Parieur->save($this->request->data, true, $champs_a_sauvegarder)) {
+                    $this->_messageSucces('Votre compte a bien été modifié.');
+                }else{
+                    $this->_messageErreur('Une erreur est survenue lors de la sauvegarde de vos informations.');
                 }
             } else {
-                // vérification que le nouveau mdp soit égal a la confirmation
-                if ($this->MotsPasseIdentiques($mot_passe, $this->request->data['Parieur']['mot_passe_confirmation'])) {
-                    // ok, on sauvegarde
-                    if ($this->Parieur->save($this->request->data, true, array('courriel', 'mot_passe'))) {
-                        $sauvegardeOk = true;
-                    }
-                } else {
-                    // problème mdp différent
-                    $this->_messageErreur('Les mots de passe doivent être identiques');
-                    return;
-                }
-            }
-
-            if ($sauvegardeOk) {
-                $this->_messageSucces('Votre compte a bien été modifié.');
-
-            } else {
-                $this->_messageErreur('Votre compte n\'a pas pu être modifié.');
+                // problème mdp différent
+                $this->_messageErreur('Les mots de passe doivent être identiques.');
             }
         }
+
+        //Afin que les champs soient déjà remplis
+        $parieur = $this->Parieur->find('first', array(
+                'fields' => array('pseudo', 'courriel', 'id', 'nombre_jetons', 'avatar', 'sexe_id'),
+                'conditions' => array("Parieur.id" => $this->Auth->user('id')))
+        );
+        if (!$this->request->data) {
+            $this->request->data = $parieur;
+        }
+
+        if($this->usagerPossedeAvatarPersonnalise($parieur['Parieur']['avatar'])){
+            $this->set('avatar', $parieur['Parieur']['avatar']);
+        }
+        $this->setSexe();
+
     }
 
     //Fonction pour acheter des jetons avec le plugin Stripe
@@ -196,5 +207,33 @@ class ParieursController extends AppController
     private function MotsPasseIdentiques($mp, $mp_confirmation)
     {
         return $mp == $mp_confirmation;
+    }
+
+    private function setSexe(){
+
+        $this->loadModel('Sexe');
+        $ddlSexe = $this->Sexe->find('list', array('fields' => 'nom'));
+        $this->set('ddlSexe', $ddlSexe);
+    }
+
+    private function supprimerAvatar(){
+
+        $parieur = $this->Parieur->find('first', array(
+                'fields' => array('avatar', 'sexe_id'),
+                'conditions' => array("Parieur.id" => $this->Auth->user('id')))
+        );
+        unlink(WWW_ROOT.'\img\avatars\\'.$parieur['Parieur']['avatar']);
+
+        $sexe = $this->request->data['Parieur']['sexe_id'];
+        if($sexe == 1){
+            $this->request->data['Parieur']['avatar'] = 'masculin.png';
+        }
+        else{
+            $this->request->data['Parieur']['avatar'] = 'feminin.png';
+        }
+    }
+
+    private function usagerPossedeAvatarPersonnalise($avatar){
+        return $avatar != "feminin.png" && $avatar != "masculin.png";
     }
 }

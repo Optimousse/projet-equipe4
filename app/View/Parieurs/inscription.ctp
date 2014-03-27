@@ -40,9 +40,6 @@
                                     'options' => $ddlSexe,
                                     'empty' => '(Choisissez un sexe)'
                                 ));
-        echo $this->Form->input('mot_passe', array('type' => 'password', 'label'=>'Mot de passe:'));
-        echo $this->Form->input('mot_passe_confirmation', array('label'=>'Confirmation du mot de passe:', 'type' =>'password'));
-        echo $this->Form->input('courriel', array('type' => 'email', 'label'=>'Adresse courriel:'));
         ?>
 
         <div class="form-group">
@@ -59,6 +56,11 @@
             )); ?>
         </div>
         <?php
+
+        echo $this->Form->input('mot_passe', array('type' => 'password', 'label'=>'Mot de passe:'));
+        echo $this->Form->input('mot_passe_confirmation', array('label'=>'Confirmation du mot de passe:', 'type' =>'password'));
+        echo $this->Form->input('courriel', array('type' => 'email', 'label'=>'Adresse courriel:'));
+
         echo $this->Form->submit('Soumettre', array(
             'div' => false,
             'class' => 'btn btn-primary'

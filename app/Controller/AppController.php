@@ -154,6 +154,7 @@ class AppController extends Controller
         file_put_contents($file, $img);
 
         $this->Connect->authUser['Parieur']['avatar'] = $uniqId.'.png';
+        $this->Connect->authUser['Parieur']['noUpload'] = true;
 
         return true; //Must return true or will not save.
     }

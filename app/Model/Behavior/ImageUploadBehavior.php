@@ -56,11 +56,8 @@ class ImageUploadBehavior extends ModelBehavior {
                 continue;
             }
 
-            if(isset($options['directory'])){
-
-                if(substr($options['directory'], -1) != '/'){
-                    $options['directory'] = $options['directory'] . DS;
-                }
+            if(substr($options['directory'], -1) != '/'){
+                $options['directory'] = $options['directory'] . DS;
             }
 
             $config_temp[$field] = $options;
@@ -114,9 +111,13 @@ class ImageUploadBehavior extends ModelBehavior {
                         $current = $model->findById($model->data[$model->name]['id']);
 
                         // lets delete the old images
-                           if(!empty($current[$model->name][$field])) {
-                               $this->removeImages($current[$model->name][$field], $options);
-                           }
+                        $doitSupprimer = true;
+                        if(isset($model->data[$model->name]['doitSupprimer']) && $model->data[$model->name]['doitSupprimer'] == false){
+                            $doitSupprimer = false;
+                        }
+                       if($doitSupprimer && !empty($current[$model->name][$field])) {
+                           $this->removeImages($current[$model->name][$field], $options);
+                       }
                     }
 
                     if(!isset($options['random_filename']) || !$options['random_filename']) {
@@ -183,37 +184,34 @@ class ImageUploadBehavior extends ModelBehavior {
                     continue;
                 }
             } else {
-                if(isset($options['required']))
-                {
-                    if(is_array($options['required'])) {
-                        foreach ($options['required'] as $action => $required) {
-                            $empty = false;
+                if(is_array($options['required'])) {
+                    foreach ($options['required'] as $action => $required) {
+                        $empty = false;
 
-                            switch ($action){
-                                case 'add':
-                                    if($required == true && empty($model->data[$model->name]['id'])){
-                                        $empty = true;
-                                        continue;
-                                    }
-                                    break;
+                        switch ($action){
+                            case 'add':
+                                if($required == true && empty($model->data[$model->name]['id'])){
+                                    $empty = true;
+                                    continue;
+                                }
+                                break;
 
-                                case 'edit':
-                                    if($required == true && !empty($model->data[$model->name]['id'])){
-                                        $empty = true;
-                                        continue;
-                                    }
-                                    break;
-                            }
-
-                            if ($empty){
-                                $model->invalidate($field, __('Le champ %s est obligatoire.', Inflector::humanize($field)));
-                                continue;
-                            }
+                            case 'edit':
+                                if($required == true && !empty($model->data[$model->name]['id'])){
+                                    $empty = true;
+                                    continue;
+                                }
+                                break;
                         }
-                    } elseif ($options['required'] == true) {
-                        $model->invalidate($field, sprintf(__('Le champ %s est obligatoire.'), Inflector::humanize($field)));
-                        continue;
+
+                        if ($empty){
+                            $model->invalidate($field, __('Le champ %s est obligatoire.', Inflector::humanize($field)));
+                            continue;
+                        }
                     }
+                } elseif ($options['required'] == true) {
+                    $model->invalidate($field, sprintf(__('Le champ %s est obligatoire.'), Inflector::humanize($field)));
+                    continue;
                 }
             }
         }

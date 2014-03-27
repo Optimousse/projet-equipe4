@@ -62,10 +62,12 @@ class Parieur extends AppModel
     public $actsAs = array(
         'ImageUpload' => array(
             'avatar' => array(
+                'directory' => 'img/avatars/',
                 'allowed_mime' => array('image/jpeg', 'image/pjpeg', 'image/gif', 'image/png'),
                 'allowed_extension' => array('.jpg', '.jpeg', '.png', '.gif'),
                 'allowed_size' => 2097152,
                 'random_filename' => true,
+                'required' => false,
                 'resize' => array(
                     'thumb' => array(
                         'directory' => 'img/avatars/',
