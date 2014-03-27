@@ -12,7 +12,7 @@ class ParieursController extends AppController
         parent::beforeFilter();
 
         //Permet d'accéder à ces pages sans être connecté.
-        $this->Auth->allow('inscription', 'logout', 'connexion');
+        $this->Auth->allow('inscription', 'logout', 'connexion', 'rechercher', 'consulter');
     }
 
     //Connexion au site
@@ -198,6 +198,27 @@ class ParieursController extends AppController
 
             $this->_messageErreur('Les jetons n\'ont pas pu être ajoutés à votre compte.');
         }
+    }
+
+    public function rechercher(){
+        if($this->request->is('post')){
+            $conditions = $this->postConditions(
+                $this->request->data,
+                array(
+                    'pseudo' => 'LIKE'
+                )
+            );
+        }
+        else{
+            $conditions = array();
+        }
+        $parieurs = $this->Parieur->find('all', array('conditions' => $conditions));
+        $this->set('parieurs', $parieurs);
+    }
+
+    public function consulter($id){
+        $parieur =$this->Parieur->findById($id);
+        $this->set('parieur', $parieur);
     }
 
     /*

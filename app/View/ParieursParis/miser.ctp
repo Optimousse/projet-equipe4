@@ -59,9 +59,14 @@
                         </dl>
                         <hr/>
                         <p>
-                            <!--TODO lien vers le compte de l'utilisateur-->
-                            <?php echo $this->Html->image('avatars/'.$paris['Parieur']['avatar'], array('class'=> 'padding-small width-20')); ?>
-                            <span class="align-bottom">Créé par <?php echo $paris['Parieur']['pseudo'];?></span>
+                            <?php echo $this->Html->image('avatars/'.$paris['Parieur']['avatar'], array(
+                                'class'=> 'padding-small width-20',
+                                'url' => array(
+                                    'controller'=>'parieurs','action'=>'consulter', $paris['Parieur']['id'])
+                            )); ?>
+                            <span class="align-bottom">Créé par <?php echo $this->Html->link($paris['Parieur']['pseudo'], array(
+                                    'controller'=>'parieurs','action'=>'consulter', $paris['Parieur']['id']
+                                )); ?></span>
                         </p>
                     </div>
                 </div>
