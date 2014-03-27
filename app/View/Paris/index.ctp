@@ -193,6 +193,8 @@ if(!empty($paris)){
                                     echo $desc;
                                 ?>
                             </p>
+<!--                            TODO faire un lien vers le compte de l'usager-->
+                            <small class="color-medium-gris">Créé par <?php echo  $pari['Parieur']['pseudo']?></small>
                         </div>
                         <p class="text-center">
                             <?php

@@ -138,7 +138,8 @@
                 var str = "";
                 $.each(data, function () {
                     if (this.parieurs != undefined) {
-                        str += '<li><blockquote>' +
+                        str += '<li>' +
+                            '<blockquote>' +
                              this.Message.message +
                             '<small><b>'+ this.parieurs.pseudo + '</b>, ' + this.Message.created + '</small>' +
                             '</blockquote></li><hr>';

@@ -36,7 +36,7 @@
         "id" => 'btnFacebook'
     )); ?>
     <div class="clearfix"></div>
-    <div class="row">
+    <div class="row padding-small">
         <div class="col-xs-12 col-md-8">
             <?php echo $this->Html->image('uploads/'.$paris['Pari']['image'], array('class'=>'img-rounded width-100')); ?>
         </div>
@@ -46,16 +46,7 @@
                     <span class="btn btn-danger width-100">Détails</span>
                     <div class="padding-medium">
                         <p><?php echo '<strong>'.$paris['Pari']['description'].'</strong>'; ?></p>
-                        <p>
-                            Créé par
-                            <?php
-                            if($createur['facebook_id'] != 0){
-                                echo $this->Facebook->picture($createur['facebook_id']);
-                            }
-                            else{
-                                echo '<i>'.$createur['pseudo'].'</i>';
-                            }?>
-                        </p>
+
                         <dl>
                             <span class="display-block"><strong>Choix et cotes</strong></span>
                             <?php
@@ -66,6 +57,12 @@
                                     <?php echo $choi['Choix']['cote']; ?> <br/>
                             <?php endforeach; ?>
                         </dl>
+                        <hr/>
+                        <p>
+                            <!--TODO lien vers le compte de l'utilisateur-->
+                            <?php echo $this->Html->image('avatars/'.$paris['Parieur']['avatar'], array('class'=> 'padding-small width-20')); ?>
+                            <span class="align-bottom">Créé par <?php echo $paris['Parieur']['pseudo'];?></span>
+                        </p>
                     </div>
                 </div>
             </div>

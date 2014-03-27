@@ -72,6 +72,7 @@ class Parieur extends AppModel
                     'thumb' => array(
                         'directory' => 'img/avatars/',
                         'phpThumb' => array(
+                            'zc' => 1,
                             'far' => 1,
                             'bg'  => 'FFFFFF'
                         ),

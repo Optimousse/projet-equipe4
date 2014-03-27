@@ -10,6 +10,8 @@ class Pari extends AppModel
         )
     );
 
+    public $belongsTo = 'Parieur';
+
     //Validation des paris
     public $validate = array(
         'nom' => array(

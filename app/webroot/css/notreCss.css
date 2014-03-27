@@ -23,6 +23,9 @@
 .width-100{
     width:100%;
 }
+.width-20{
+    width:20%;
+}
 
 .padding-small{
     padding:5px;
@@ -53,4 +56,8 @@
 
 .input-required{
     color:red;
+}
+
+.align-bottom{
+    vertical-align: bottom;
 }
