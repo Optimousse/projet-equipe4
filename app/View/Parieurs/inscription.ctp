@@ -37,6 +37,7 @@
             'label'=>'Pseudo:',
             'autoCapitalize' => 'off'));
         echo $this->Form->input('sexe_id', array(
+                                    'before' => '<span class="input-required">*</span> ',
                                     'options' => $ddlSexe,
                                     'empty' => '(Choisissez un sexe)'
                                 ));
@@ -57,9 +58,15 @@
         </div>
         <?php
 
-        echo $this->Form->input('mot_passe', array('type' => 'password', 'label'=>'Mot de passe:'));
-        echo $this->Form->input('mot_passe_confirmation', array('label'=>'Confirmation du mot de passe:', 'type' =>'password'));
-        echo $this->Form->input('courriel', array('type' => 'email', 'label'=>'Adresse courriel:'));
+        echo $this->Form->input('mot_passe', array(
+            'before' => '<span class="input-required">*</span> ',
+            'type' => 'password', 'label'=>'Mot de passe:'));
+        echo $this->Form->input('mot_passe_confirmation', array(
+            'before' => '<span class="input-required">*</span> ',
+            'label'=>'Confirmation du mot de passe:', 'type' =>'password'));
+        echo $this->Form->input('courriel', array(
+            'before' => '<span class="input-required">*</span> ',
+            'type' => 'email', 'label'=>'Adresse courriel:'));
 
         echo $this->Form->submit('Soumettre', array(
             'div' => false,

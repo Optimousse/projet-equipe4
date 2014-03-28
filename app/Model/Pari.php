@@ -34,7 +34,7 @@ class Pari extends AppModel
 
     public $actsAs = array('ImageUpload' => array(
         'image' => array(
-            'required' => true,
+            'required' => false,
             'directory' => 'img/uploads/',
             'allowed_mime' => array('image/jpeg', 'image/pjpeg', 'image/gif', 'image/png'),
             'allowed_extension' => array('.jpg', '.jpeg', '.png', '.gif'),
@@ -64,7 +64,6 @@ class Pari extends AppModel
 
     public function validationDate($date)
     {
-
         return $date['date_fin'] > date("Y-m-d");
     }
 }

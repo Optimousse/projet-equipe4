@@ -46,6 +46,9 @@
                 if(!isset($estRechercheParNom))
                     $estRechercheParNom = array();
 
+                if(!isset($estRechercheParCreateur))
+                    $estRechercheParCreateur = array();
+
                 if(!isset($estRechercheEnCours))
                     $estRechercheEnCours = array();
 
@@ -94,6 +97,15 @@
                             'class' => false,
                             'type' => 'checkbox',
                             $estRechercheParDescription,
+                            'hiddenField' => false
+                        )); ?>
+                    </div>
+                    <div class="form-group">
+                        <?php echo $this->Form->input('createur', array(
+                            'label' => 'Créateur',
+                            'class' => false,
+                            'type' => 'checkbox',
+                            $estRechercheParCreateur,
                             'hiddenField' => false
                         )); ?>
                     </div>

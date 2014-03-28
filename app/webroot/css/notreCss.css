@@ -60,6 +60,11 @@
     width:150px;
 }
 
+.img-centre{
+    left:25%;
+    position:relative;
+}
+
 .input-required{
     color:red;
 }

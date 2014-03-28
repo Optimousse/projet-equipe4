@@ -88,7 +88,7 @@
             <div class="thumbnail-div-medium">
                 <?php echo $this->Html->image('avatars/' . $parieur['Parieur']['avatar'], array(
                     "alt" => $parieur['Parieur']['avatar'],
-                    'class' => 'width-50',
+                    'class' => 'width-50 img-centre',
                     'url' => array('controller' => 'parieurs', 'action' => 'consulter', $parieur['Parieur']['id'])
                 ));
                 ?>
@@ -96,19 +96,9 @@
 
             <div class="caption">
                 <div class="description">
-                    <h4>
+                    <h4 class="text-center">
                         <?php echo $parieur['Parieur']['pseudo']; ?>
                     </h4>
-                    <p>
-                        Compte créé le <?php
-
-                        setlocale (LC_TIME, 'fr_FR.utf8','fra');
-                        $date = strtotime($parieur['Parieur']['created']);
-                        echo date('Y-m-d', $date);?>
-                    </p>
-
-                    <p class="text-center">
-                        <?php echo $this->Html->link('Détails', array('controller' => 'parieurs', 'action' => 'consulter', $parieur['Parieur']['id']), array('class' => 'btn btn-default')); ?>
                 </div>
             </div>
         </div>

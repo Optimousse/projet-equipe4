@@ -95,7 +95,7 @@ class Parieur extends AppModel
             );
         }
 
-        if(!isset($this->data[$this->alias]['avatar'])){
+        if(!$this->modelPossedeAvatar() && $this->doitReinitialiserAvatar()){
             if($sexe == 1){
                 $this->data[$this->alias]['avatar'] = 'masculin.png';
             }
@@ -105,5 +105,18 @@ class Parieur extends AppModel
         }
 
         return true;
+    }
+
+    private function modelPossedeAvatar(){
+        return isset($this->data[$this->alias]['avatar']);
+    }
+
+    private function doitReinitialiserAvatar(){
+        $ret = true;
+
+        if(isset($this->data[$this->alias]['reinitialiserAvatar'])){
+            $ret = $this->data[$this->alias]['reinitialiserAvatar'];
+        }
+        return $ret;
     }
 }

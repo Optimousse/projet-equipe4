@@ -43,6 +43,13 @@ class ParisController extends AppController
         $this->set('title_for_layout', 'Créer un pari');
         $this->set('id_util', $this->Auth->user('id'));
         $this->loadModel('Choix');
+
+        $validateur = $this->Pari->validator();
+        $validateur->add('image', 'required', array(
+            'rule' => 'notEmpty',
+            'message' => 'L\'image est obligatoire.'
+        ));
+
         if ($this->request->is('post')) {
 
             $this->Pari->create();
@@ -227,10 +234,11 @@ class ParisController extends AppController
 
         $RechercheNom = array();
         $RechercheDescription = array();
+        $RechercheCreateur = array();
         $RechercheEnCours = array();
         $RecherchePariTermine = array();
 
-        if(isset($this->request->query['motCle'])){
+        if(isset($this->request->query['nom'])){
             $RechercheNom = array("nom LIKE" => '%'.$this->request->query['motCle'].'%');
             $this->set('estRechercheParNom', array('checked' => 'checked'));
         }
@@ -245,6 +253,11 @@ class ParisController extends AppController
             $this->set('estRechercheEnCours', array('checked' => 'checked'));
         }
 
+        if(isset($this->request->query['createur'])){
+            $RechercheCreateur = array("Parieur.pseudo LIKE" => '%'.$this->request->query['motCle'].'%');
+            $this->set('estRechercheParCreateur', array('checked' => 'checked'));
+        }
+
         if(isset($this->request->query['termine'])){
             $RecherchePariTermine = array("date_fin < " => date("Y-m-d"));
             $this->set('estRechercheTermine', array('checked' => 'checked'));
@@ -255,9 +268,8 @@ class ParisController extends AppController
         $data = $this->Paginator->paginate(
             'Pari',
             array("OR" => array(
-                $RechercheNom, $RechercheDescription),  array( "OR" => array($RecherchePariTermine, $RechercheEnCours)))
+                $RechercheNom, $RechercheDescription, $RechercheCreateur),  array( "OR" => array($RecherchePariTermine, $RechercheEnCours)))
         );
-
         return $data;
     }
 }

@@ -99,10 +99,14 @@ class ParieursController extends AppController
 
             // vérification que le nouveau mdp soit égal a la confirmation
             if ($this->MotsPasseIdentiques($mot_passe, $this->request->data['Parieur']['mot_passe_confirmation'])) {
-                // ok, on sauvegarde
 
                 if(isset($this->request->data['avatar']) && $this->request->data['avatar']['delete'] == '1'){
                    $this->supprimerAvatar();
+                }
+                else if($this->request->data['Parieur']['avatar']['error'] == '4'){
+                    //La personne n'a pas choisi de nouvelle image, mais on ne veut pas que le modèle
+                    //pense qu'il doit changer l'image pour feminin.png ou masculin.png
+                    $this->request->data['Parieur']['reinitialiserAvatar'] = false;
                 }
 
                 $parieur = $this->Parieur->find('first', array(
@@ -217,8 +221,11 @@ class ParieursController extends AppController
     }
 
     public function consulter($id){
-        $parieur =$this->Parieur->findById($id);
+        $parieur = $this->Parieur->findById($id);
         $this->set('parieur', $parieur);
+
+        $this->set('title_for_layout', $parieur['Parieur']['pseudo']);
+        $this->set('nbParisCrees', $this->getNombreParisSelonIdUsager($id));
     }
 
     /*
@@ -256,5 +263,10 @@ class ParieursController extends AppController
 
     private function usagerPossedeAvatarPersonnalise($avatar){
         return $avatar != "feminin.png" && $avatar != "masculin.png";
+    }
+
+    //Retourne le nombre de paris créés par cet usager
+    private function getNombreParisSelonIdUsager($id){
+        return $this->Pari->find('count', array('conditions' => array('parieur_id' => $id)));
     }
 }
