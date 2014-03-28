@@ -4,7 +4,14 @@ App::uses('FB', 'Facebook.Lib');
 class ParieursController extends AppController
 {
     public $components = array(
-        'Stripe.Stripe'
+        'Stripe.Stripe', 'Paginator'
+    );
+
+    public $paginate = array(
+        'limit' => 12,
+        'order' => array(
+            'Parieur.pseudo' => 'asc'
+        )
     );
 
     public function beforeFilter()
@@ -207,6 +214,8 @@ class ParieursController extends AppController
     }
 
     public function rechercher(){
+        $this->set('title_for_layout', 'Rechercher un usager');
+        $this->Paginator->settings = $this->paginate;
         if($this->request->is('post')){
             $conditions = $this->postConditions(
                 $this->request->data,
@@ -214,12 +223,15 @@ class ParieursController extends AppController
                     'pseudo' => 'LIKE'
                 )
             );
+            $data = $this->Paginator->paginate(
+                'Parieur',
+                $conditions
+            );
         }
         else{
-            $conditions = array();
+            $data = $this->Paginator->paginate('Parieur');
         }
-        $parieurs = $this->Parieur->find('all', array('conditions' => $conditions));
-        $this->set('parieurs', $parieurs);
+        $this->set('parieurs', $data);
     }
 
     public function consulter($id){
@@ -263,6 +275,7 @@ class ParieursController extends AppController
 
     //Retourne le nombre de paris créés par cet usager
     private function getNombreParisSelonIdUsager($id){
+        $this->loadModel('Pari');
         return $this->Pari->find('count', array('conditions' => array('parieur_id' => $id)));
     }
 }

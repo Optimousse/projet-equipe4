@@ -186,21 +186,13 @@
                     <ul class="nav navbar-nav">
 
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                Rechercher <strong class="caret caret-gris"></strong>
-                            </a>
-
-                            <ul class="dropdown-menu">
-
-                                <li>
-                                    <?php echo $this->Html->link('Un pari', array('controller' => 'paris',
-                                        'action' => 'index'
-                                    )); ?></li>
-                                <li><?php echo $this->Html->link('Un usager', array('controller' => 'parieurs',
-                                        'action' => 'rechercher'
-                                    )); ?></li>
-                            </ul>
-                        </li>
+                            <?php echo $this->Html->link('Catalogue de paris', array('controller' => 'paris',
+                                'action' => 'index'
+                            )); ?></li>
+                        <li><?php echo $this->Html->link('Rechercher un usager', array('controller' => 'parieurs',
+                                'action' => 'rechercher'
+                            )); ?></li>
+                        <li>
 
                         <li><?php echo $this->Html->link('Lots', array('controller' => 'lots',
                                 'action' => 'index'
