@@ -1,23 +1,9 @@
-<!-- Fichier : /app/View/Posts/view.ctp -->
-<script>
-    $(document).ready(function(){
-        $("#txtMise").tooltip();
-    });
-</script>
 
 <div>
     <h1>
         Profil de <?php echo $parieur['Parieur']['pseudo']; ?>
     </h1>
 
-    <div class="clearfix"></div>
-    <?php echo $this->Facebook->like(array(
-        "data-action"=>"like",
-        "data-show-faces"=>true,
-        "data-share"=>true,
-        "id" => 'btnFacebook'
-    )); ?>
-    <div class="clearfix"></div>
     <div class="row padding-small">
         <div class="col-xs-12 col-md-4">
             <?php echo $this->Html->image('avatars/'.$parieur['Parieur']['avatar'], array('class'=>'img-rounded width-80')); ?>

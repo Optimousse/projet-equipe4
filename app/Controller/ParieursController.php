@@ -100,19 +100,21 @@ class ParieursController extends AppController
             // vérification que le nouveau mdp soit égal a la confirmation
             if ($this->MotsPasseIdentiques($mot_passe, $this->request->data['Parieur']['mot_passe_confirmation'])) {
 
+                $parieur = $this->Parieur->find('first', array(
+                        'fields' => array('avatar'),
+                        'conditions' => array("Parieur.id" => $this->Auth->user('id')))
+                );
+
                 if(isset($this->request->data['avatar']) && $this->request->data['avatar']['delete'] == '1'){
-                   $this->supprimerAvatar();
+
+                    unlink(WWW_ROOT.'\img\avatars\\'.$parieur['Parieur']['avatar']);
+                    $this->setDefaultAvatar();
                 }
                 else if($this->request->data['Parieur']['avatar']['error'] == '4'){
                     //La personne n'a pas choisi de nouvelle image, mais on ne veut pas que le modèle
                     //pense qu'il doit changer l'image pour feminin.png ou masculin.png
                     $this->request->data['Parieur']['reinitialiserAvatar'] = false;
                 }
-
-                $parieur = $this->Parieur->find('first', array(
-                        'fields' => array('avatar'),
-                        'conditions' => array("Parieur.id" => $this->Auth->user('id')))
-                );
 
                 //On ne doit pas supprimer les images 'masculin.png' et 'feminin.png' si c'est celle utilisée par l'utilisateur
                 if(!$this->usagerPossedeAvatarPersonnalise($parieur['Parieur']['avatar'])){
@@ -244,13 +246,7 @@ class ParieursController extends AppController
         $this->set('ddlSexe', $ddlSexe);
     }
 
-    private function supprimerAvatar(){
-
-        $parieur = $this->Parieur->find('first', array(
-                'fields' => array('avatar', 'sexe_id'),
-                'conditions' => array("Parieur.id" => $this->Auth->user('id')))
-        );
-        unlink(WWW_ROOT.'\img\avatars\\'.$parieur['Parieur']['avatar']);
+    private function setDefaultAvatar(){
 
         $sexe = $this->request->data['Parieur']['sexe_id'];
         if($sexe == 1){
