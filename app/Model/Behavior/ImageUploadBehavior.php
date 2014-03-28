@@ -111,9 +111,13 @@ class ImageUploadBehavior extends ModelBehavior {
                         $current = $model->findById($model->data[$model->name]['id']);
 
                         // lets delete the old images
-                           if(!empty($current[$model->name][$field])) {
-                               $this->removeImages($current[$model->name][$field], $options);
-                           }
+                        $doitSupprimer = true;
+                        if(isset($model->data[$model->name]['doitSupprimer']) && $model->data[$model->name]['doitSupprimer'] == false){
+                            $doitSupprimer = false;
+                        }
+                       if($doitSupprimer && !empty($current[$model->name][$field])) {
+                           $this->removeImages($current[$model->name][$field], $options);
+                       }
                     }
 
                     if(!isset($options['random_filename']) || !$options['random_filename']) {
@@ -186,14 +190,14 @@ class ImageUploadBehavior extends ModelBehavior {
 
                         switch ($action){
                             case 'add':
-                                if($required == true && empty($mode->data[$model->name]['id'])){
+                                if($required == true && empty($model->data[$model->name]['id'])){
                                     $empty = true;
                                     continue;
                                 }
                                 break;
 
                             case 'edit':
-                                if($required == true && !empty($mode->data[$model->name]['id'])){
+                                if($required == true && !empty($model->data[$model->name]['id'])){
                                     $empty = true;
                                     continue;
                                 }

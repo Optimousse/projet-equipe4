@@ -46,6 +46,9 @@
                 if(!isset($estRechercheParNom))
                     $estRechercheParNom = array();
 
+                if(!isset($estRechercheParCreateur))
+                    $estRechercheParCreateur = array();
+
                 if(!isset($estRechercheEnCours))
                     $estRechercheEnCours = array();
 
@@ -94,6 +97,15 @@
                             'class' => false,
                             'type' => 'checkbox',
                             $estRechercheParDescription,
+                            'hiddenField' => false
+                        )); ?>
+                    </div>
+                    <div class="form-group">
+                        <?php echo $this->Form->input('createur', array(
+                            'label' => 'Créateur',
+                            'class' => false,
+                            'type' => 'checkbox',
+                            $estRechercheParCreateur,
                             'hiddenField' => false
                         )); ?>
                     </div>
@@ -164,7 +176,6 @@ if(!empty($paris)){
     </div>
     <br/>
     <div class="row">
-
         <?php
         $compteur = 0;
         foreach ($paris as $pari){?>
@@ -193,13 +204,12 @@ if(!empty($paris)){
                                     echo $desc;
                                 ?>
                             </p>
+                            <small class="color-medium-gris">Créé par <?php echo $this->Html->link($pari['Parieur']['pseudo'], array(
+                                    'controller'=>'parieurs','action'=>'consulter', $pari['Parieur']['id']
+                                )); ?></small>
                         </div>
                         <p class="text-center">
-                            <?php
-                            $nomLien = 'Consulter';
-                            if(date("Y-m-d") < $pari['Pari']['date_fin'])
-                                $nomLien = 'Miser';
-                            echo $this->Html->link($nomLien, array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id']), array('class' => 'btn btn-primary')); ?>
+                            <?php echo $this->Html->link('Détails', array('controller' => 'parieurs_paris', 'action' => 'miser', $pari['Pari']['id']), array('class' => 'btn btn-primary')); ?>
                     </div>
                 </div>
             </div>

@@ -31,6 +31,7 @@ class DiversController extends AppController
 
     //Formulaire permettant à un utilisateur de nous envoyer un courriel
     public function contactez_nous(){
+        $this->set('title_for_layout', 'Contactez-nous');
 
         if($this->request->is('post')){
             $this->envoyerCourriel();

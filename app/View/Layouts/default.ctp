@@ -138,7 +138,8 @@
                 var str = "";
                 $.each(data, function () {
                     if (this.parieurs != undefined) {
-                        str += '<li><blockquote>' +
+                        str += '<li>' +
+                            '<blockquote>' +
                              this.Message.message +
                             '<small><b>'+ this.parieurs.pseudo + '</b>, ' + this.Message.created + '</small>' +
                             '</blockquote></li><hr>';
@@ -184,9 +185,22 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
 
-                        <li><?php echo $this->Html->link('Catalogue', array('controller' => 'paris',
-                                'action' => 'index'
-                            )); ?></li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Rechercher <strong class="caret caret-gris"></strong>
+                            </a>
+
+                            <ul class="dropdown-menu">
+
+                                <li>
+                                    <?php echo $this->Html->link('Un pari', array('controller' => 'paris',
+                                        'action' => 'index'
+                                    )); ?></li>
+                                <li><?php echo $this->Html->link('Un usager', array('controller' => 'parieurs',
+                                        'action' => 'rechercher'
+                                    )); ?></li>
+                            </ul>
+                        </li>
 
                         <li><?php echo $this->Html->link('Lots', array('controller' => 'lots',
                                 'action' => 'index'
