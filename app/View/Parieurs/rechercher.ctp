@@ -78,6 +78,21 @@
 <div class="clearfix"></div>
 <br/>
 
+<div class="form-inline">
+
+    <label>Trier selon:</label>
+    <div class="clear-fix"></div>
+    <ul class="pagination">
+        <li><?php echo $this->Paginator->sort('pseudo', 'Pseudo'); ?></li>
+    </ul>
+    <?php
+    echo $this->Paginator->pagination(array(
+        'ul' => 'pagination'
+    ));
+    ?>
+
+</div>
+
 <div class="row">
     <?php
     $compteur = 0;
