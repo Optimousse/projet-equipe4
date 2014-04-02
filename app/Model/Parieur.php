@@ -13,6 +13,11 @@ class Parieur extends AppModel
     public $hasMany = array(
         'Message' => array(
             'className' => 'Message'
+        ),
+        'Ami' => array(
+            'className' => 'Ami',
+            'foreignKey' => 'destinateur_id',
+            'conditions' => array('Ami.amitie_acceptee' => true)
         )
     );
 
@@ -118,5 +123,11 @@ class Parieur extends AppModel
             $ret = $this->data[$this->alias]['reinitialiserAvatar'];
         }
         return $ret;
+    }
+
+    public function usagerExiste($id_usager){
+        return $this->find('count', array(
+            'conditions'=> array(
+                'Parieur.id' => $id_usager))) == 1;
     }
 }

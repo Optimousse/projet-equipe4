@@ -145,7 +145,7 @@ class ParieursController extends AppController
 
         //Afin que les champs soient déjà remplis
         $parieur = $this->Parieur->find('first', array(
-                'fields' => array('pseudo', 'courriel', 'id', 'nombre_jetons', 'avatar', 'sexe_id'),
+                'fields' => array('pseudo', 'courriel', 'id', 'nombre_jetons', 'avatar', 'sexe_id', 'created'),
                 'conditions' => array("Parieur.id" => $this->Auth->user('id')))
         );
         if (!$this->request->data) {
@@ -237,6 +237,11 @@ class ParieursController extends AppController
     public function consulter($id){
         $parieur = $this->Parieur->findById($id);
         $this->set('parieur', $parieur);
+
+        if(AuthComponent::user()){
+            $id_util = AuthComponent::user('id');
+            $this->set('amitieExiste', $this->Parieur->Ami->amitieExiste($id_util, $id));
+        }
 
         $this->set('title_for_layout', $parieur['Parieur']['pseudo']);
         $this->set('nbParisCrees', $this->getNombreParisSelonIdUsager($id));

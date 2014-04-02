@@ -27,6 +27,13 @@
                                 echo $this->Html->link('Voir les paris', array('controller' => 'paris', 'action' => 'index','?' => array('createur' => '1', 'motCle' => $parieur['Parieur']['pseudo']) ));
                             }
                         ?>
+                        <div class="clearfix"></div>
+                        <?php
+                        if(AuthComponent::user() && $parieur['Parieur']['id'] != AuthComponent::user('id') && $amitieExiste == false){
+                        //todo ajax
+                            echo $this->Html->link('Faire une demande d\'amitié', array('controller' => 'amis', 'action' => 'ajouter', $parieur['Parieur']['id']), array('class' => 'btn btn-primary'));
+                        }
+                        ?>
                     </div>
                 </div>
             </div>

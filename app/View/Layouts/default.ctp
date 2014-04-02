@@ -186,7 +186,7 @@
                     <ul class="nav navbar-nav">
 
                         <li>
-                            <?php echo $this->Html->link('Catalogue de paris', array('controller' => 'paris',
+                            <?php echo $this->Html->link('Offres de paris', array('controller' => 'paris',
                                 'action' => 'index'
                             )); ?></li>
                         <li><?php echo $this->Html->link('Rechercher un usager', array('controller' => 'parieurs',
