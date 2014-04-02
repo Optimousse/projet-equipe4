@@ -82,6 +82,8 @@ class AppController extends Controller
 
         if($this->Auth->user('id')){
             $this->setNombreParisEnAttente();
+            $this->setListeAmitiesActivees();
+            $this->setListeAmitiesNonActivees();
             $this->set('id_utilisateur', $this->Auth->user('id'));
         }
     }
@@ -184,5 +186,19 @@ class AppController extends Controller
                 'parieur_id' => $this->Auth->user('id')
             )));
         $this->set('nbParisTermines', $nbParisTermines);
+    }
+
+    private function setListeAmitiesActivees(){
+        $this->loadModel('Ami');
+        $value = $this->Ami->getAmitiesActivees($this->Auth->user('id'));
+        $this->set('amitiesActivees', $value);
+        $log = $this->Ami->getDataSource()->getLog(false, false);
+        debug($log);
+    }
+
+    private function setListeAmitiesNonActivees(){
+        $this->loadModel('Ami');
+        $value = $this->Ami->getAmitiesNonActivees($this->Auth->user('id'));
+        $this->set('amitiesNonActivees', $value);
     }
 }

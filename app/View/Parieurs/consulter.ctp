@@ -60,16 +60,26 @@
                         <?php
                         if(AuthComponent::user() && $parieur['Parieur']['id'] != AuthComponent::user('id')){
 
-                            if( $amitieExiste == false){
-                                echo $this->Html->link('Faire une demande d\'amitié', array('controller' => 'amis', 'action' => 'ajouter', $parieur['Parieur']['id']), array('id' => 'btnAjouterAmis', 'class' => 'btn btn-primary'));
+                            if(isset($amitie['Ami'])){
+                            ?>
+                                <blockquote class="blockquote-info">
+                                    <?php
+                                    if($amitie['Ami']['amitie_acceptee'] == 1){
+                                        echo 'Vous êtes déjà ami avec '.$parieur['Parieur']['pseudo'].'.';
+                                    }
+                                    else if($amitie['Ami']['destinateur_id'] == $parieur['Parieur']['id']){
+                                        echo $parieur['Parieur']['pseudo'].' vous a envoyé une demande d\'amitié
+                                        que vous n\'avez pas encore acceptée.';
+                                    }
+                                    else{
+                                        echo 'Vous avez déjà envoyé une demande d\'amitié à '.$parieur['Parieur']['pseudo'].'.';
+                                    }
+                                    ?>
+                                </blockquote>
+                            <?php
                             }
                             else{
-                                ?>
-                                <blockquote class="blockquote-info">
-                                    Vous êtes déjà ami ou avez déjà envoyé une demande à
-                                        <?php echo $parieur['Parieur']['pseudo'];?>
-                                </blockquote>
-                                <?php
+                                echo $this->Html->link('Faire une demande d\'amitié', array('controller' => 'amis', 'action' => 'ajouter', $parieur['Parieur']['id']), array('id' => 'btnAjouterAmis', 'class' => 'btn btn-primary'));
                             }
                         }
                         ?>

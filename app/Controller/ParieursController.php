@@ -240,7 +240,18 @@ class ParieursController extends AppController
 
         if(AuthComponent::user()){
             $id_util = AuthComponent::user('id');
-            $this->set('amitieExiste', $this->Parieur->Ami->amitieExiste($id_util, $id));
+            $this->set('amitie', $this->Parieur->Ami->find('first', array(
+                'conditions' => array(
+                    'OR' => array(
+                        array(
+                            'destinataire_id' =>$id_util,
+                            'destinateur_id' => $id)
+                    ,
+                        array(
+                            'destinateur_id' =>$id_util,
+                            'destinataire_id' => $id
+                        )
+                )))));
         }
 
         $this->set('title_for_layout', $parieur['Parieur']['pseudo']);

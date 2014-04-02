@@ -120,7 +120,7 @@
                             //qu'il vient d'écrire
                             if (estAjout === false) {
                                 _nbMessagesLus = data[0].nbMessagesNonLus;
-                                if(_nbMessagesLus > 0){
+                                if (_nbMessagesLus > 0) {
                                     $("#badgeNouveauMessage").empty();
                                     $("#badgeNouveauMessage").append(_nbMessagesLus);
                                     $("#badgeNouveauMessage").css('display', 'inline-block');
@@ -140,8 +140,8 @@
                     if (this.parieurs != undefined) {
                         str += '<li>' +
                             '<blockquote>' +
-                             this.Message.message +
-                            '<small><b>'+ this.parieurs.pseudo + '</b>, ' + this.Message.created + '</small>' +
+                            this.Message.message +
+                            '<small><b>' + this.parieurs.pseudo + '</b>, ' + this.Message.created + '</small>' +
                             '</blockquote></li><hr>';
                     }
                 });
@@ -150,7 +150,7 @@
                 $("#divMessages").animate({ scrollTop: $('#divMessages')[0].scrollHeight}, 1000);
             }
 
-            function soumettreForm(){
+            function soumettreForm() {
 
                 $.ajax({
                     type: "POST",
@@ -167,24 +167,62 @@
 </head>
 
 <body>
-<?php echo $this->Facebook->init();?>
+<?php echo $this->Facebook->init(); ?>
 <div class="container">
-        <div class="col-md-12 column">
-            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse"
-                            data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
-                            class="icon-bar"></span><span class="icon-bar"></span>
-                    </button> <?php echo $this->Html->link('Paris, pas la ville', array(
-                        'controller' => 'divers',
-                        'action' => 'accueil'
-                    ), array('class' => 'navbar-brand')); ?>
-                </div>
+<?php
+$contentClass = "col-md-12";
+if (AuthComponent::user() && ($amitiesActivees || $amitiesNonActivees)) {
+    $contentClass = "col-md-10";
+?>
 
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
+<div class="col-md-2 hidden-xs column">
+    <div class="panel panel-default">
+        <div class="panel-body padding-medium">
+        <h3>Vos amis</h3>
+        <ul class="list-unstyled">
+        <?php
+        foreach($amitiesActivees as $amitieActivee){
+        ?>
+            <li><?php echo $amitieActivee[0]['ami_id']; ?></li>
+        <?php
+        }
+        ?>
+        </ul>
+            </div>
+    </div>
+</div>
+<?php
+}
+?>
+<div class="<?php echo $contentClass; ?> column">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
+                    class="icon-bar"></span><span class="icon-bar"></span>
+            </button> <?php echo $this->Html->link('Paris, pas la ville', array(
+                'controller' => 'divers',
+                'action' => 'accueil'
+            ), array('class' => 'navbar-brand')); ?>
+        </div>
 
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="hidden-sm">
+                    <?php echo $this->Html->link('Offres de paris', array('controller' => 'paris',
+                        'action' => 'index'
+                    )); ?></li>
+                <li class="hidden-sm"><?php echo $this->Html->link('Rechercher un usager', array('controller' => 'parieurs',
+                        'action' => 'rechercher'
+                    )); ?></li>
+                <li>
+
+                <li class="dropdown visible-sm">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Rechercher <strong class="caret"></strong>
+                    </a>
+                    <ul class="dropdown-menu">
                         <li>
                             <?php echo $this->Html->link('Offres de paris', array('controller' => 'paris',
                                 'action' => 'index'
@@ -193,162 +231,165 @@
                                 'action' => 'rechercher'
                             )); ?></li>
                         <li>
+                    </ul>
+                </li>
 
-                        <li><?php echo $this->Html->link('Lots', array('controller' => 'lots',
-                                'action' => 'index'
-                            )); ?></li>
 
-                        <?php
-                        if (!AuthComponent::user()) {
+                <li><?php echo $this->Html->link('Lots', array('controller' => 'lots',
+                        'action' => 'index'
+                    )); ?></li>
+
+                <?php
+                if (!AuthComponent::user()) {
+                    ?>
+                    <li><?php echo $this->Html->link('Connexion', array('controller' => 'parieurs',
+                            'action' => 'connexion'
+                        )); ?></li>
+                    <li><?php echo $this->Html->link('Inscription', array('controller' => 'parieurs',
+                            'action' => 'inscription'
+                        )); ?></li>
+                <?php
+                } else {
+                    ?>
+                    <input type="hidden" id="txtConnecte" value="1"/>
+                    <li><?php echo $this->Html->link('Créer un pari', array('controller' => 'paris',
+                            'action' => 'ajouter'
+                        )); ?></li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <?php
+                            if (isset($nbParisTermines) && $nbParisTermines > 0) {
+                                if ($nbParisTermines == 1) {
+                                    $msg = 'Un pari attend que vous déterminiez le choix gagnant.';
+                                } else {
+                                    $msg = $nbParisTermines . ' paris attendent que vous déterminiez le choix gagnant.';
+                                }
+                                ?>
+                                <span id="badgeParisTermines" class="badge badge-important"
+                                      data-toggle="tooltip"
+                                      data-placement="bottom"
+                                      title="<?php echo $msg; ?>"
+                                    ><?php echo $nbParisTermines; ?></span>
+                            <?php } ?>
+                            Mon compte <strong class="caret"></strong>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <?php
+                            if ($this->Session->check('connexionNormale')) {
+                                ?>
+                                <li>
+                                    <?php
+                                    echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
+                                        'action' => 'mon_compte'
+                                    )); ?></li>
+                            <?php
+                            }
                             ?>
-                            <li><?php echo $this->Html->link('Connexion', array('controller' => 'parieurs',
-                                    'action' => 'connexion'
+                            <li><?php echo $this->Html->link('Mes paris', array('controller' => 'paris',
+                                    'action' => 'mes_paris'
                                 )); ?></li>
-                            <li><?php echo $this->Html->link('Inscription', array('controller' => 'parieurs',
-                                    'action' => 'inscription'
+                            <li><?php echo $this->Html->link('Mes mises', array('controller' => 'parieurs_paris',
+                                    'action' => 'mes_mises'
                                 )); ?></li>
-                        <?php
+                            <li><?php echo $this->Html->link('Acheter des jetons', array('controller' => 'parieurs',
+                                    'action' => 'acheter_jetons'
+                                )); ?></li>
+                        </ul>
+                    </li>
+                    <li><?php
+                        //Affiche un lien html normal si on est connecté via le système d'inscription normale.
+                        //Sinon, affiche un lien html qui déconnectera l'utilisateur de facebook et du site.
+                        if ($this->Session->check('connexionNormale')) {
+                            echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
+                                'action' => 'logout'
+                            ));
                         } else {
-                            ?>
-                            <input type="hidden" id="txtConnecte" value="1"/>
-                            <li><?php echo $this->Html->link('Créer un pari', array('controller' => 'paris',
-                                    'action' => 'ajouter'
-                                )); ?></li>
+                            echo $this->Facebook->logout(array('label' => 'Déconnexion', 'redirect' => array('controller' => 'parieurs', 'action' => 'logout')));
+                        }
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <?php
-                                    if(isset($nbParisTermines) && $nbParisTermines > 0){
-                                        if($nbParisTermines == 1){
-                                            $msg = 'Un pari attend que vous déterminiez le choix gagnant.';
-                                        }
-                                        else{
-                                            $msg = $nbParisTermines.' paris attendent que vous déterminiez le choix gagnant.';
-                                        }
-                                        ?>
-                                        <span id="badgeParisTermines" class="badge badge-important"
-                                            data-toggle="tooltip"
-                                            data-placement="bottom"
-                                            title="<?php echo $msg;?>"
-                                            ><?php echo $nbParisTermines;?></span>
-                                    <?php } ?>
-                                    Mon compte <strong class="caret"></strong>
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <?php
-                                    if($this->Session->check('connexionNormale')){
-                                    ?>
-                                        <li>
-                                            <?php
-                                            echo $this->Html->link('Modifier mon compte', array('controller' => 'parieurs',
-                                                'action' => 'mon_compte'
-                                            )); ?></li>
-                                    <?php
-                                    }
-                                    ?>
-                                    <li><?php echo $this->Html->link('Mes paris', array('controller' => 'paris',
-                                            'action' => 'mes_paris'
-                                        )); ?></li>
-                                    <li><?php echo $this->Html->link('Mes mises', array('controller' => 'parieurs_paris',
-                                            'action' => 'mes_mises'
-                                        )); ?></li>
-                                    <li><?php echo $this->Html->link('Acheter des jetons', array('controller' => 'parieurs',
-                                            'action' => 'acheter_jetons'
-                                        )); ?></li>
-                                </ul>
-                            </li>
-                            <li><?php
-                                //Affiche un lien html normal si on est connecté via le système d'inscription normale.
-                                //Sinon, affiche un lien html qui déconnectera l'utilisateur de facebook et du site.
-                                if($this->Session->check('connexionNormale')){
-                                    echo $this->Html->link('Déconnexion', array('controller' => 'parieurs',
-                                        'action' => 'logout'
-                                    ));
-                                }
-                                else{
-                                    echo $this->Facebook->logout(array('label' => 'Déconnexion', 'redirect' => array('controller' => 'parieurs', 'action' => 'logout')));
-                                }
-
-                                ?></li>
-                            <li id="liMessagerie" class="dropdown">
-                                <a id="modal-473524" href="#myModal" role="button" class="btn" data-toggle="modal">
+                        ?></li>
+                    <li id="liMessagerie" class="dropdown">
+                        <a id="modal-473524" href="#myModal" role="button" class="btn" data-toggle="modal">
                                     <span id="badgeNouveauMessage" style="display:none;"
                                           class="badge badge-important"
                                           data-toggle="tooltip"
                                           data-placement="bottom"
                                           title="Un ou plusieurs message(s) non lu(s).">1</span>
-                                    <?php echo $this->Html->image('glyphicons_010_envelope.png'); ?>
-                                    &nbsp;&nbsp;<strong class="caret"></strong>
-                                </a>
-                            </li>
-                        <?php
-                        }
-                        ?>
-                    </ul>
-                </div>
-            </nav>
+                            <?php echo $this->Html->image('glyphicons_010_envelope.png'); ?>
+                            &nbsp;&nbsp;<strong class="caret"></strong>
+                        </a>
+                    </li>
+                <?php
+                }
+                ?>
+            </ul>
+        </div>
+    </nav>
 
-            <?php
-            echo $this->Session->flash();
-            echo $this->Session->flash('auth');
-            echo $this->fetch('content'); ?>
-            <div class="clearfix"></div>
-            <?php echo $this->Facebook->friendpile();
+    <?php
+    echo $this->Session->flash();
+    echo $this->Session->flash('auth');
+    echo $this->fetch('content');
 
-            if (AuthComponent::user()) { ?>
-            <div class="modal fade" style="margin-top:22px;" id="myModal" role="dialog" aria-labelledby="myModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title" id="myModalLabel">
-                                Derniers messages
-                            </h4>
-                        </div>
-
-                        <ul id="divMessages"></ul>
-                        <?php
-                        echo $this->Form->create('Message', array(
-                            'inputDefaults' => array(
-                                'div' => 'form-group',
-                                'label' => false,
-                                'wrapInput' => false,
-                                'class' => 'form-control'
-                            ),
-                            'id' => 'frmMessages'
-                        ));
-                        ?>
-
-                        <div id="divMessagerie" class="modal-body">
-
-                            <?php echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => AuthComponent::user('id')));
-
-                            echo $this->Form->input('message', array(
-                                'label' => false, 'id' => 'txtMessage', 'div' => false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
-                            ));?>
-                            <br/>
-
-                            <div class="input-group">
-                                <button id="btnSoumettre" class="btn btn-primary" type="button">Envoyer</button>
-                                <button class="btn btn-default btn-separation" contenteditable="true" data-dismiss="modal"
-                                        type="button">Fermer
-                                </button>
-
-                            </div>
-                        </div>
-                        <?php
-                        echo $this->Form->end();
-                        ?>
+    if (AuthComponent::user()) {
+        ?>
+        <div class="modal fade" style="margin-top:22px;" id="myModal" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            Derniers messages
+                        </h4>
                     </div>
+
+                    <ul id="divMessages"></ul>
+                    <?php
+                    echo $this->Form->create('Message', array(
+                        'inputDefaults' => array(
+                            'div' => 'form-group',
+                            'label' => false,
+                            'wrapInput' => false,
+                            'class' => 'form-control'
+                        ),
+                        'id' => 'frmMessages'
+                    ));
+                    ?>
+
+                    <div id="divMessagerie" class="modal-body">
+
+                        <?php echo $this->Form->input('parieur_id', array('type' => 'hidden', 'value' => AuthComponent::user('id')));
+
+                        echo $this->Form->input('message', array(
+                            'label' => false, 'id' => 'txtMessage', 'div' => false, 'type' => 'text', 'placeholder' => 'Écrivez votre message ici', 'id' => 'txtMessage', 'autocomplete' => 'off'
+                        ));?>
+                        <br/>
+
+                        <div class="input-group">
+                            <button id="btnSoumettre" class="btn btn-primary" type="button">Envoyer</button>
+                            <button class="btn btn-default btn-separation" contenteditable="true" data-dismiss="modal"
+                                    type="button">Fermer
+                            </button>
+
+                        </div>
+                    </div>
+                    <?php
+                    echo $this->Form->end();
+                    ?>
                 </div>
             </div>
-            <?php } ?>
-
         </div>
+    <?php } ?>
 
-    </div>
+</div>
+<div class="clearfix"></div>
+<hr/>
+<?php echo $this->Facebook->friendpile(); ?>
+
+</div>
 </div>
 
 <!-- /container -->
