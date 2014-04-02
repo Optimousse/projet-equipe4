@@ -1,3 +1,31 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#txtAmitieExiste").css('display', 'none');
+        $("#btnAjouterAmis").click(function(e){
+            var urlAjouter = '<?php echo $this->Html->url(array(
+                "controller" => "amis",
+                "action" => "ajouter",
+                $parieur['Parieur']['id']
+            )); ?>';
+            var id_destinataire = '<?php echo $parieur['Parieur']['id']; ?>';
+            $.ajax({
+                type: "POST",
+                url: urlAjouter,
+                dataType: "json",
+                success: function (data) {
+                    if (data.error_code === 0) {
+
+                        $("#btnAjouterAmis").css('display', 'none');
+                        $("#txtAmitieExiste").css('display', 'block');
+                        $("#txtAmitieExiste").append('La demande d\'amitié a bien été envoyée.');
+                    }
+                }
+            });
+            e.preventDefault();
+        });
+    });
+</script>
 
 <div>
     <h1>
@@ -28,10 +56,21 @@
                             }
                         ?>
                         <div class="clearfix"></div>
+                        <blockquote class="blockquote-info" id="txtAmitieExiste"></blockquote>
                         <?php
-                        if(AuthComponent::user() && $parieur['Parieur']['id'] != AuthComponent::user('id') && $amitieExiste == false){
-                        //todo ajax
-                            echo $this->Html->link('Faire une demande d\'amitié', array('controller' => 'amis', 'action' => 'ajouter', $parieur['Parieur']['id']), array('class' => 'btn btn-primary'));
+                        if(AuthComponent::user() && $parieur['Parieur']['id'] != AuthComponent::user('id')){
+
+                            if( $amitieExiste == false){
+                                echo $this->Html->link('Faire une demande d\'amitié', array('controller' => 'amis', 'action' => 'ajouter', $parieur['Parieur']['id']), array('id' => 'btnAjouterAmis', 'class' => 'btn btn-primary'));
+                            }
+                            else{
+                                ?>
+                                <blockquote class="blockquote-info">
+                                    Vous êtes déjà ami ou avez déjà envoyé une demande à
+                                        <?php echo $parieur['Parieur']['pseudo'];?>
+                                </blockquote>
+                                <?php
+                            }
                         }
                         ?>
                     </div>

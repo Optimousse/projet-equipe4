@@ -6,10 +6,11 @@
 class AmisController extends AppController
 {
     //Faire une demande d'amitié à un utilisateur
-    public function ajouter($id_destinataire){
+    public function ajouter($id){
         $this->autoRender = false;
         $this->layout = 'ajax';
 
+        $id_destinataire = $id;
         $this->Ami->create();
         $data = array();
         array_push($data, array('Amitie' => $data));
@@ -19,17 +20,17 @@ class AmisController extends AppController
 
         $this->loadModel('Parieur');
         if(!$this->Parieur->usagerExiste($id_destinataire)){
-            return 0;
+            return json_encode(array('error_code' => -1));
         }
         else if($this->Ami->amitieExiste(AuthComponent::user('id'), $id_destinataire)){
-            return 0;
+            return json_encode(array('error_code' => -2));
         }
 
         if($this->Ami->save($data)){
-            return 1;
+            return json_encode(array('error_code' => 0));
         }
         else{
-            return 0;
+            return json_encode(array('error_code' => -3));
         }
 
     }
