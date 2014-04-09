@@ -19,7 +19,7 @@ class ParieursController extends AppController
         parent::beforeFilter();
 
         //Permet d'accéder à ces pages sans être connecté.
-        $this->Auth->allow('inscription', 'logout', 'connexion', 'rechercher', 'consulter');
+        $this->Auth->allow('inscription', 'logout', 'connexion', 'rechercher');
     }
 
     //Connexion au site
@@ -256,6 +256,9 @@ class ParieursController extends AppController
 
         $this->set('title_for_layout', $parieur['Parieur']['pseudo']);
         $this->set('nbParisCrees', $this->getNombreParisSelonIdUsager($id));
+
+        $this->loadModel('Ami');
+        $this->set('nombreAmis', $this->Ami->getNombreAmitiesActivees($id));
     }
 
     /*

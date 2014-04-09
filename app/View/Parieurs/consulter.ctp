@@ -8,7 +8,6 @@
                 "action" => "ajouter",
                 $parieur['Parieur']['id']
             )); ?>';
-            var id_destinataire = '<?php echo $parieur['Parieur']['id']; ?>';
             $.ajax({
                 type: "POST",
                 url: urlAjouter,
@@ -56,9 +55,18 @@
                             }
                         ?>
                         <div class="clearfix"></div>
+                        <label>Nombre d'amis:</label>
+                        <?php
+                            echo $nombreAmis;
+                            if($nombreAmis > 0){
+                                echo '&nbsp;';
+                                echo $this->Html->link('Voir les amis', array('controller'=>'amis', 'action' => 'consulter', $parieur['Parieur']['id']));
+                            }
+                        ?>
+                        <div class="clearfix"></div>
                         <blockquote class="blockquote-info" id="txtAmitieExiste"></blockquote>
                         <?php
-                        if(AuthComponent::user() && $parieur['Parieur']['id'] != AuthComponent::user('id')){
+                        if($parieur['Parieur']['id'] != AuthComponent::user('id')){
 
                             if(isset($amitie['Ami'])){
                             ?>

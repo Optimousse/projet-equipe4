@@ -1431,7 +1431,7 @@ pre code {
 
 @media (min-width: 1200px) {
   .container {
-    width: 1170px;
+    width: 95%;
       background-color: #fff !important;
   }
   .col-lg-1,
@@ -2210,7 +2210,6 @@ textarea.input-lg {
 .btn {
   display: inline-block;
   padding: 10px 22px;
-  min-width:180px;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
@@ -2260,15 +2259,45 @@ fieldset[disabled] .btn {
           box-shadow: none;
 }
 
-.btn-default {
+.btn-normal {
   color: rgb(255,255,255);
   background-color: #ffffff;
+}
+
+.btn-normal:active,
+.btn-normal.active,
+.open .dropdown-toggle.btn-normal {
+  background-image: none;
+}
+
+.btn-normal.disabled,
+.btn-normal[disabled],
+fieldset[disabled] .btn-normal,
+.btn-normal.disabled:hover,
+.btn-normal[disabled]:hover,
+fieldset[disabled] .btn-normal:hover,
+.btn-normal.disabled:focus,
+.btn-normal[disabled]:focus,
+fieldset[disabled] .btn-normal:focus,
+.btn-normal.disabled:active,
+.btn-normal[disabled]:active,
+fieldset[disabled] .btn-normal:active,
+.btn-normal.disabled.active,
+.btn-normal[disabled].active,
+fieldset[disabled] .btn-normal.active {
+  background-color: #ffffff;
+  border-color: #cccccc;
+}
+
+.btn-default {
+    color: rgb(255,255,255);
+    background-color: #ffffff;
 }
 
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  background-image: none;
+    background-image: none;
 }
 
 .btn-default.disabled,
@@ -2286,8 +2315,8 @@ fieldset[disabled] .btn-default:active,
 .btn-default.disabled.active,
 .btn-default[disabled].active,
 fieldset[disabled] .btn-default.active {
-  background-color: #ffffff;
-  border-color: #cccccc;
+    background-color: #ffffff;
+    border-color: #cccccc;
 }
 
 .btn-primary {

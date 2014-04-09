@@ -82,8 +82,11 @@ class AppController extends Controller
 
         if($this->Auth->user('id')){
             $this->setNombreParisEnAttente();
+
+            $this->loadModel('Ami');
             $this->setListeAmitiesActivees();
-            $this->setListeAmitiesNonActivees();
+            $this->setListeDemandesAmitieEnvoyees();
+            $this->setListeDemandesAmitieRecues();
             $this->set('id_utilisateur', $this->Auth->user('id'));
         }
     }
@@ -189,16 +192,17 @@ class AppController extends Controller
     }
 
     private function setListeAmitiesActivees(){
-        $this->loadModel('Ami');
         $value = $this->Ami->getAmitiesActivees($this->Auth->user('id'));
         $this->set('amitiesActivees', $value);
-        $log = $this->Ami->getDataSource()->getLog(false, false);
-        debug($log);
     }
 
-    private function setListeAmitiesNonActivees(){
-        $this->loadModel('Ami');
-        $value = $this->Ami->getAmitiesNonActivees($this->Auth->user('id'));
-        $this->set('amitiesNonActivees', $value);
+    private function setListeDemandesAmitieEnvoyees(){
+        $value = $this->Ami->getDemandesAmitieEnvoyees($this->Auth->user('id'));
+        $this->set('demandesAmitieEnvoyees', $value);
+    }
+
+    private function setListeDemandesAmitieRecues(){
+        $value = $this->Ami->getDemandesAmitieRecues($this->Auth->user('id'));
+        $this->set('demandesAmitieRecues', $value);
     }
 }

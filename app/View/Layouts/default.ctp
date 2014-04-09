@@ -55,6 +55,7 @@
             jQuery.noConflict();
             $("#badgeParisTermines").tooltip();
             $("#badgeNouveauMessage").tooltip();
+            $("#badgeDemandesAmitieRecues").tooltip();
 
             if ($("#txtConnecte").val() === '1') {
                 getMessages(false, true);
@@ -63,6 +64,29 @@
                     getMessages(false);
                 }, 5000);
             }
+
+            $(".img-accepter-amitie").click(function(e){
+
+                var id = $(this).parent().find("input:hidden").val();
+                var urlAccepter = '<?php echo $this->Html->url(array(
+                    "controller" => "amis",
+                    "action" => "accepterDemandeAmitie"
+                )); ?>' + '/' + id;
+
+                updateAmitie(urlAccepter, $(this), true);
+            });
+
+            $(".img-refuser-amitie").click(function(e){
+
+                var id = $(this).parent().find("input:hidden").val();
+                var urlRefuser = '<?php echo $this->Html->url(array(
+                    "controller" => "amis",
+                    "action" => "refuserDemandeAmitie"
+                )); ?>'+'/' + id;
+
+                updateAmitie(urlRefuser, $(this), false);
+
+            });
 
             $("#txtMessage").keydown(function (e) {
                 if (e.keyCode === 13) {
@@ -91,6 +115,33 @@
                 soumettreForm();
                 e.preventDefault();
             });
+
+            function updateAmitie(url, $btn, Accepter){
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.error_code === 0) {
+                            var $ul_AmitieCourante = $btn.closest("ul");
+                            var nbElements = $ul_AmitieCourante.children().length;
+
+                            if(Accepter){
+                                $btn.closest("li").appendTo($("#ul_amis"));
+                            }
+
+                            $btn.siblings("img").remove();
+                            $btn.remove();
+
+                            nbElements--;
+                            if(nbElements === 0){
+                                $("#ul_demandesRecues").remove();
+                                $("#div_demandesRecues").remove();
+                            }
+                        }
+                    }
+                });
+            }
 
             function setMessagesLus() {
                 _nbMessagesLus = 0;
@@ -171,24 +222,73 @@
 <div class="container">
 <?php
 $contentClass = "col-md-12";
-if (AuthComponent::user() && ($amitiesActivees || $amitiesNonActivees)) {
-    $contentClass = "col-md-10";
+if (AuthComponent::user() && ($amitiesActivees || $demandesAmitieRecues)) {
+    $contentClass = "col-md-9";
 ?>
 
-<div class="col-md-2 hidden-xs column">
+<div class="col-md-3 hidden-xs column">
     <div class="panel panel-default">
         <div class="panel-body padding-medium">
-        <h3>Vos amis</h3>
-        <ul class="list-unstyled">
-        <?php
-        foreach($amitiesActivees as $amitieActivee){
-        ?>
-            <li><?php echo $amitieActivee[0]['ami_id']; ?></li>
-        <?php
-        }
-        ?>
-        </ul>
+            <h4 class="text-center">
+                <span><?php echo $this->html->link('Mes amis', array('controller' => 'amis', 'action' => 'consulter', AuthComponent::user('id')));?></span>
+            </h4>
+            <div id="div_demandesRecues">
+            <?php if($demandesAmitieRecues){
+                ?>
+                <strong>Demandes reçues</strong>
+                <ul class="list-unstyled" id="ul_demandesRecues">
+                    <?php
+                    foreach($demandesAmitieRecues as $ami){
+                        ?>
+                        <li class="margin-bottom-small panel panel-default clearfix master-ami-avatar">
+                            <?php
+                            echo $this->Html->image('avatars/'.$ami['Parieur']['avatar'], array('class'=>'width-30 float-left'));
+                            ?>
+                            <span class="padding-small">
+                                <?php
+                                echo $this->Html->link($ami['Parieur']['pseudo'], array('controller' => 'parieurs', 'action' => 'consulter', $ami['Parieur']['id']));
+                                ?>
+                                <br/>
+                                <input type="hidden" value="<?php echo $ami['Ami']['id'];?>">
+                                <?php
+                                echo $this->Html->image('glyphicons_193_circle_ok.png', array('class'=>'img-accepter-amitie'));
+                                echo $this->Html->image('glyphicons_192_circle_remove.png', array('class'=>'img-refuser-amitie'));
+                                ?>
+                            </span>
+                        </li>
+                    <?php
+                    }
+                    ?>
+                </ul>
+            <?php
+            }
+            ?>
             </div>
+            <div id="div_amitiesAcceptees">
+                <?php
+                if($amitiesActivees){
+                    ?>
+                    <strong>Amis</strong>
+                <?php
+                }
+                ?>
+
+                <ul class="list-unstyled" id="ul_amis">
+                <?php
+                foreach($amitiesActivees as $amitieActivee){
+                ?>
+                    <li class="margin-bottom-small panel panel-default clearfix master-ami-avatar">
+                        <strong> <?php echo $this->Html->image('avatars/'.$amitieActivee['Parieur']['avatar'], array('class'=>'width-30 float-left'));?></strong>
+                       <?php
+                        echo $this->Html->link($amitieActivee['Parieur']['pseudo'], array('controller' => 'parieurs', 'action' => 'consulter', $amitieActivee['Parieur']['id']));
+                        ?>
+                    </li>
+                <?php
+                }
+                ?>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 <?php

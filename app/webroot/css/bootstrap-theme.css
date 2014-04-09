@@ -36,6 +36,16 @@
   background-image: none;
 }
 
+.btn-normal {
+    background-color: #a9a9a9;
+    background-repeat: repeat-x;
+}
+
+.btn-normal:active,
+.btn-normal.active {
+    background-color: #a9a9a9;
+}
+
 .btn-default {
   background-color: rgb(126,182,206);
   background-repeat: repeat-x;

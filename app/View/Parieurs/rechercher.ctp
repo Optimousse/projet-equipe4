@@ -98,12 +98,12 @@
     $compteur = 0;
     foreach ($parieurs as $parieur){
     ?>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="thumbnail">
             <div class="thumbnail-div-medium">
                 <?php echo $this->Html->image('avatars/' . $parieur['Parieur']['avatar'], array(
                     "alt" => $parieur['Parieur']['avatar'],
-                    'class' => 'width-50 img-centre',
+                    'class' => 'width-100',
                     'url' => array('controller' => 'parieurs', 'action' => 'consulter', $parieur['Parieur']['id'])
                 ));
                 ?>
@@ -111,9 +111,9 @@
 
             <div class="caption">
                 <div class="description">
-                    <h4 class="text-center">
+                    <p class="text-center">
                         <?php echo $parieur['Parieur']['pseudo']; ?>
-                    </h4>
+                    </p>
                 </div>
             </div>
         </div>
@@ -122,7 +122,7 @@
 
         <?php
         $compteur++;
-        if ($compteur == 4) {
+        if ($compteur == 6) {
             echo '<div class="clearfix"></div>';
         }
     }?>
